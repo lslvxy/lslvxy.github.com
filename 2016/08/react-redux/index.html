@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="//img.leense.site/avatar.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="//img.leense.site/avatar.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="//img.leense.site/avatar.png?v=7.3.0">
+  <link rel="mask-icon" href="//img.leense.site/avatar.png?v=7.3.0" color="#222">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.3.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: true,
+    pangu: true,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="React + Redux 基本入坑配置">
+<meta name="keywords" content="React,Redux,Web">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React + Redux 入坑指南">
+<meta property="og:url" content="https://leense.site/2016/08/react-redux/index.html">
+<meta property="og:site_name" content="柚子橙">
+<meta property="og:description" content="React + Redux 基本入坑配置">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-08-20T10:08:27.674Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="React + Redux 入坑指南">
+<meta name="twitter:description" content="React + Redux 基本入坑配置">
+  <link rel="alternate" href="/atom.xml" title="柚子橙" type="application/atom+xml">
+  <link rel="canonical" href="https://leense.site/2016/08/react-redux/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>React + Redux 入坑指南 | 柚子橙</title>
+  <meta name="generator" content="Hexo 3.9.0">
+  
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-87346390-1"></script>
+  <script pjax>
+    var host = window.location.hostname;
+    if (host !== "localhost" || !true) {
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-87346390-1');
+    }
+  </script>
+
+
+  <script pjax>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?d39fe343863a983d41230fc6cfad4d02";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">柚子橙</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <h1 class="site-subtitle" itemprop="description">依山慕雪的个人博客</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-wrapper">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://leense.site/2016/08/react-redux/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="依山慕雪">
+      <meta itemprop="description" content="诗意的橙子,内涵的柚子.">
+      <meta itemprop="image" content="//img.leense.site/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="柚子橙">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">React + Redux 入坑指南
+
+          
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2016-08-08 09:30:00" itemprop="dateCreated datePublished" datetime="2016-08-08T09:30:00+00:00">2016-08-08</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-08-20 10:08:27" itemprop="dateModified" datetime="2019-08-20T10:08:27+00:00">2019-08-20</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Web/" itemprop="url" rel="index"><span itemprop="name">Web</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <span class="post-meta-item" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+        
+      
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2016/08/react-redux/#comments" itemprop="discussionUrl"><span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/08/react-redux/" itemprop="commentCount"></span></a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>React + Redux 基本入坑配置</p>
+<a id="more"></a>
+
+<h1 id="Redux"><a href="#Redux" class="headerlink" title="Redux"></a>Redux</h1><h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p><strong>1. 单一数据源</strong></p>
+<p><code>all states ==&gt;Store</code></p>
+<ul>
+<li>随着组件的复杂度上升（包括交互逻辑和业务逻辑），数据来源逐渐混乱，导致组件内部数据调用十分复杂，会产生数据冗余或者混用等情况。</li>
+<li>Store 的基本思想是将所有的数据集中管理，数据通过 Store 分类处理更新，不再在组件内放养式生长。</li>
+</ul>
+<p><strong>2. 单向数据流</strong></p>
+<p><code>dispatch(actionCreator) =&gt; Reducer =&gt; (state, action) =&gt; state</code></p>
+<ul>
+<li>单向数据流保证了数据的变化是有迹可循且受控制的。</li>
+<li>通过绑定 Store 可以确定唯一数据来源。</li>
+<li>actionCreator 通过 dispatch 触发，使组件内事件调用逻辑清晰，具体的事件处理逻辑不用放在组件写，保持 view 层的纯净。</li>
+<li>Reducer 通过判断不同的 actionType 处理不同数据更新，保证数据有秩序更新。</li>
+</ul>
+<h1 id="React-Redux"><a href="#React-Redux" class="headerlink" title="React + Redux"></a>React + Redux</h1><h2 id="Action"><a href="#Action" class="headerlink" title="Action"></a>Action</h2><ul>
+<li>actionType 定义操作类型</li>
+<li>actionCreator 定义操作具体执行函数</li>
+</ul>
+<h3 id="1-Action-nbsp-基础写法"><a href="#1-Action-nbsp-基础写法" class="headerlink" title="1. Action&nbsp;基础写法"></a>1. Action&nbsp;基础写法</h3><ul>
+<li>actionType 提供给 Reducer 判断动作类型</li>
+<li>actionCreator 为可调用的执行函数，必须返回 actionType 类型</li>
+</ul>
+<pre><code class="js">// actionType
+export const ACTION_TYPE = &quot;ACTION_TYPE&quot;;
+
+// actionCreator
+let actionCreator = config =&gt; {
+  return {
+    type: ACTION_TYPE, // 必须定义 type
+    config // 传递参数 =&gt; reducer
+  };
+};</code></pre>
+<h3 id="2-Action-异步解决方法"><a href="#2-Action-异步解决方法" class="headerlink" title="2. Action 异步解决方法"></a>2. Action 异步解决方法</h3><ul>
+<li><a href="https://github.com/gaearon/redux-thunk?spm=5176.100239.blogcont58700.7.nE2wTr" target="_blank" rel="noopener">redux-thunk</a> 中间层做数据异步转换</li>
+<li><a href="https://github.com/yelouafi/redux-saga?spm=5176.100239.blogcont58700.8.nE2wTr" target="_blank" rel="noopener">redux-saga</a> 使用 ES6 generator / yield</li>
+</ul>
+<h3 id="2-1-redux-thunk-使用方法"><a href="#2-1-redux-thunk-使用方法" class="headerlink" title="2.1 redux-thunk 使用方法"></a>2.1 redux-thunk 使用方法</h3><ul>
+<li><strong>redux-thunk 配置</strong><br>redux-thunk 为独立工具，需要另外安装，通过 redux 提供的中间件 applyMiddleware ，绑定到 store 中。</li>
+</ul>
+<pre><code class="js">import { createStore, applyMiddleware } from &quot;redux&quot;;
+import thunk from &quot;redux-thunk&quot;;
+import reducers from &quot;../reducers&quot;;
+
+let store = createStore(reducers, applyMiddleware(thunk));</code></pre>
+<ul>
+<li><strong>Action 使用 redux-thunk</strong><br>获取数据方法在异步获取数据后需要再次调用接收方法接收数据。</li>
+</ul>
+<pre><code class="js">// 接收方法
+let receiveSomething = res =&gt; {
+  return {
+    type: RECEIVE_SOME,
+    res
+  };
+};
+
+// 获取数据方法
+export let fetchSomething = args =&gt; {
+  return dispatch =&gt; {
+    return fetch(args).then(res =&gt; {
+      return dispatch(receiveSomething(res));
+    });
+  };
+};</code></pre>
+<h2 id="Reducer"><a href="#Reducer" class="headerlink" title="Reducer"></a>Reducer</h2><ul>
+<li>引入 Action 中定义好的 actionType</li>
+<li>传入 初始数据 和 actionType 后，返回更新数据<code>(initialState, action) =&gt; newState</code></li>
+</ul>
+<h3 id="Reducer-基础写法"><a href="#Reducer-基础写法" class="headerlink" title="Reducer 基础写法"></a>Reducer 基础写法</h3><h4 id="1-依据不同执行-ActionType-直接更新状态"><a href="#1-依据不同执行-ActionType-直接更新状态" class="headerlink" title="1.依据不同执行 ActionType 直接更新状态"></a>1.依据不同执行 ActionType 直接更新状态</h4><pre><code class="js">import { ACTION_A, ACTION_B } from &#39;../actions&#39;;
+
+let initialState = { ... }
+
+function example(state = initialState, action) {
+    switch(action.type) {
+        case ACTION_A:
+          return Object.assign({}, state, action.config)
+        case ACTION_B:
+          return Object.assign({}, state, action.config)
+    }
+}
+</code></pre>
+<h4 id="2-对-Action-传递的数据多加一层处理"><a href="#2-对-Action-传递的数据多加一层处理" class="headerlink" title="2.对 Action 传递的数据多加一层处理"></a>2.对 Action 传递的数据多加一层处理</h4><pre><code class="js">let doSomething = config =&gt; {
+  let { a, b } = config;
+  // do something with a, b
+  return { a, b };
+};
+
+function example(state = initialState, action) {
+  switch (action.type) {
+    case ACTION_TYPE:
+      return Object.assign({}, state, doSomething(action.config));
+  }
+}</code></pre>
+<h4 id="3-合并多个-Reducer"><a href="#3-合并多个-Reducer" class="headerlink" title="3.合并多个 Reducer"></a>3.合并多个 Reducer</h4><p>通过 redux 提供的 combineReducers 将不同处理逻辑的 reducer 合并起来。</p>
+<pre><code class="js">import { combineReducers } from &#39;redux&#39;;
+
+export default combineReducers({
+  reducerA,
+  reducerB
+});
+
+// or
+
+export let reducer = (state = initialState, action) {
+    a: processA(state.a, action),
+    b: processB(state.b, action)
+}
+</code></pre>
+<h2 id="Store"><a href="#Store" class="headerlink" title="Store"></a>Store</h2><h3 id="1-将-Store-绑定-React"><a href="#1-将-Store-绑定-React" class="headerlink" title="1. 将 Store 绑定 React"></a>1. 将 Store 绑定 React</h3><p>使用 react-redux 提供的 Provider 可以将 Store 注入到 react 中。</p>
+<p>Store 将合并后的 reducers 通过 createStore 创建，此外下面示例代码还使用中间件加入了一层 react-thunk 处理。</p>
+<pre><code class="js">import ReactDOM from &quot;react-dom&quot;;
+import { createStore, applyMiddleware } from &quot;redux&quot;;
+import { Provider } from &quot;react-redux&quot;;
+import thunk from &quot;redux-thunk&quot;;
+import reducers from &quot;./reducers&quot;;
+
+let store = createStore(reducers, applyMiddleware(thunk));
+
+ReactDOM.render(
+  &lt;Provider store={store}&gt;// ...&lt;/Provider&gt;,
+  document.querySelector(&quot;#app&quot;)
+);</code></pre>
+<h3 id="2-将-state-绑定到-Component"><a href="#2-将-state-绑定到-Component" class="headerlink" title="2. 将 state 绑定到 Component"></a>2. 将 state 绑定到 Component</h3><p>使用 react-redux 提供的 connect 方法 将组件和所需数据绑定。</p>
+<p><strong>需要注意的是</strong>，Store 创建时接收的是合并后的 reducers, 因此不同 reducer 上的处理数据绑定在了不同 reducer 对象上，而不是全部挂载在 Store 上。</p>
+<p>mapStateToProps 将组件内部所需数据通过 props 传入组件内部。更多绑定机制，具体可参考<a href="http://cn.redux.js.org/docs/react-redux/api.html?spm=5176.100239.blogcont58700.9.nE2wTr" target="_blank" rel="noopener">connect</a></p>
+<pre><code class="js">import React, { Component } from &quot;react&quot;;
+import { connect } from &quot;react-redux&quot;;
+
+class ComponentA extends Component {
+  //...
+}
+
+let mapStateToProps = state =&gt; {
+  // attention !!!
+  let { reducerA, reducerB } = state;
+  return {
+    propA: reducerA.propA,
+    propB: reducerB.propB
+  };
+};
+
+export default connect(mapStateToProps)(ComponentA);</code></pre>
+<h2 id="Component"><a href="#Component" class="headerlink" title="Component"></a>Component</h2><h3 id="1-概念"><a href="#1-概念" class="headerlink" title="1. 概念"></a>1. 概念</h3><blockquote>
+<p>React bindings for Redux embrace the idea of separating presentational and container components.</p>
+<p>Redux 的 React 绑定库包含了 <strong>容器组件和展示组件相分离</strong> 的开发思想。</p>
+</blockquote>
+<ul>
+<li>Presentational Components 展示型组件</li>
+<li>Container Components 容器型组件</li>
+</ul>
+<p>展示型组件和容器型组件的区别在官方文档中已经给出很详细的解释了，但是中文文档的翻译有误，所以直接看英文比较更容易懂。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Presentational Components</th>
+<th>Container Components</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Purpose</td>
+<td>How things look (markup, styles)</td>
+<td>How things work (data fetching, state updates)</td>
+</tr>
+<tr>
+<td>Aware of Redux</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>To read data</td>
+<td>Read data from props</td>
+<td>Subscribe to Redux state</td>
+</tr>
+<tr>
+<td>To change data</td>
+<td>Invoke callbacks from props</td>
+<td>Dispatch Redux actions</td>
+</tr>
+<tr>
+<td>Are written</td>
+<td>By hand</td>
+<td>Usually generated by React Redux</td>
+</tr>
+</tbody></table>
+<p>组件类型区分的模糊点在于怎么界定组件的内部功能规划。如果判定一个组件为展示型组件，那么它所需数据和处理方法都应该从父级传入，保持组件内部“纯净”。</p>
+<p>在实际开发中，一个组件的逻辑跟业务紧密相关。如果需要将数据和方法从外部传入，那么父级组件所做的事情会很多，多重的子组件也会把父级逻辑弄乱，这就不是 redux 的初衷了。</p>
+<p>中文文档翻译的意思是：容器组件应该为路由层面的组件，但这样既不符合实际开发需要，也违背了 redux 思想。真正界定两种组件的因素是：</p>
+<ul>
+<li><strong>展示型组件：</strong> 类似纯模板引擎，外加一层样式渲染，只负责渲染从 props 传进来的数据或者监听事件和父组件做小联动。它是“纯净”的，不需要使用到 Redux 的一套规则。</li>
+<li><strong>容器型组件：</strong> 需要异步获取数据，更新组件状态等等。需要跟业务逻辑打交道的组件都可以认为是容器组件。这些逻辑的复杂性需要将数据整合到 Store 里统一管理。</li>
+</ul>
+<h3 id="2-Component-基础写法"><a href="#2-Component-基础写法" class="headerlink" title="2. Component 基础写法"></a>2. Component 基础写法</h3><ul>
+<li><strong>组件渲染完成后调用 Action</strong></li>
+</ul>
+<p>当组件 connect 后，dispatch 方法已经注入到 props 中，所以触发 Action 可以从 props 获取 dispatch 方法。</p>
+<pre><code class="js">import React, { Component } from &quot;react&quot;;
+// actionCreator
+import { actionA, actionB } from &quot;actions/actionA&quot;;
+
+class ComponentA extends Component {
+  constructor(props) {
+    super(props);
+  }
+  componentDidMount() {
+    let { dispatch } = this.props;
+    dispatch(actionA());
+  }
+}
+export default connect()(ComponentA);</code></pre>
+<ul>
+<li><strong>组件模板内调用 Action</strong></li>
+</ul>
+<p>组件内部所需的渲染数据都已经绑定在了 props 上，直接获取即可。</p>
+<p><strong>需要注意的是</strong>，在事件监听中触发 Action，需要用一个匿名函数封装，否则 React 在渲染时就会执行事件绑定事件，而不是当事件发生再执行。</p>
+<pre><code class="js">render() {
+  let { dispatch, propA, propB } = this.props;
+
+    return (
+      &lt;section&gt;
+        // Attention !!!
+        &lt;input type=&quot;text&quot; onClick={(ev) =&gt; dispatch(actionB(ev))} /&gt;
+        &lt;p className={propA}&gt;{propB}&lt;/p&gt;
+      &lt;/section&gt;
+    )
+}</code></pre>
+<ul>
+<li><strong>容器组件传递方法</strong></li>
+</ul>
+<p>容器型组件需要连接 Redux，使用 dispatch 触发 actionCreator。</p>
+<p>展示型组件需要用到的方法调用在容器型组件内定义好，通过 props 传入到展示型组件中。</p>
+<pre><code class="js">// get actionCreator
+import { actionA } from &quot;./actions/actionA&quot;;
+
+class Parent extends Component {
+  handleCallback(data) {
+    // use dispatch
+    let { dispatch } = this.props;
+    dispatch(actionA(data));
+  }
+  render() {
+    return &lt;Child onSomethingChange={this.handleCallback} /&gt;;
+  }
+}
+// connet Redux
+export default connect()(Parent);</code></pre>
+<ul>
+<li><strong>展示组件接收 props</strong></li>
+</ul>
+<p>展示型组件不需要用到 Redux 的一切，它的 props 仅仅存在于父级传入的数据和方法。</p>
+<pre><code class="js">// don&#39;t need action/dispatch/connect
+class Child extends Component {
+  handleSomething(data) {
+    // handle anything with props
+    this.props.onSomethingChange(data);
+  }
+  render() {
+    return (
+      // just markup &amp; style
+      &lt;input onChange={handleSomething} /&gt;
+    );
+  }
+}</code></pre>
+<h1 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h1><p>图示箭头代表各概念之间的相互关系，不代表数据流。（ 能理解下面这张图，这篇文章就没白看了 -。- ）</p>
+<p><img alt="" data-src="//img.leense.site/post/2016/08/201608080930-1.png"></p>
+<p><strong>参考文档</strong></p>
+<ul>
+<li><a href="http://redux.js.org/?spm=5176.100239.blogcont58700.11.nE2wTr" target="_blank" rel="noopener">Redux 英文文档</a></li>
+<li><a href="http://cn.redux.js.org/index.html?spm=5176.100239.blogcont58700.12.nE2wTr" target="_blank" rel="noopener">Redux 中文文档</a></li>
+</ul>
+<p>END.</p>
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/React/" rel="tag"># React</a>
+            
+              <a href="/tags/Redux/" rel="tag"># Redux</a>
+            
+              <a href="/tags/Web/" rel="tag"># Web</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2016/06/jetbrains-with-me/" rel="next" title="我与JetBrains">
+                  <i class="fa fa-chevron-left"></i> 我与JetBrains
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2016/11/linux-mint-use/" rel="prev" title="Ubuntu日常问题搜集和解决办法">
+                  Ubuntu日常问题搜集和解决办法 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+    
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+          
+            <li class="tab"><a href="#comment-disqus">Disqus</a></li>
+          
+            <li class="tab"><a href="#comment-gitalk">Gitalk</a></li>
+          
+        </ul>
+        <div class="tab-content">
+          
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments" id="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+            </div>
+          
+            <div class="tab-pane gitalk" id="comment-gitalk">
+              <div class="comments" id="gitalk-container"></div>
+            </div>
+          
+        </div>
+      </div>
+      <script>
+        window.addEventListener('tabs:register', () => {
+          let activeClass = 'disqus';
+          
+            activeClass = localStorage.getItem('comments_active') || activeClass;
+          
+          if (activeClass) {
+            let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+            if (activeTab) {
+              activeTab.click();
+            }
+          }
+        });
+        
+        window.addEventListener('tabs:click', event => {
+          let commentClass = event.target.classList[1];
+          localStorage.setItem('comments_active', commentClass);
+        });
+        
+      </script>
+    
+  
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="//img.leense.site/avatar.png"
+      alt="依山慕雪">
+  <p class="site-author-name" itemprop="name">依山慕雪</p>
+  <div class="site-description motion-element" itemprop="description">诗意的橙子,内涵的柚子.</div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span>
+        
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">92</span>
+        <span class="site-state-item-name">标签</span>
+        
+      </div>
+    
+  </nav>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/lslvxy" title="GitHub &rarr; https://github.com/lslvxy" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:lslvxy@163.com" title="E-Mail &rarr; mailto:lslvxy@163.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+
+
+  <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+    <div class="links-of-blogroll-title">
+      <i class="fa  fa-fw fa-link"></i>
+      友链
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="//chenguoji.com" title="//chenguoji.com">陈国际</a>
+        </li>
+      
+        <li class="links-of-blogroll-item">
+          <a href="//ystyle.top" title="//ystyle.top">东方星痕</a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+        </div>
+      </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Redux"><span class="nav-number">1.</span> <span class="nav-text">Redux</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#原理"><span class="nav-number">1.1.</span> <span class="nav-text">原理</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#React-Redux"><span class="nav-number">2.</span> <span class="nav-text">React + Redux</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Action"><span class="nav-number">2.1.</span> <span class="nav-text">Action</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Action-nbsp-基础写法"><span class="nav-number">2.1.1.</span> <span class="nav-text">1. Action 基础写法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Action-异步解决方法"><span class="nav-number">2.1.2.</span> <span class="nav-text">2. Action 异步解决方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-redux-thunk-使用方法"><span class="nav-number">2.1.3.</span> <span class="nav-text">2.1 redux-thunk 使用方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reducer"><span class="nav-number">2.2.</span> <span class="nav-text">Reducer</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Reducer-基础写法"><span class="nav-number">2.2.1.</span> <span class="nav-text">Reducer 基础写法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-依据不同执行-ActionType-直接更新状态"><span class="nav-number">2.2.1.1.</span> <span class="nav-text">1.依据不同执行 ActionType 直接更新状态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-对-Action-传递的数据多加一层处理"><span class="nav-number">2.2.1.2.</span> <span class="nav-text">2.对 Action 传递的数据多加一层处理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-合并多个-Reducer"><span class="nav-number">2.2.1.3.</span> <span class="nav-text">3.合并多个 Reducer</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Store"><span class="nav-number">2.3.</span> <span class="nav-text">Store</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-将-Store-绑定-React"><span class="nav-number">2.3.1.</span> <span class="nav-text">1. 将 Store 绑定 React</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-将-state-绑定到-Component"><span class="nav-number">2.3.2.</span> <span class="nav-text">2. 将 state 绑定到 Component</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Component"><span class="nav-number">2.4.</span> <span class="nav-text">Component</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-概念"><span class="nav-number">2.4.1.</span> <span class="nav-text">1. 概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Component-基础写法"><span class="nav-number">2.4.2.</span> <span class="nav-text">2. Component 基础写法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Conclusion"><span class="nav-number">3.</span> <span class="nav-text">Conclusion</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2013 – <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">依山慕雪</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.3.0</div>
+
+        
+<div class="busuanzi-count">
+  <script pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+    <span class="post-meta-divider">|</span>
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+  <div style="display: none;">
+    <script pjax src="//s95.cnzz.com/z_stat.php?id=1277944008&web_id=1277944008"></script>
+  </div>
+
+
+  <script pjax>
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=66465019";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        <span>0%</span>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.3.0"></script><script src="/js/motion.js?v=7.3.0"></script>
+<script src="/js/schemes/pisces.js?v=7.3.0"></script>
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.3.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script><script src="/js/post-details.js?v=7.3.0"></script>
+
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://lslvxy.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  function disqus_config() {
+    this.page.url = "https://leense.site/2016/08/react-redux/";
+    this.page.identifier = "2016/08/react-redux/";
+    this.page.title = 'React + Redux 入坑指南';};
+  function loadComments() {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://lslvxy.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  }
+    window.addEventListener('load', loadComments, false);
+  
+</script>
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '4327a5ef67ff307d3ce9',
+      clientSecret: '818ea6be801562d78bcb13b7270402f23f6c8dee',
+      repo: 'blog-comment',
+      owner: 'lslvxy',
+      admin: ['lslvxy'],
+      id: '29c482fba45172a601d05f480224078e',
+        language: 'zh-CN',
+      
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+    </div>
+    <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.sidebar-inner',
+    '#pjax'
+  ],
+  switches: {
+    '.sidebar-inner': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo: !CONFIG.bookmark.enable
+});
+window.addEventListener('pjax:send', () => {
+  $('.sidebar-inner').stop().fadeTo('fast', 0);
+});
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    $(element).parent().append($(element).remove());
+  });
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  $('.sidebar-inner .motion-element').css('opacity', 1);
+  $('.sidebar-inner').fadeTo('fast', 1);
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+</body>
+</html>

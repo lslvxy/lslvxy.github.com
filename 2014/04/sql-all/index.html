@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="//img.leense.site/avatar.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="//img.leense.site/avatar.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="//img.leense.site/avatar.png?v=7.3.0">
+  <link rel="mask-icon" href="//img.leense.site/avatar.png?v=7.3.0" color="#222">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.3.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: true,
+    pangu: true,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="常见的sql语句集合 SQL分类： DDL-数据定义语言(CREATE，ALTER，DROP，DECLARE) DML-数据操纵语言(SELECT，DELETE，UPDATE，INSERT) DCL-数据控制语言(GRANT，REVOKE，COMMIT，ROLLBACK)">
+<meta name="keywords" content="sql,statement">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SQL大全">
+<meta property="og:url" content="https://leense.site/2014/04/sql-all/index.html">
+<meta property="og:site_name" content="柚子橙">
+<meta property="og:description" content="常见的sql语句集合 SQL分类： DDL-数据定义语言(CREATE，ALTER，DROP，DECLARE) DML-数据操纵语言(SELECT，DELETE，UPDATE，INSERT) DCL-数据控制语言(GRANT，REVOKE，COMMIT，ROLLBACK)">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-08-20T10:08:27.674Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SQL大全">
+<meta name="twitter:description" content="常见的sql语句集合 SQL分类： DDL-数据定义语言(CREATE，ALTER，DROP，DECLARE) DML-数据操纵语言(SELECT，DELETE，UPDATE，INSERT) DCL-数据控制语言(GRANT，REVOKE，COMMIT，ROLLBACK)">
+  <link rel="alternate" href="/atom.xml" title="柚子橙" type="application/atom+xml">
+  <link rel="canonical" href="https://leense.site/2014/04/sql-all/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>SQL大全 | 柚子橙</title>
+  <meta name="generator" content="Hexo 3.9.0">
+  
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-87346390-1"></script>
+  <script pjax>
+    var host = window.location.hostname;
+    if (host !== "localhost" || !true) {
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-87346390-1');
+    }
+  </script>
+
+
+  <script pjax>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?d39fe343863a983d41230fc6cfad4d02";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">柚子橙</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <h1 class="site-subtitle" itemprop="description">依山慕雪的个人博客</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-wrapper">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://leense.site/2014/04/sql-all/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="依山慕雪">
+      <meta itemprop="description" content="诗意的橙子,内涵的柚子.">
+      <meta itemprop="image" content="//img.leense.site/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="柚子橙">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">SQL大全
+
+          
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2014-04-21 12:30:00" itemprop="dateCreated datePublished" datetime="2014-04-21T12:30:00+00:00">2014-04-21</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-08-20 10:08:27" itemprop="dateModified" datetime="2019-08-20T10:08:27+00:00">2019-08-20</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Database/" itemprop="url" rel="index"><span itemprop="name">Database</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <span class="post-meta-item" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+        
+      
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2014/04/sql-all/#comments" itemprop="discussionUrl"><span class="post-comments-count disqus-comment-count" data-disqus-identifier="2014/04/sql-all/" itemprop="commentCount"></span></a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>常见的sql语句集合</p>
+<p>SQL分类：</p>
+<p>DDL-数据定义语言(CREATE，ALTER，DROP，DECLARE)</p>
+<p>DML-数据操纵语言(SELECT，DELETE，UPDATE，INSERT)</p>
+<p>DCL-数据控制语言(GRANT，REVOKE，COMMIT，ROLLBACK)</p>
+<a id="more"></a>
+<p>首先,简要介绍基础语句：</p>
+<p>1、说明：创建数据库</p>
+<p>CREATE DATABASE database-name</p>
+<p>2、说明：删除数据库</p>
+<p>drop database dbname</p>
+<p>3、说明：备份sql server</p>
+<p>— 创建 备份数据的 device</p>
+<p>USE master</p>
+<p>EXEC sp_addumpdevice ‘disk’, ‘testBack’, ‘c: mssql7backup MyNwind_1.dat’</p>
+<p>— 开始 备份</p>
+<p>BACKUP DATABASE pubs TO testBack</p>
+<p>4、说明：创建新表</p>
+<p>create table tabname(col1 type1 [not null] [primary key],col2 type2 [not null],..)</p>
+<p>根据已有的表创建新表：</p>
+<p>A：create table tab_new like tab_old (使用旧表创建新表)</p>
+<p>B：create table tab_new as select col1,col2.. from tab_old definition only</p>
+<p>5、说明：删除新表drop table tabname</p>
+<p>6、说明：增加一个列</p>
+<p>Alter table tabname add column col type</p>
+<p>注：列增加后将不能删除。DB2中列加上后数据类型也不能改变，唯一能改变的是增加varchar类型的长度。</p>
+<p>7、说明：添加主键： Alter table tabname add primary key(col)</p>
+<p>说明：删除主键： Alter table tabname drop primary key(col)</p>
+<p>8、说明：创建索引：create [unique] index idxname on tabname(col…)</p>
+<p>删除索引：drop index idxname</p>
+<p>注：索引是不可更改的，想更改必须删除重新建。</p>
+<p>9、说明：创建视图：create view viewname as select statement</p>
+<p>删除视图：drop view viewname</p>
+<p>10、说明：几个简单的基本的sql语句</p>
+<p>选择：select * from table1 where 范围</p>
+<p>插入：insert into table1(field1,field2) values(value1,value2)</p>
+<p>删除：delete from table1 where 范围</p>
+<p>更新：update table1 set field1=value1 where 范围</p>
+<p>查找：select * from table1 where field1 like ‘%value1%’ —like的语法很精妙，查资料!</p>
+<p>排序：select * from table1 order by field1,field2 [desc]</p>
+<p>总数：select count*as totalcount from table1</p>
+<p>求和：select sum(field1) as sumvalue from table1</p>
+<p>平均：select avg(field1) as avgvalue from table1</p>
+<p>最大：select max(field1) as maxvalue from table1</p>
+<p>最小：select min(field1) as minvalue from table1</p>
+<p>11、说明：几个高级查询运算词</p>
+<p>A： UNION 运算符</p>
+<p>UNION 运算符通过组合其他两个结果表（例如 TABLE1 和 TABLE2）并消去表中任何重复行而派生出一个结果表。当 ALL 随 UNION 一起使用时（即 UNION ALL），不消除重复行。两种情况下，派生表的每一行不是来自 TABLE1 就是来自 TABLE2。</p>
+<p>B： EXCEPT 运算符</p>
+<p>EXCEPT 运算符通过包括所有在 TABLE1 中但不在 TABLE2 中的行并消除所有重复行而派生出一个结果表。当 ALL 随 EXCEPT 一起使用时 (EXCEPT ALL)，不消除重复行。</p>
+<p>C： INTERSECT 运算符</p>
+<p>INTERSECT 运算符通过只包括 TABLE1 和 TABLE2 中都有的行并消除所有重复行而派生出一个结果表。当 ALL 随 INTERSECT 一起使用时 (INTERSECT ALL)，不消除重复行。</p>
+<p>注：使用运算词的几个查询结果行必须是一致的。</p>
+<p>12、说明：使用外连接</p>
+<p>A、left outer join：</p>
+<p>左外连接（左连接）：结果集几包括连接表的匹配行，也包括左连接表的所有行。</p>
+<p>SQL: select a.a, a.b, a.c, b.c, b.d, b.f from a LEFT OUT JOIN b ON a.a = b.c</p>
+<p>B：right outer join:</p>
+<p>右外连接(右连接)：结果集既包括连接表的匹配连接行，也包括右连接表的所有行。</p>
+<p>C：full outer join：</p>
+<p>全外连接：不仅包括符号连接表的匹配行，还包括两个连接表中的所有记录。</p>
+<p>其次，大家来看一些不错的sql语句</p>
+<p>1、说明：复制表(只复制结构,源表名：a 新表名：b) (Access可用)</p>
+<p>法一：select * into b from a where 1&lt;&gt;1</p>
+<p>法二：select top 0 * into b from a</p>
+<p>2、说明：拷贝表(拷贝数据,源表名：a 目标表名：b) (Access可用)</p>
+<p>insert into b(a, b, c) select d,e,f from b;</p>
+<p>3、说明：跨数据库之间表的拷贝(具体数据使用绝对路径) (Access可用)</p>
+<p>insert into b(a, b, c) select d,e,f from b in ‘具体数据库’ where 条件</p>
+<p>例子：..from b in ‘“&amp;Server.MapPath(“.”)&amp;” data.mdb” &amp;”‘ where..</p>
+<p>4、说明：子查询(表名1：a 表名2：b)</p>
+<p>select a,b,c from a where a IN (select d from b ) 或者: select a,b,c from a where a IN (1,2,3)</p>
+<p>5、说明：显示文章、提交人和最后回复时间</p>
+<p>select a.title,a.username,b.adddate from table a,(select max(adddate) adddate from table where table.title=a.title) b</p>
+<p>6、说明：外连接查询(表名1：a 表名2：b)</p>
+<p>select a.a, a.b, a.c, b.c, b.d, b.f from a LEFT OUT JOIN b ON a.a = b.c</p>
+<p>7、说明：在线视图查询(表名1：a )</p>
+<p>select * from (SELECT a,b,c FROM a) T where t.a &gt; 1;</p>
+<p>8、说明：between的用法,between限制查询数据范围时包括了边界值,not between不包括</p>
+<p>select * from table1 where time between time1 and time2</p>
+<p>select a,b,c, from table1 where a not between 数值1 and 数值2</p>
+<p>9、说明：in 的使用方法</p>
+<p>select * from table1 where a [not] in (‘值1’,’值2’,’值4’,’值6’)</p>
+<p>10、说明：两张关联表，删除主表中已经在副表中没有的信息</p>
+<p>delete from table1 where not exists ( select * from table2 where table1.field1=table2.field1 )</p>
+<p>11、说明：四表联查问题：</p>
+<p>select * from a left inner join b on a.a=b.b right inner join c on a.a=c.c inner join d on a.a=d.d where …..</p>
+<p>12、说明：日程安排提前五分钟提醒</p>
+<p>SQL: select * from 日程安排 where datediff(‘minute’,f开始时间,getdate())&gt;5</p>
+<p>13、说明：一条sql 语句搞定数据库分页</p>
+<p>select top 10 b.* from (select top 20 主键字段,排序字段 from 表名 order by 排序字段 desc) a,表名 b where b.主键字段 = a.主键字段 order by a.排序字段</p>
+<p>14、说明：前10条记录</p>
+<p>select top 10 * form table1 where 范围</p>
+<p>15、说明：选择在每一组b值相同的数据中对应的a最大的记录的所有信息(类似这样的用法可以用于论坛每月排行榜,每月热销产品分析,按科目成绩排名,等等.)</p>
+<p>select a,b,c from tablename ta where a=(select max(a) from tablename tb where tb.b=ta.b)</p>
+<p>16、说明：包括所有在 TableA 中但不在 TableB和TableC 中的行并消除所有重复行而派生出一个结果表</p>
+<p>(select a from tableA ) except (select a from tableB) except (select a from tableC)</p>
+<p>17、说明：随机取出10条数据</p>
+<p>select top 10 * from tablename order by newid()</p>
+<p>18、说明：随机选择记录</p>
+<p>select newid()</p>
+<p>19、说明：删除重复记录</p>
+<p>Delete from tablename where id not in (select max(id) from tablename group by col1,col2,…)</p>
+<p>20、说明：列出数据库里所有的表名</p>
+<p>select name from sysobjects where type=’U’</p>
+<p>21、说明：列出表里的所有的</p>
+<p>select name from syscolumns where TableName’)</p>
+<p>22、说明：列示type、vender、pcs字段，以type字段排列，case可以方便地实现多重选择，类似select 中的case。</p>
+<p>select type,sum(case vender when ‘A’ then pcs else 0 end),sum(case vender when ‘C’ then pcs else 0 end),sum(case vender when ‘B’ then pcs else 0 end) FROM tablename group by type</p>
+<p>显示结果：</p>
+<p>type vender pcs</p>
+<p>电脑 A 1</p>
+<p>电脑 A 1</p>
+<p>光盘 B 2</p>
+<p>光盘 A 2</p>
+<p>手机 B 3</p>
+<p>手机 C 3</p>
+<p>23、说明：初始化表table1</p>
+<p>TRUNCATE TABLE table1</p>
+<p>24、说明：选择从10到15的记录</p>
+<p>select top 5 * from (select top 15 * from table order by id asc) table_别名 order by id desc</p>
+<p>随机选择数据库记录的方法（使用Randomize函数，通过SQL语句实现）</p>
+<p>对存储在数据库中的数据来说，随机数特性能给出上面的效果，但它们可能太慢了些。你不能要求ASP’找个随机数’然后打印出来。实际上常见的解决方案是建立如下所示的循环：</p>
+<p>Randomize</p>
+<p>RNumber = Int(Rnd*499) +1</p>
+<p>While Not objRec.EOF</p>
+<p>If objRec(“ID”) = RNumber THEN</p>
+<p>… 这里是执行脚本 …</p>
+<p>end if</p>
+<p>objRec.MoveNext</p>
+<p>Wend</p>
+<p>这很容易理解。首先，你取出1到500范围之内的一个随机数（假设500就是数据库内记录的总数）。然后，你遍历每一记录来测试ID 的值、检查其是否匹配RNumber。满足条件的话就执行由THEN 关键字开始的那一块代码。假如你的RNumber 等于495，那么要循环一遍数据库花的时间可就长了。虽然500这个数字看起来大了些，但相比更为稳固的企业解决方案这还是个小型数据库了，后者通常在一 个数据库内就包含了成千上万条记录。这时候不就死定了？</p>
+<p>采用SQL，你就可以很快地找出准确的记录并且打开一个只包含该记录的recordset，如下所示：</p>
+<p>Randomize</p>
+<p>RNumber = Int(Rnd*499) + 1</p>
+<p>SQL = “SELECT * FROM Customers WHERE &amp; RNumber</p>
+<p>set objRec = ObjConn.Execute(SQL)</p>
+<p>Response.WriteRNumber &amp; “ = “ &amp; objRec(“ID”) &amp; “ “ &amp; objRec(“c_email”)</p>
+<p>不必写出RNumber 和ID，你只需要检查匹配情况即可。只要你对以上代码的工作满意，你自可按需操作’随机’记录。Recordset没有包含其他内容，因此你很快就能找到你需要的记录这样就大大降低了处理时间。</p>
+<p>再谈随机数</p>
+<p>现在你下定决心要榨干Random 函数的最后一滴油，那么你可能会一次取出多条随机记录或者想采用一定随机范围内的记录。把上面的标准Random 示例扩展一下就可以用SQL应对上面两种情况了。</p>
+<p>为了取出几条随机选择的记录并存放在同一recordset内，你可以存储三个随机数，然后查询数据库获得匹配这些数字的记录：</p>
+<p>SQL = “SELECT * FROM Customers WHERE &amp; RNumber &amp; “ OR &amp; RNumber2 &amp; “ OR &amp; RNumber3</p>
+<p>假如你想选出10条记录（也许是每次页面装载时的10条链接的列表），你可以用BETWEEN 或者数学等式选出第一条记录和适当数量的递增记录。这一操作可以通过好几种方式来完成，但是 SELECT 语句只显示一种可能（这里的ID 是自动生成的号码）：</p>
+<p>SQL = “SELECT * FROM Customers WHERE ID BETWEEN “ &amp; RNumber &amp; “ AND “ &amp; RNumber &amp; “+ 9”</p>
+<p>注意：以上代码的执行目的不是检查数据库内是否有9条并发记录。</p>
+<p>随机读取若干条记录，测试过</p>
+<p>Access语法：SELECT top 10 * From 表名 ORDER BY Rnd(id)</p>
+<p>Sql server:select top n * from 表名 order by newid()</p>
+<p>mysql</p>
+<p>Access左连接语法(最近开发要用左连接,Access帮助什么都没有,网上没有Access的SQL说明,只有自己测试, 现在记下以备后查)</p>
+<p>语法</p>
+<p>使用SQL语句 用…代替过长的字符串显示</p>
+<p>语法：</p>
+<p>SQL数据库：select case when len(field)&gt;10 then left(field,10)+’…’ else field end as news_name,news_id from tablename</p>
+<p>Access数据库：SELECT iif(len(field)&gt;2,left(field,2)+’…’,field) FROM tablename;</p>
+<p>Conn.Execute说明</p>
+<p>Execute方法</p>
+<p>该方法用于执行SQL语句。根据SQL语句执行后是否返回记录集，该方法的使用格式分为以下两种：</p>
+<p>1．执行SQL查询语句时，将返回查询得到的记录集。用法为：</p>
+<p>Set 对象变量名=连接对象.Execute(“SQL 查询语言”)</p>
+<p>Execute方法调用后，会自动创建记录集对象，并将查询结果存储在该记录对象中，通过Set方法，将记录集赋给指定的对象保存，以后对象变量就代表了该记录集对象。</p>
+<p>2．执行SQL的操作性语言时，没有记录集的返回。此时用法为：</p>
+<p>连接对象.Execute “SQL 操作性语句” [, RecordAffected][, Option]</p>
+<p>RecordAffected 为可选项，此出可放置一个变量，SQL语句执行后，所生效的记录数会自动保存到该变量中。通过访问该变量，就可知道SQL语句队多少条记录进行了操作。</p>
+<p>Option 可选项，该参数的取值通常为adCMDText，它用于告诉ADO，应该将Execute方法之后的第一个字符解释为命令文本。通过指定该参数，可使执行更高效。</p>
+<p>BeginTrans、RollbackTrans、CommitTrans方法</p>
+<p>这三个方法是连接对象提供的用于事务处理的方法。BeginTrans用于开始一个事物；RollbackTrans用于回滚事务；CommitTrans用于提交所有的事务处理结果，即确认事务的处理。</p>
+<p>事务处理可以将一组操作视为一个整体，只有全部语句都成功执行后，事务处理才算成功；若其中有一个语句执行失败，则整个处理就算失败，并恢复到处里前的状态。</p>
+<p>BeginTrans和CommitTrans用于标记事务的开始和结束，在这两个之间的语句，就是作为事务处理的语句。判断事务处理是否成功，可通过 连接对象的Error集合来实现，若Error集合的成员个数不为0，则说明有错误发生，事务处理失败。Error集合中的每一个Error对象，代表一 个错误信息。</p>
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/sql/" rel="tag"># sql</a>
+            
+              <a href="/tags/statement/" rel="tag"># statement</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2014/04/liquid-for-designers/" rel="next" title="Liquid基础语法">
+                  <i class="fa fa-chevron-left"></i> Liquid基础语法
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2014/04/oracle-case/" rel="prev" title="Oracle之程序控制结构">
+                  Oracle之程序控制结构 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+    
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+          
+            <li class="tab"><a href="#comment-disqus">Disqus</a></li>
+          
+            <li class="tab"><a href="#comment-gitalk">Gitalk</a></li>
+          
+        </ul>
+        <div class="tab-content">
+          
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments" id="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+            </div>
+          
+            <div class="tab-pane gitalk" id="comment-gitalk">
+              <div class="comments" id="gitalk-container"></div>
+            </div>
+          
+        </div>
+      </div>
+      <script>
+        window.addEventListener('tabs:register', () => {
+          let activeClass = 'disqus';
+          
+            activeClass = localStorage.getItem('comments_active') || activeClass;
+          
+          if (activeClass) {
+            let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+            if (activeTab) {
+              activeTab.click();
+            }
+          }
+        });
+        
+        window.addEventListener('tabs:click', event => {
+          let commentClass = event.target.classList[1];
+          localStorage.setItem('comments_active', commentClass);
+        });
+        
+      </script>
+    
+  
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="//img.leense.site/avatar.png"
+      alt="依山慕雪">
+  <p class="site-author-name" itemprop="name">依山慕雪</p>
+  <div class="site-description motion-element" itemprop="description">诗意的橙子,内涵的柚子.</div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span>
+        
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">92</span>
+        <span class="site-state-item-name">标签</span>
+        
+      </div>
+    
+  </nav>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/lslvxy" title="GitHub &rarr; https://github.com/lslvxy" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:lslvxy@163.com" title="E-Mail &rarr; mailto:lslvxy@163.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+
+
+  <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+    <div class="links-of-blogroll-title">
+      <i class="fa  fa-fw fa-link"></i>
+      友链
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="//chenguoji.com" title="//chenguoji.com">陈国际</a>
+        </li>
+      
+        <li class="links-of-blogroll-item">
+          <a href="//ystyle.top" title="//ystyle.top">东方星痕</a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+        </div>
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2013 – <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">依山慕雪</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.3.0</div>
+
+        
+<div class="busuanzi-count">
+  <script pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+    <span class="post-meta-divider">|</span>
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+  <div style="display: none;">
+    <script pjax src="//s95.cnzz.com/z_stat.php?id=1277944008&web_id=1277944008"></script>
+  </div>
+
+
+  <script pjax>
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=66465019";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        <span>0%</span>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.3.0"></script><script src="/js/motion.js?v=7.3.0"></script>
+<script src="/js/schemes/pisces.js?v=7.3.0"></script>
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.3.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script><script src="/js/post-details.js?v=7.3.0"></script>
+
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://lslvxy.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  function disqus_config() {
+    this.page.url = "https://leense.site/2014/04/sql-all/";
+    this.page.identifier = "2014/04/sql-all/";
+    this.page.title = 'SQL大全';};
+  function loadComments() {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://lslvxy.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  }
+    window.addEventListener('load', loadComments, false);
+  
+</script>
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '4327a5ef67ff307d3ce9',
+      clientSecret: '818ea6be801562d78bcb13b7270402f23f6c8dee',
+      repo: 'blog-comment',
+      owner: 'lslvxy',
+      admin: ['lslvxy'],
+      id: '01185335cd55ebe4f22950344b45d4b8',
+        language: 'zh-CN',
+      
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+    </div>
+    <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.sidebar-inner',
+    '#pjax'
+  ],
+  switches: {
+    '.sidebar-inner': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo: !CONFIG.bookmark.enable
+});
+window.addEventListener('pjax:send', () => {
+  $('.sidebar-inner').stop().fadeTo('fast', 0);
+});
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    $(element).parent().append($(element).remove());
+  });
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  $('.sidebar-inner .motion-element').css('opacity', 1);
+  $('.sidebar-inner').fadeTo('fast', 1);
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+</body>
+</html>

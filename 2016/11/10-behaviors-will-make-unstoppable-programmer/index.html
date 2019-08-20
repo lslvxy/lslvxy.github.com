@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="//img.leense.site/avatar.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="//img.leense.site/avatar.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="//img.leense.site/avatar.png?v=7.3.0">
+  <link rel="mask-icon" href="//img.leense.site/avatar.png?v=7.3.0" color="#222">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.3.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: true,
+    pangu: true,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="当谈到编程时，很多人应该都有听过10x程序员的说法。 据说一个10x程序员的效率大约是其他程序员的10倍。这是一个有争议的话题，无论你选择相信10x程序员，还是认为这十分可笑，下面的10个习惯可以在一定程度上助你成为一名势不可挡的优秀程序员。">
+<meta name="keywords" content="杂谈,程序员">
+<meta property="og:type" content="article">
+<meta property="og:title" content="10个习惯助你成为一名优秀的程序员">
+<meta property="og:url" content="https://leense.site/2016/11/10-behaviors-will-make-unstoppable-programmer/index.html">
+<meta property="og:site_name" content="柚子橙">
+<meta property="og:description" content="当谈到编程时，很多人应该都有听过10x程序员的说法。 据说一个10x程序员的效率大约是其他程序员的10倍。这是一个有争议的话题，无论你选择相信10x程序员，还是认为这十分可笑，下面的10个习惯可以在一定程度上助你成为一名势不可挡的优秀程序员。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-08-20T10:08:27.674Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="10个习惯助你成为一名优秀的程序员">
+<meta name="twitter:description" content="当谈到编程时，很多人应该都有听过10x程序员的说法。 据说一个10x程序员的效率大约是其他程序员的10倍。这是一个有争议的话题，无论你选择相信10x程序员，还是认为这十分可笑，下面的10个习惯可以在一定程度上助你成为一名势不可挡的优秀程序员。">
+  <link rel="alternate" href="/atom.xml" title="柚子橙" type="application/atom+xml">
+  <link rel="canonical" href="https://leense.site/2016/11/10-behaviors-will-make-unstoppable-programmer/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>10个习惯助你成为一名优秀的程序员 | 柚子橙</title>
+  <meta name="generator" content="Hexo 3.9.0">
+  
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-87346390-1"></script>
+  <script pjax>
+    var host = window.location.hostname;
+    if (host !== "localhost" || !true) {
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-87346390-1');
+    }
+  </script>
+
+
+  <script pjax>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?d39fe343863a983d41230fc6cfad4d02";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">柚子橙</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <h1 class="site-subtitle" itemprop="description">依山慕雪的个人博客</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-wrapper">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://leense.site/2016/11/10-behaviors-will-make-unstoppable-programmer/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="依山慕雪">
+      <meta itemprop="description" content="诗意的橙子,内涵的柚子.">
+      <meta itemprop="image" content="//img.leense.site/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="柚子橙">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">10个习惯助你成为一名优秀的程序员
+
+          
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2016-11-22 09:30:00" itemprop="dateCreated datePublished" datetime="2016-11-22T09:30:00+00:00">2016-11-22</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-08-20 10:08:27" itemprop="dateModified" datetime="2019-08-20T10:08:27+00:00">2019-08-20</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Other/" itemprop="url" rel="index"><span itemprop="name">Other</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <span class="post-meta-item" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+        
+      
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2016/11/10-behaviors-will-make-unstoppable-programmer/#comments" itemprop="discussionUrl"><span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/11/10-behaviors-will-make-unstoppable-programmer/" itemprop="commentCount"></span></a>
+  </span>
+  
+  
+            <div class="post-description">当谈到编程时，很多人应该都有听过10x程序员的说法。 据说一个10x程序员的效率大约是其他程序员的10倍。这是一个有争议的话题，无论你选择相信10x程序员，还是认为这十分可笑，下面的10个习惯可以在一定程度上助你成为一名势不可挡的优秀程序员。</div>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>当谈到编程时，很多人应该都有听过10x程序员的说法。 据说一个10x程序员的效率大约是其他程序员的10倍。</p>
+<p>这是一个有争议的话题，无论你选择相信10x程序员，还是认为这十分可笑，下面的10个习惯可以在一定程度上助你成为一名势不可挡的优秀程序员。</p>
+<a id="more"></a>
+
+<p>##　1、积极使用搜索工具</p>
+<p>作为开发人员，你需要了解如何利用搜索解惑，查看其他人对你正在研究的主题所讨论的话题和内容，并将学到的知识应用于手头的项目。</p>
+<p>当面临一个问题，优秀的程序员应该知道如何花很少时间去查验和解决手头的问题。</p>
+<p>##　2、保持初学者心态</p>
+<p>技术发展如此之快，需要不断地学习新技术。 因此，当没有经验的时候，你需要适当地用新的视角看待事情。优秀的开发人员享受作为新技术的初学者的过程，并掌握自我教育的节奏，以尽快自给自足。</p>
+<p>每个专家在某个时间点都可能是一个初学者。 而且有这么多的技术，即使在某个技术领域是专家，在另一个可能就是菜鸟。</p>
+<p>##　3、将小事做好</p>
+<p>当编写程序时，它通常会让你觉得需要做出十亿个决定，即使你只是添加一个小功能。 你需要考虑诸如命名变量、调用函数、命名CSS属性、使用hash与使用数组、命名事物等等。</p>
+<p>为你干的事情做好命名是编程中一个重要的部分。 这不容易， 但很重要。有开发人员还开玩笑说，在计算机科学领域有两个难题：缓存无效+命名。</p>
+<p>新程序员通常不会对变量和函数命名足够重视， 普通程序员会花更多的时间去思考它，而优秀的程序员已经通过之前遇到错误和问题学到了经验。 他们找到了来帮助他们命名变量的模式，他们甚至不需要再去考虑它，因为一直沿用相同的方式命名就好。</p>
+<p>##　4、收放自如</p>
+<p>在构建应用程序的过程中，往往需要做出重大决策，这将影响你如何编写大多数代码。例如，在ruby中，你可能需要权衡MiniTest和RSpec之间的区别。 人们对于这些类型都有着强烈的自我意见和看法，因此容易引起争执。 但是优秀的开发人员想法不同，往往不太在意这些，他们重视编写、测试的习惯，他们知道你使用的具体工具其实不那么重要。</p>
+<p>优秀的程序员往往不参与其他开发者的相互争执和指责中，他们更收放自如。</p>
+<p>##　5、使用正确的工具</p>
+<p>在编程中，有许多不同的开源库、工具和框架可供使用。 优秀的程序员不断地评估他们正在使用的工具，并找出为工作选择正确工具的方法。 由于他们习惯自给自足，他们愿意承受学习新东西的痛苦，只要它们能帮其提升效率。</p>
+<p>有很多的开发人员喜欢去搜索和查看相关的文档、博客文章来比较工具，并最终选择一个单一的工具。但优秀的开发人员会将他们的研究缩小到2-3个选项，并迅速将这些工具应用到他们的项目，以了解它们是如何在他们的环境中工作的。</p>
+<p>##　6、理解“code is cheap”</p>
+<p>优秀的程序员往往可以产生更多的产出，因为他们不会被沉没成本误导。这些东西很容易导致人们做出不合理的行为，特别是在编写代码的时候……</p>
+<p>在编码中，沉没成本的误导涉及到花费在解决某个问题上的时间。例如，考虑一个场景，其中某人开始为项目编写代码，并预计需要大约一个星期。他们根据这个预期做出决定，在完成项目一整个星期后，他们意识到它实际上需要一个月。大多数开发人员将继续他们已经开始的路径走下去，证明他们的决定，并展示已经做了一个星期的进展来进行说服自己。</p>
+<p>但是优秀的开发者思考方向不同：</p>
+<p>“有一种其它的方法，我认为只需要半个月就能搞定。这意味着如果采取这种方法，它将可能比我保持现在的路径一直走到底要快两倍。”</p>
+<p>##　7、使用正确的技术</p>
+<p>一群人在屋里评估技术，然后忽略掉一个在特定技术里的大拿这种情况并不罕见。</p>
+<p>例如，我非常有声望，我对 Elixir 编程语言很是看好。但是这项技术很新，如果想要实际构建复杂的功能，可能会相对其它更难找到相应的开源技术，这将提升团队构建的难度。</p>
+<p>解决问题需要最实际的决定，使用的技术应该是基于它能够很容易在2016年，在目前实现。在2017年、2018年、2020年，技术可能会有所不同，那时候再根据需要进行调整。</p>
+<p>##　8、不知道就说“不知道”</p>
+<p>拒绝承认你不知道的东西是很容易导致浪费你时间的事情。 作为一个优秀的程序员，你要明白你的自我价值并不受那些你不懂的东西束缚。</p>
+<p>初学者经常难以发现最新技术的发展趋势，优秀的开发者会意识到，他们所知道的每一种技术（编程语言，框架，库等）都可能不再是明天的可行选择。 他们会提前考虑更高级别的编程方式和问题解决方式。</p>
+<p>##　9、始终分析错误消息中提示的线索</p>
+<p>传统教育告诉我们，失败是不可取的。当学习代码时，错误消息通常与失败相关联。学习如何排除故障和调试错误消息是一个重要的技能。</p>
+<p>还值得注意的是，开发人员可能会再次遇到类似的错误消息。你应该专注于学习如何解决问题，以及为什么你需要解决它们。这样做将允许你以更快的速度修复类似的错误。</p>
+<p>##　10、不安于目前的成功</p>
+<p>错误往往是最好的学习机会， 所以不要把错误当作失败。 相反，将他们当作可学习的机会，并评估如何防止情况下一次发生。成长的关键是理解如何使同样的错误只有一次。</p>
+<p>编程，就像生活中的许多事情一样。这就是为什么这么多的行为，能帮助你做好一名优秀的程序员，也能帮你在日常生活中做一个优秀的人。</p>
+<p>参考资料：<a href="http://blog.thefirehoseproject.com/posts/" target="_blank" rel="noopener">http://blog.thefirehoseproject.com/posts/</a></p>
+<p>文章转载自: 开源中国社区<a href="/">[http://www.oschina.net]</a></p>
+<p>本文标题：10个习惯助你成为一名优秀的程序员</p>
+<p>本文地址:<a href="https://www.oschina.net/news/79264/10-behaviors-will-make-unstoppable-programmer" target="_blank" rel="noopener">https://www.oschina.net/news/79264/10-behaviors-will-make-unstoppable-programmer</a></p>
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/杂谈/" rel="tag"># 杂谈</a>
+            
+              <a href="/tags/程序员/" rel="tag"># 程序员</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2016/11/npm-tips-and-tricks/" rel="next" title="提升你的开发效率，10 个 NPM 使用技巧">
+                  <i class="fa fa-chevron-left"></i> 提升你的开发效率，10 个 NPM 使用技巧
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2016/12/javascript-for-loop/" rel="prev" title="深入了解 JavaScript 中的 for 循环">
+                  深入了解 JavaScript 中的 for 循环 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+    
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+          
+            <li class="tab"><a href="#comment-disqus">Disqus</a></li>
+          
+            <li class="tab"><a href="#comment-gitalk">Gitalk</a></li>
+          
+        </ul>
+        <div class="tab-content">
+          
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments" id="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+            </div>
+          
+            <div class="tab-pane gitalk" id="comment-gitalk">
+              <div class="comments" id="gitalk-container"></div>
+            </div>
+          
+        </div>
+      </div>
+      <script>
+        window.addEventListener('tabs:register', () => {
+          let activeClass = 'disqus';
+          
+            activeClass = localStorage.getItem('comments_active') || activeClass;
+          
+          if (activeClass) {
+            let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+            if (activeTab) {
+              activeTab.click();
+            }
+          }
+        });
+        
+        window.addEventListener('tabs:click', event => {
+          let commentClass = event.target.classList[1];
+          localStorage.setItem('comments_active', commentClass);
+        });
+        
+      </script>
+    
+  
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="//img.leense.site/avatar.png"
+      alt="依山慕雪">
+  <p class="site-author-name" itemprop="name">依山慕雪</p>
+  <div class="site-description motion-element" itemprop="description">诗意的橙子,内涵的柚子.</div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span>
+        
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">92</span>
+        <span class="site-state-item-name">标签</span>
+        
+      </div>
+    
+  </nav>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/lslvxy" title="GitHub &rarr; https://github.com/lslvxy" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:lslvxy@163.com" title="E-Mail &rarr; mailto:lslvxy@163.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+
+
+  <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+    <div class="links-of-blogroll-title">
+      <i class="fa  fa-fw fa-link"></i>
+      友链
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="//chenguoji.com" title="//chenguoji.com">陈国际</a>
+        </li>
+      
+        <li class="links-of-blogroll-item">
+          <a href="//ystyle.top" title="//ystyle.top">东方星痕</a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+        </div>
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2013 – <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">依山慕雪</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.3.0</div>
+
+        
+<div class="busuanzi-count">
+  <script pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+    <span class="post-meta-divider">|</span>
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+  <div style="display: none;">
+    <script pjax src="//s95.cnzz.com/z_stat.php?id=1277944008&web_id=1277944008"></script>
+  </div>
+
+
+  <script pjax>
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=66465019";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        <span>0%</span>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.3.0"></script><script src="/js/motion.js?v=7.3.0"></script>
+<script src="/js/schemes/pisces.js?v=7.3.0"></script>
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.3.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script><script src="/js/post-details.js?v=7.3.0"></script>
+
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://lslvxy.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  function disqus_config() {
+    this.page.url = "https://leense.site/2016/11/10-behaviors-will-make-unstoppable-programmer/";
+    this.page.identifier = "2016/11/10-behaviors-will-make-unstoppable-programmer/";
+    this.page.title = '10个习惯助你成为一名优秀的程序员';};
+  function loadComments() {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://lslvxy.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  }
+    window.addEventListener('load', loadComments, false);
+  
+</script>
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '4327a5ef67ff307d3ce9',
+      clientSecret: '818ea6be801562d78bcb13b7270402f23f6c8dee',
+      repo: 'blog-comment',
+      owner: 'lslvxy',
+      admin: ['lslvxy'],
+      id: '7cf2e8d9d66f841783c036ecb0d144dd',
+        language: 'zh-CN',
+      
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+    </div>
+    <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.sidebar-inner',
+    '#pjax'
+  ],
+  switches: {
+    '.sidebar-inner': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo: !CONFIG.bookmark.enable
+});
+window.addEventListener('pjax:send', () => {
+  $('.sidebar-inner').stop().fadeTo('fast', 0);
+});
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    $(element).parent().append($(element).remove());
+  });
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  $('.sidebar-inner .motion-element').css('opacity', 1);
+  $('.sidebar-inner').fadeTo('fast', 1);
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+</body>
+</html>

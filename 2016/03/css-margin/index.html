@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="//img.leense.site/avatar.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="//img.leense.site/avatar.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="//img.leense.site/avatar.png?v=7.3.0">
+  <link rel="mask-icon" href="//img.leense.site/avatar.png?v=7.3.0" color="#222">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.3.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: true,
+    pangu: true,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="本文着重描述关于 margin，我们日常不太容易发现的“坑”。 盒模型接触过 CSS 的人应该都知道 CSS 的盒模型：  由内容边缘（Content edge）包围形成的是内容盒（Content Box），类推还有内边距盒（Padding Box）、边框盒（Border Box）、外边距盒（Margin Box）。 其中内容盒、内边距盒、边框盒的背景由 background 属性决定，而外边距盒">
+<meta name="keywords" content="css,web,margin">
+<meta property="og:type" content="article">
+<meta property="og:title" content="细说 CSS margin">
+<meta property="og:url" content="https://leense.site/2016/03/css-margin/index.html">
+<meta property="og:site_name" content="柚子橙">
+<meta property="og:description" content="本文着重描述关于 margin，我们日常不太容易发现的“坑”。 盒模型接触过 CSS 的人应该都知道 CSS 的盒模型：  由内容边缘（Content edge）包围形成的是内容盒（Content Box），类推还有内边距盒（Padding Box）、边框盒（Border Box）、外边距盒（Margin Box）。 其中内容盒、内边距盒、边框盒的背景由 background 属性决定，而外边距盒">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-08-20T10:08:27.674Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="细说 CSS margin">
+<meta name="twitter:description" content="本文着重描述关于 margin，我们日常不太容易发现的“坑”。 盒模型接触过 CSS 的人应该都知道 CSS 的盒模型：  由内容边缘（Content edge）包围形成的是内容盒（Content Box），类推还有内边距盒（Padding Box）、边框盒（Border Box）、外边距盒（Margin Box）。 其中内容盒、内边距盒、边框盒的背景由 background 属性决定，而外边距盒">
+  <link rel="alternate" href="/atom.xml" title="柚子橙" type="application/atom+xml">
+  <link rel="canonical" href="https://leense.site/2016/03/css-margin/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>细说 CSS margin | 柚子橙</title>
+  <meta name="generator" content="Hexo 3.9.0">
+  
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-87346390-1"></script>
+  <script pjax>
+    var host = window.location.hostname;
+    if (host !== "localhost" || !true) {
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-87346390-1');
+    }
+  </script>
+
+
+  <script pjax>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?d39fe343863a983d41230fc6cfad4d02";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">柚子橙</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <h1 class="site-subtitle" itemprop="description">依山慕雪的个人博客</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-wrapper">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://leense.site/2016/03/css-margin/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="依山慕雪">
+      <meta itemprop="description" content="诗意的橙子,内涵的柚子.">
+      <meta itemprop="image" content="//img.leense.site/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="柚子橙">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">细说 CSS margin
+
+          
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2016-03-10 08:30:00" itemprop="dateCreated datePublished" datetime="2016-03-10T08:30:00+00:00">2016-03-10</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-08-20 10:08:27" itemprop="dateModified" datetime="2019-08-20T10:08:27+00:00">2019-08-20</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Web/" itemprop="url" rel="index"><span itemprop="name">Web</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <span class="post-meta-item" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+        
+      
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2016/03/css-margin/#comments" itemprop="discussionUrl"><span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/03/css-margin/" itemprop="commentCount"></span></a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>本文着重描述关于 margin，我们日常不太容易发现的“坑”。</p>
+<h2 id="盒模型"><a href="#盒模型" class="headerlink" title="盒模型"></a>盒模型</h2><p>接触过 CSS 的人应该都知道 CSS 的盒模型：</p>
+<p><img alt="" data-src="//img.leense.site/post/2016/03/201603100930-1.png"></p>
+<p>由内容边缘（Content edge）包围形成的是内容盒（Content Box），类推还有内边距盒（Padding Box）、边框盒（Border Box）、外边距盒（Margin Box）。</p>
+<p>其中内容盒、内边距盒、边框盒的背景由 background 属性决定，而外边距盒的背景是透明的。</p>
+<a id="more"></a>
+
+<h2 id="CSS-margin-属性"><a href="#CSS-margin-属性" class="headerlink" title="CSS margin 属性"></a>CSS margin 属性</h2><p>关于 margin 属性，有几点可能跟我们的直觉不相符：</p>
+<ul>
+<li>如果 margin 的值是百分比，则是相对于父元素的内容盒宽度来计算的，即使 margin-top 和 margin-bottom 也是如此。因此即使父元素的高宽不相等，子元素的 margin 元素指定了相同的百分比值，则子元素各个方向的 margin 计算值都是相等的。</li>
+<li>margin-top 和 margin-bottom 值对行内非替换元素（non-replaced inline element）是无效的。因此我们可以指定 img 元素的 margin-top 和 margin-bottom，而非替换行内元素（如 i，span 等）设置 margin-top 和 margin-bottom 却不会产生效果。</li>
+</ul>
+<h2 id="相邻的-margin（Adjoining-margin）"><a href="#相邻的-margin（Adjoining-margin）" class="headerlink" title="相邻的 margin（Adjoining margin）"></a>相邻的 margin（Adjoining margin）</h2><p>如果两个垂直方向上的 margin，它们中间没有其他垂直 margin，但它们之间不一定相接触，我们就说这两个 margin 是垂直毗连（vertical-adjacent）的，包括以下四种情况，满足其中之一即可：</p>
+<ul>
+<li>父元素的 top margin 和第一个子元素的 top margin</li>
+<li>父元素的 bottom margin 和最后一个子元素的 bottom margin</li>
+<li>元素的 bottom margin 和与这个元素相邻的兄弟元素的 top margin</li>
+<li>如果一个元素，它没有生成 BFC、没有包含正常流的子元素、min-height 是 0、height 是 0 或者 auto，则它的 top margin 和 bottom margin 也是垂直毗连的</li>
+</ul>
+<p>如果两个 margin 满足以下三个条件，我们就说这两个 margin 是相邻（adjoining）的：</p>
+<ul>
+<li>这两个 margin 是垂直毗连的，即满足上面四种情况之一</li>
+<li>margin 的两个元素都是正常流的块级元素，并且在同一个 BFC 中</li>
+<li>两个 margin 之间没有行盒（line box）、清除浮动后的空隙（clearance）、padding 和 border</li>
+</ul>
+<h2 id="margin-折叠（Collapsing-margins）"><a href="#margin-折叠（Collapsing-margins）" class="headerlink" title="margin 折叠（Collapsing margins）"></a>margin 折叠（Collapsing margins）</h2><p>margin 折叠，即相邻的 margin 有可能会被折叠成一个。</p>
+<p>比如元素 #a 指定了 margin-bottom 为 10px，而它下方的元素 #b 指定了 margin-top 为 20px，如这样：</p>
+<p><img alt="" data-src="//img.leense.site/post/2016/03/201603100930-2.png"></p>
+<p>元素 #a 的 margin-bottom 和元素 #b 的 margin-top 在位置上重叠了，它们之间的距离是 20px，即元素 #b 的 bottom margin 长度，这就是 margin 折叠现象。关于这个现象，可以这么理解：</p>
+<p>margin 定义的是它与其他盒子之间的最小间距。其中元素 #a 指定了 margin-bottom 为 10px，就表明它下方的元素 #b 与它至少要有 10px 的距离，它指定的是一个最小值，因此实际的距离可以比这个大。</p>
+<p>元素 #a 下方的元素 #b 也设置了 margin-top 为 20px，如果不折叠，则他们之间就有 30px 的距离。如果折叠成了一个 20px 的距离，则对元素 #a 来说，它的 margin-bottom 要求至少要有 10px 的距离，是满足的，而对于元素 #b 来说，它的 margin-top 要求至少要有 20px 的距离，也是满足的。</p>
+<p>而 margin 折叠的存在，其实是为了可以在视觉上显得更美观，也更贴近设计师的预期。</p>
+<h2 id="margin-折叠规则"><a href="#margin-折叠规则" class="headerlink" title="margin 折叠规则"></a>margin 折叠规则</h2><p>并不是所有的 margin 都可以折叠，需要满足以下条件：</p>
+<ul>
+<li>垂直相邻的 margin 才有可能折叠，水平 margin 永远不折叠</li>
+<li>根元素（即 html 元素）的 margin 永远不折叠</li>
+<li>如果一个元素，它的 top margin 和 bottom margin 是相邻的，并且有清除浮动后的空隙（clearance），这个元素的 margin 可以跟兄弟元素的 margin 折叠，但是折叠后的 margin 不能跟父元素的 bottom margin 折叠。<br>需要注意的是，margin 并不是只能折叠一次，多个满足要求的 margin 都可以进行折叠形成一个折叠后的 margin（collapsed margin）。<br>并且假如这个折叠后的 margin 是由 margin A 等折叠而来的，如果有 margin X 跟 margin A 是相邻的，则我们也认为 margin X 跟这个折叠后的 margin 相邻。</li>
+</ul>
+<h2 id="折叠后的-margin-大小"><a href="#折叠后的-margin-大小" class="headerlink" title="折叠后的 margin 大小"></a>折叠后的 margin 大小</h2><p>当两个或者两个以上的 margin 折叠后，margin 的值计算如下：</p>
+<ul>
+<li>如果 margin 都是正数，则取他们当中的最大值</li>
+<li>如果 margin 中有正有负，则取最大的正数加上最小的负数（如最大的 margin 是 20px，最小的 margin 是 -20px，则他们计算后的值是 0）</li>
+<li>如果 margin 中都是负数，则取他们当中的最小值</li>
+</ul>
+<h2 id="几道思考题"><a href="#几道思考题" class="headerlink" title="几道思考题"></a>几道思考题</h2><blockquote>
+<p>浮动、定位元素的 margin 不会和其他任何元素的 margin 发生重叠，包括它的子元素。</p>
+</blockquote>
+<p>这是因为浮动元素脱离了正常流，所以它和其他相邻元素就不处与同一个流中，自然不相邻；又因为浮动元素的内容盒会形成一个新的 BFC，所以浮动元素跟子元素不处与同一个 BFC 中，因此它们的 margin 也不能折叠。定位元素同理可得。</p>
+<blockquote>
+<p>inline-block 的元素不会和其他元素的 margin 发生折叠，包括它的子元素。</p>
+</blockquote>
+<p>因为 margin 折叠只会发生在块级元素上，因此 inline-block 元素的 margin 不会和兄弟元素折叠，又因为 inline-block 的内容盒会形成一个新的 BFC，所以 inline-block 元素本身也不会和子元素的 margin 发生折叠</p>
+<h2 id="margin-折叠的几个栗子"><a href="#margin-折叠的几个栗子" class="headerlink" title="margin 折叠的几个栗子"></a>margin 折叠的几个栗子</h2><h3 id="栗子-1"><a href="#栗子-1" class="headerlink" title="栗子 1"></a>栗子 1</h3><blockquote>
+<p>如果两个 margin 满足以下三个条件，我们就说这两个 margin 是相邻（adjoining）的：<br>两个 margin 之间没有行盒（line box）、清除浮动后的空隙（clearance）、padding 和边框</p>
+</blockquote>
+<p>针对这个条件，我们通过增加 padding 的方式来阻止 margin 的折叠：</p>
+<p><img alt="" data-src="//img.leense.site/post/2016/03/201603100930-3.png"></p>
+<p>如果 #container 没有下边框，则 #container 的 bottom margin 和 #inner 的 bottom margin 是相邻的，因此它们折叠了，并且 #inner 撑开了 #container 元素，所以可以看到 #container 元素的高度变成了 10px，且显示的是 #inner 的红色背景</p>
+<p><img alt="" data-src="//img.leense.site/post/2016/03/201603100930-4.png"></p>
+<p>当给 #container 添加一个下边框，两个 margin 之间就边框的阻隔，他们就不相邻了，因此不能折叠。所以可以看到 #container 被撑开成了 20px，其中 10px 是 #inner 的高度，还有 10px 是 #inner 的 bottom margin，并且由于 margin 是透明的，因此 #container 露出了部分蓝色的背景。</p>
+<h3 id="栗子-2："><a href="#栗子-2：" class="headerlink" title="栗子 2："></a>栗子 2：</h3><blockquote>
+<p>如果两个 margin 满足以下三个条件，我们就说这两个 margin 是相邻（adjoining）的：<br>margin 的两个元素都是正常流的块级元素，并且在同一个 BFC 中</p>
+</blockquote>
+<p>我们通过创建新的 BFC 来阻止 margin 的折叠：</p>
+<p><img alt="" data-src="//img.leense.site/post/2016/03/201603100930-5.png"><br><img alt="" data-src="//img.leense.site/post/2016/03/201603100930-6.png"></p>
+<p>如上图 #container 元素和 #inner 元素同属于一个 BFC 中，#container 的 top margin 和 #inner 的 top margin 折叠，bottom margin 同理。<br>但如果让 #container 跟 #innter 处在不同的 BFC 中，则 top margin 和 bottom margin 都不会折叠，如：</p>
+<p><img alt="" data-src="//img.leense.site/post/2016/03/201603100930-7.png"></p>
+<p>给 #container 元素增加一个 overflow: hidden 属性，让它的内容盒生成一个独立的 BFC，而 #inner 处于这个独立的 BFC 中，因此 #container 和 #inner 就处于两个不同的 BFC 中了，所以他们的 margin 不能折叠。</p>
+<h3 id="栗子-3："><a href="#栗子-3：" class="headerlink" title="栗子 3："></a>栗子 3：</h3><blockquote>
+<p>如果一个元素，它本身的 top margin 和 bottom margin 是相邻的，并且有清除浮动后的空隙（clearance），这个元素的 margin 可以跟兄弟元素的 margin 折叠，但是折叠后的 margin 不能跟父元素的 bottom margin 折叠。</p>
+</blockquote>
+<p><img alt="" data-src="//img.leense.site/post/2016/03/201603100930-8.png"></p>
+<p>给父元素 #container 设置了一个灰色背景，并且没有设置高度，因此高度会随着内容而扩展，margin 设置为 50px。<br>其中有一个红色的浮动元素 #floated，高宽都设置为 40px。<br>给 #cleared 设置了 15px 的 margin，并且元素的高度、padding、margin 都为 0，因此 #cleared 元素的 top margin 和 bottom margin 是相邻的。这个元素的位置如下图所示：</p>
+<p><img alt="" data-src="//img.leense.site/post/2016/03/201603100930-9.png"></p>
+<p>因为 #cleared 元素清除了左浮动，所以 #cleared 元素下移。<br>而 #cleared 元素和 #slibling 元素的 margin 折叠了，因此可以看到他们的位置是重叠的。</p>
+<p><img alt="" data-src="//img.leense.site/post/2016/03/201603100930-10.png"></p>
+<p>由于这条规则的存在，导致他们折叠后的 margin 不能跟 #container 的 bottom margin 进行折叠，因此 #container 的高度被撑开。</p>
+<p>如果没有这条规则，他们还应该跟 #container 的 bottom margin 进行折叠，如：</p>
+<p><img alt="" data-src="//img.leense.site/post/2016/03/201603100930-11.png"></p>
+<p>以上这张图，在去掉了 #cleared 元素的 clear 属性之后，就不满足这条规则了，所以可以看到 #container 的高度就只有 40px，即红色的浮动元素的高度，而 #cleared 元素、#sibling 元素、#container 元素的 margin 都折叠成了一个。</p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>这篇文章的绝大多数内容都是从官方规范翻译而来，同时也参考也网上一些写的比较好的文章而写的一个介绍性文章，其中有部分内容并没有展开，如 BFC、clearance 等，因为这部分内容不是三言两语就可以解释清楚，我本人也需要进行更深入的学习理解，所以请读者自行查阅相关文章</p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p><a href="https://www.w3.org/TR/CSS2/box.html" target="_blank" rel="noopener">https://www.w3.org/TR/CSS2/box.html</a></p>
+<p><a href="https://www.w3.org/TR/CSS2/visuren.html" target="_blank" rel="noopener">https://www.w3.org/TR/CSS2/visuren.html</a></p>
+<p><a href="http://www.w3cplus.com/css/understanding-bfc-and-margin-collapse.html" target="_blank" rel="noopener">http://www.w3cplus.com/css/understanding-bfc-and-margin-collapse.html</a></p>
+<p><a href="https://segmentfault.com/a/1190000003099116" target="_blank" rel="noopener">https://segmentfault.com/a/1190000003099116</a></p>
+<p><a href="https://segmentfault.com/a/1190000003096320" target="_blank" rel="noopener">https://segmentfault.com/a/1190000003096320</a></p>
+<p><a href="http://melonh.com/css/2015/04/28/understand-margin-collapse.html" target="_blank" rel="noopener">http://melonh.com/css/2015/04/28/understand-margin-collapse.html</a></p>
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/css/" rel="tag"># css</a>
+            
+              <a href="/tags/web/" rel="tag"># web</a>
+            
+              <a href="/tags/margin/" rel="tag"># margin</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2016/03/learn-linux/" rel="next" title="［转］再谈如何学习 Linux，一线 Linux 专家学习经验谈">
+                  <i class="fa fa-chevron-left"></i> ［转］再谈如何学习 Linux，一线 Linux 专家学习经验谈
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2016/04/jquery-plugin/" rel="prev" title="深入理解JQuery插件开发">
+                  深入理解JQuery插件开发 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+    
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+          
+            <li class="tab"><a href="#comment-disqus">Disqus</a></li>
+          
+            <li class="tab"><a href="#comment-gitalk">Gitalk</a></li>
+          
+        </ul>
+        <div class="tab-content">
+          
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments" id="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+            </div>
+          
+            <div class="tab-pane gitalk" id="comment-gitalk">
+              <div class="comments" id="gitalk-container"></div>
+            </div>
+          
+        </div>
+      </div>
+      <script>
+        window.addEventListener('tabs:register', () => {
+          let activeClass = 'disqus';
+          
+            activeClass = localStorage.getItem('comments_active') || activeClass;
+          
+          if (activeClass) {
+            let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+            if (activeTab) {
+              activeTab.click();
+            }
+          }
+        });
+        
+        window.addEventListener('tabs:click', event => {
+          let commentClass = event.target.classList[1];
+          localStorage.setItem('comments_active', commentClass);
+        });
+        
+      </script>
+    
+  
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="//img.leense.site/avatar.png"
+      alt="依山慕雪">
+  <p class="site-author-name" itemprop="name">依山慕雪</p>
+  <div class="site-description motion-element" itemprop="description">诗意的橙子,内涵的柚子.</div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span>
+        
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">92</span>
+        <span class="site-state-item-name">标签</span>
+        
+      </div>
+    
+  </nav>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/lslvxy" title="GitHub &rarr; https://github.com/lslvxy" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:lslvxy@163.com" title="E-Mail &rarr; mailto:lslvxy@163.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+
+
+  <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+    <div class="links-of-blogroll-title">
+      <i class="fa  fa-fw fa-link"></i>
+      友链
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="//chenguoji.com" title="//chenguoji.com">陈国际</a>
+        </li>
+      
+        <li class="links-of-blogroll-item">
+          <a href="//ystyle.top" title="//ystyle.top">东方星痕</a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+        </div>
+      </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#盒模型"><span class="nav-number">1.</span> <span class="nav-text">盒模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CSS-margin-属性"><span class="nav-number">2.</span> <span class="nav-text">CSS margin 属性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相邻的-margin（Adjoining-margin）"><span class="nav-number">3.</span> <span class="nav-text">相邻的 margin（Adjoining margin）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#margin-折叠（Collapsing-margins）"><span class="nav-number">4.</span> <span class="nav-text">margin 折叠（Collapsing margins）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#margin-折叠规则"><span class="nav-number">5.</span> <span class="nav-text">margin 折叠规则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#折叠后的-margin-大小"><span class="nav-number">6.</span> <span class="nav-text">折叠后的 margin 大小</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#几道思考题"><span class="nav-number">7.</span> <span class="nav-text">几道思考题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#margin-折叠的几个栗子"><span class="nav-number">8.</span> <span class="nav-text">margin 折叠的几个栗子</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#栗子-1"><span class="nav-number">8.1.</span> <span class="nav-text">栗子 1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#栗子-2："><span class="nav-number">8.2.</span> <span class="nav-text">栗子 2：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#栗子-3："><span class="nav-number">8.3.</span> <span class="nav-text">栗子 3：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结语"><span class="nav-number">9.</span> <span class="nav-text">结语</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">10.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2013 – <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">依山慕雪</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.3.0</div>
+
+        
+<div class="busuanzi-count">
+  <script pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+    <span class="post-meta-divider">|</span>
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+  <div style="display: none;">
+    <script pjax src="//s95.cnzz.com/z_stat.php?id=1277944008&web_id=1277944008"></script>
+  </div>
+
+
+  <script pjax>
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=66465019";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        <span>0%</span>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.3.0"></script><script src="/js/motion.js?v=7.3.0"></script>
+<script src="/js/schemes/pisces.js?v=7.3.0"></script>
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.3.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script><script src="/js/post-details.js?v=7.3.0"></script>
+
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://lslvxy.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  function disqus_config() {
+    this.page.url = "https://leense.site/2016/03/css-margin/";
+    this.page.identifier = "2016/03/css-margin/";
+    this.page.title = '细说 CSS margin';};
+  function loadComments() {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://lslvxy.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  }
+    window.addEventListener('load', loadComments, false);
+  
+</script>
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '4327a5ef67ff307d3ce9',
+      clientSecret: '818ea6be801562d78bcb13b7270402f23f6c8dee',
+      repo: 'blog-comment',
+      owner: 'lslvxy',
+      admin: ['lslvxy'],
+      id: '60a75c58d222e5835aed9b043b927ba3',
+        language: 'zh-CN',
+      
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+    </div>
+    <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.sidebar-inner',
+    '#pjax'
+  ],
+  switches: {
+    '.sidebar-inner': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo: !CONFIG.bookmark.enable
+});
+window.addEventListener('pjax:send', () => {
+  $('.sidebar-inner').stop().fadeTo('fast', 0);
+});
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    $(element).parent().append($(element).remove());
+  });
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  $('.sidebar-inner .motion-element').css('opacity', 1);
+  $('.sidebar-inner').fadeTo('fast', 1);
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+</body>
+</html>
