@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://gitee.com/lslvxy/pics/raw/master/blog/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://gitee.com/lslvxy/pics/raw/master/blog/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://gitee.com/lslvxy/pics/raw/master/blog/favicon.ico">
+  <link rel="mask-icon" href="https://gitee.com/lslvxy/pics/raw/master/blog/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"laysan.site","root":"/","images":"/images","scheme":"Gemini","version":"8.7.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="装饰器的流行应该感谢在Angular 2+中使用，在Angular中，装饰器因TypeScript能使用。但是在JavaScript中，还处于提议阶段。本文将介绍装饰器是什么，及装饰器如何让代码更加简洁和容易理解。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript 的装饰器：它们是什么及如何使用">
+<meta property="og:url" content="https://laysan.site/2017/06/js-decorator/index.html">
+<meta property="og:site_name" content="新生代农民工">
+<meta property="og:description" content="装饰器的流行应该感谢在Angular 2+中使用，在Angular中，装饰器因TypeScript能使用。但是在JavaScript中，还处于提议阶段。本文将介绍装饰器是什么，及装饰器如何让代码更加简洁和容易理解。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-06-23T04:30:00.000Z">
+<meta property="article:modified_time" content="2021-04-21T08:06:03.000Z">
+<meta property="article:author" content="依山慕雪">
+<meta property="article:tag" content="JavaScript">
+<meta property="article:tag" content="Decorator">
+<meta property="article:tag" content="装饰器">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://laysan.site/2017/06/js-decorator/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://laysan.site/2017/06/js-decorator/","path":"2017/06/js-decorator/","title":"JavaScript 的装饰器：它们是什么及如何使用"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>JavaScript 的装饰器：它们是什么及如何使用 | 新生代农民工</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-87346390-1"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-87346390-1","only_pageview":false}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="新生代农民工" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">新生代农民工</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">依山慕雪的个人博客</p>
+      <img class="custom-logo-image" src="https://gitee.com/lslvxy/pics/raw/master/blog/logo.png" alt="新生代农民工">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E8%A3%85%E9%A5%B0%E5%99%A8"><span class="nav-number">1.</span> <span class="nav-text">什么是装饰器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8JavaScript%E8%A3%85%E9%A5%B0%E5%99%A8"><span class="nav-number">2.</span> <span class="nav-text">如何使用JavaScript装饰器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8%E8%A3%85%E9%A5%B0%E5%99%A8"><span class="nav-number">3.</span> <span class="nav-text">为什么使用装饰器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%8D%E5%90%8C%E7%B1%BB%E5%9E%8B%E7%9A%84%E8%A3%85%E9%A5%B0%E5%99%A8"><span class="nav-number">4.</span> <span class="nav-text">不同类型的装饰器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B1%BB%E5%B1%9E%E6%80%A7%E8%A3%85%E9%A5%B0%E5%99%A8"><span class="nav-number">4.1.</span> <span class="nav-text">类属性装饰器</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B1%BB%E8%A3%85%E9%A5%B0%E5%99%A8"><span class="nav-number">5.</span> <span class="nav-text">类装饰器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%9C%9F%E5%AE%9E%E4%BE%8B%E5%AD%90"><span class="nav-number">6.</span> <span class="nav-text">真实例子</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Core-decorators"><span class="nav-number">6.1.</span> <span class="nav-text">Core decorators</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#React"><span class="nav-number">6.2.</span> <span class="nav-text">React</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">7.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-overview">
+            <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="依山慕雪"
+      src="https://gitee.com/lslvxy/pics/raw/master/blog/avatar.v1.png">
+  <p class="site-author-name" itemprop="name">依山慕雪</p>
+  <div class="site-description" itemprop="description">诗意的橙子,内涵的柚子.</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">93</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/lslvxy" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;lslvxy" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a target="_blank" rel="noopener" href="//chenguoji.com" title="&#x2F;&#x2F;chenguoji.com">陈国际</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a target="_blank" rel="noopener" href="//ystyle.top" title="&#x2F;&#x2F;ystyle.top">东方星痕</a>
+        </li>
+    </ul>
+  </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://laysan.site/2017/06/js-decorator/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://gitee.com/lslvxy/pics/raw/master/blog/avatar.v1.png">
+      <meta itemprop="name" content="依山慕雪">
+      <meta itemprop="description" content="诗意的橙子,内涵的柚子.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新生代农民工">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          JavaScript 的装饰器：它们是什么及如何使用
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2017-06-23 12:30:00" itemprop="dateCreated datePublished" datetime="2017-06-23T12:30:00+08:00">2017-06-23</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-04-21 16:06:03" itemprop="dateModified" datetime="2021-04-21T16:06:03+08:00">2021-04-21</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Web/" itemprop="url" rel="index"><span itemprop="name">Web</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2017/06/js-decorator/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/06/js-decorator/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+            <div class="post-description">装饰器的流行应该感谢在Angular 2+中使用，在Angular中，装饰器因TypeScript能使用。但是在JavaScript中，还处于提议阶段。本文将介绍装饰器是什么，及装饰器如何让代码更加简洁和容易理解。</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>装饰器的流行应该感谢在Angular 2+中使用，在Angular中，装饰器因TypeScript能使用。但是在JavaScript中，还处于提议阶段。本文将介绍装饰器是什么，及装饰器如何让代码更加简洁和容易理解。</p>
+<h1 id="什么是装饰器"><a href="#什么是装饰器" class="headerlink" title="什么是装饰器"></a>什么是装饰器</h1><p>装饰器是用一个代码包装另一个代码的简单方式。</p>
+<p>这个概念与之前所听过的函数复合和高阶组件相似。</p>
+<p>这已经用于很多情况，就是简单的将一个函数包装成另一个函数：</p>
+<pre><code class="js">function doSomething(name) &#123;
+  console.log(&#39;Hello, &#39; + name);
+&#125;
+
+function loggingDecorator(wrapped) &#123;
+  return function() &#123;
+    console.log(&#39;Starting&#39;);
+    const result = wrapped.apply(this, arguments);
+    console.log(&#39;Finished&#39;);
+    return result;
+  &#125;
+&#125;
+
+const wrapped = loggingDecorator(doSomething);
+</code></pre>
+<p>上个例子产生新函数<code>wrapped</code>，此函数与<code>doSomething</code>做同样事情，但是他们不同在于在包装函数之前和之后输出一些语句。</p>
+<pre><code class="js">doSomething(&#39;Graham&#39;);
+// Hello, Graham
+wrapped(&#39;Graham&#39;);
+// Starting
+// Hello, Graham
+// Finished
+</code></pre>
+<h1 id="如何使用JavaScript装饰器"><a href="#如何使用JavaScript装饰器" class="headerlink" title="如何使用JavaScript装饰器"></a>如何使用JavaScript装饰器</h1><p>JavaScript中装饰器使用特殊的语法，使用<code>@</code>作为标识符，且放置在被装饰代码之前。</p>
+<blockquote>
+<p><strong>注意：</strong>现在装饰器还处于提议阶段，意味着还有可以变化之处</p>
+</blockquote>
+<p>可以放置许多装饰器在同样代码之前，然后解释器会按照顺序相应执行</p>
+<pre><code class="js">@log()
+@immutable()
+class Example &#123;
+  @time(&#39;demo&#39;)
+  doSomething() &#123;
+
+  &#125;
+&#125;
+</code></pre>
+<p>上例中定义了一个类，采用了三个装饰器：两个用于类本身，一个用于类的属性：</p>
+<ul>
+<li>  <code>@log</code>能记录所有所有访问类</li>
+<li>  <code>@immutable</code>让类不可变-也许新实例调用了<code>Object.freeze</code></li>
+<li>  <code>@time</code>会记录一个方法从执行到输出一个独特标签</li>
+</ul>
+<p>现在，虽然现在浏览器或Node还没支持。但是如果使用Babel，能使用 <a target="_blank" rel="noopener" href="https://github.com/loganfsmyth/babel-plugin-transform-decorators-legacy">transform-decorators-legacy</a>插件使用装饰器。</p>
+<blockquote>
+<p>插件中使用legacy是因为Babel 5支持处理装饰器，但是它也许会跟最终的标准有区别，所以才使用legacy这个词。</p>
+</blockquote>
+<h1 id="为什么使用装饰器"><a href="#为什么使用装饰器" class="headerlink" title="为什么使用装饰器"></a>为什么使用装饰器</h1><p>函数复合在JavaScript已经成为可能，但是它相当困难或不可能用于另一个代码（如类或类属性）。</p>
+<p>装饰器提议可以用于类或属性，未来JavaScript版本可能会增加用于其他地方。</p>
+<p>装饰器也考虑到采用较为简洁的语法。</p>
+<h1 id="不同类型的装饰器"><a href="#不同类型的装饰器" class="headerlink" title="不同类型的装饰器"></a>不同类型的装饰器</h1><p>现在，装饰器只支持类和类属性，这包含属性、方法、get函数和set函数</p>
+<p>装饰器只会在程序第一次运行时执行一次，装饰的代码会被返回的值代替</p>
+<h2 id="类属性装饰器"><a href="#类属性装饰器" class="headerlink" title="类属性装饰器"></a>类属性装饰器</h2><p>属性装饰器适用于类的单独成员-无论是属性、方法、get函数或set函数。<br>装饰器函数调用三个参数：</p>
+<ul>
+<li>  target-被修饰的类</li>
+<li>  name-类成员的名字</li>
+<li>  descriptor-成员描述符。对象会将这个参数传给<code>Object.defineProperty</code></li>
+</ul>
+<p><code>@readonly</code>是经典的例子：</p>
+<pre><code class="js">function readonly(target, name, descriptor) &#123;
+  descriptor.writable = false;
+  return descriptor;
+&#125;
+</code></pre>
+<p>上例会将成员描述符中的<code>writable</code>设为<code>false</code>。</p>
+<p>接着用于类中属性：</p>
+<pre><code class="js">class Example &#123;
+  a() &#123;&#125;
+  @readonly
+  b() &#123;&#125;
+&#125;
+
+const e = new Example();
+e.a = 1;
+e.b = 2;
+// TypeError: Cannot assign to read only property &#39;b&#39; of object &#39;#&lt;Example&gt;&#39;
+</code></pre>
+<p>但是我们可以做的更好，可以用别的形式代替装饰函数。例如，记录所有的输入和输出：</p>
+<pre><code class="js">function log(target, name, descriptor) &#123;
+  const original = descriptor.value;
+  if (typeof original === &#39;function&#39;) &#123;
+    descriptor.value = function(...args) &#123;
+      console.log(`Arguments: $&#123;args&#125;`);
+      try &#123;
+        const result = original.apply(this, args);
+        console.log(`Result: $&#123;result&#125;`);
+        return result;
+      &#125; catch (e) &#123;
+        console.log(`Error: $&#123;e&#125;`);
+        throw e;
+      &#125;
+    &#125;
+  &#125;
+  return descriptor;
+&#125;
+</code></pre>
+<p>注意我们使用了扩展运算符，会自动将所有参数转为数组。</p>
+<pre><code class="js">class Example &#123;
+    @log
+    sum(a, b) &#123;
+        return a + b;
+    &#125;
+&#125;
+
+const e = new Example();
+e.sum(1, 2);
+// Arguments: 1,2
+// Result: 3
+</code></pre>
+<p>可以让装饰器获取一些参数，例如重写<code>log</code>装饰器如下：</p>
+<pre><code class="js">function log(name) &#123;
+  return function decorator(t, n, descriptor) &#123;
+    const original = descriptor.value;
+    if (typeof original === &#39;function&#39;) &#123;
+      descriptor.value = function(...args) &#123;
+        console.log(`Arguments for $&#123;name&#125;: $&#123;args&#125;`);
+        try &#123;
+          const result = original.apply(this, args);
+          console.log(`Result from $&#123;name&#125;: $&#123;result&#125;`);
+          return result;
+        &#125; catch (e) &#123;
+          console.log(`Error from $&#123;name&#125;: $&#123;e&#125;`);
+          throw e;
+        &#125;
+      &#125;
+    &#125;
+    return descriptor;
+  &#125;;
+&#125;
+</code></pre>
+<p>这与之前的<code>log</code>装饰器相同，只是利用了外部函数的<code>name</code>参数。</p>
+<pre><code class="js">class Example &#123;
+  @log(&#39;some tag&#39;)
+  sum(a, b) &#123;
+    return a + b;
+  &#125;
+&#125;
+
+const e = new Example();
+e.sum(1, 2);
+// Arguments for some tag: 1,2
+// Result from some tag: 3
+</code></pre>
+<h1 id="类装饰器"><a href="#类装饰器" class="headerlink" title="类装饰器"></a>类装饰器</h1><p>类装饰器用于整个类，装饰器函数的参数为被装饰的构造器函数。</p>
+<p>注意只用于构造器函数，而不适用于类的每个实例。这就意味着如果想控制实例，就必须返回一个包装版本的构造器函数。</p>
+<p>通常，类装饰器没什么用处，因为你所需要做的，同样可以用一个简单函数来处理。你所做的只需要在结束时返回一个新的构造函数来代替类的构造函数。</p>
+<p>回到我们记录那个例子，编写一个记录构造函数参数：</p>
+<pre><code class="js">function log(Class) &#123;
+  return (...args) =&gt; &#123;
+    console.log(args);
+    return new Class(...args);
+  &#125;;
+&#125;
+</code></pre>
+<p>这里接收一个类作为参数，返回新函数作为构造器。此函数打印出参数，返回这些参数构造的实例。</p>
+<p>例如：</p>
+<pre><code class="js">@log
+class Example &#123;
+  constructor(name, age) &#123;
+  &#125;
+&#125;
+
+const e = new Example(&#39;Graham&#39;, 34);
+// [ &#39;Graham&#39;, 34 ]
+console.log(e);
+// Example &#123;&#125;
+</code></pre>
+<p>构造<code>Example</code>类时会输出提供的参数，构造值<code>e</code>也确实是<code>Example</code>的实例。</p>
+<p>传递参数到类装饰器与类成员一样。</p>
+<pre><code class="js">function log(name) &#123;
+  return function decorator(Class) &#123;
+    return (...args) =&gt; &#123;
+      console.log(`Arguments for $&#123;name&#125;: args`);
+      return new Class(...args);
+    &#125;;
+  &#125;
+&#125;
+
+@log(&#39;Demo&#39;)
+class Example &#123;
+  constructor(name, age) &#123;&#125;
+&#125;
+
+const e = new Example(&#39;Graham&#39;, 34);
+// Arguments for Demo: args
+console.log(e);
+// Example &#123;&#125;
+</code></pre>
+<h1 id="真实例子"><a href="#真实例子" class="headerlink" title="真实例子"></a>真实例子</h1><h2 id="Core-decorators"><a href="#Core-decorators" class="headerlink" title="Core decorators"></a>Core decorators</h2><p><a target="_blank" rel="noopener" href="https://www.npmjs.com/package/core-decorators">Core decorators</a>是一个库，提供了几个常见的修饰器，通过它可以更好地理解修饰器。</p>
+<p>想理解此库，也可以去看看阮老师的关于<a target="_blank" rel="noopener" href="http://es6.ruanyifeng.com/#docs/decorator#core-decorators-js">此库的介绍</a></p>
+<h2 id="React"><a href="#React" class="headerlink" title="React"></a>React</h2><p>React广泛运用了高阶组件，这让React组件成为一个函数，并且能包含另一个组件。<br>使用装饰器是不错的替代法，例如，Redux库有一个<code>connect</code>函数，用于连接React组件和React store。</p>
+<p>通常，是这么使用的：</p>
+<pre><code class="js">class MyReactComponent extends React.Component &#123;&#125;
+
+export default connect(mapStateToProps, mapDispatchToProps)(MyReactComponent);
+</code></pre>
+<p>然而，可以使用装饰器代替：</p>
+<pre><code class="js">@connect(mapStateToProps, mapDispatchToProps)
+export default class MyReactComponent extends React.Component &#123;&#125;
+</code></pre>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a target="_blank" rel="noopener" href="https://www.sitepoint.com/javascript-decorators-what-they-are/">JavaScript Decorators: What They Are and When to Use Them</a><br><a href="http://es6.ruanyifeng.com%2F%23docs%2Fdecorator">阮老师ES6入门-修饰器</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+              <a href="/tags/Decorator/" rel="tag"># Decorator</a>
+              <a href="/tags/%E8%A3%85%E9%A5%B0%E5%99%A8/" rel="tag"># 装饰器</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2017/04/css-vertical-align/" rel="prev" title="CSS布局之-水平垂直居中">
+                  <i class="fa fa-chevron-left"></i> CSS布局之-水平垂直居中
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/03/interview-summary%20/" rel="next" title="2018 面试总结及技术规划">
+                  2018 面试总结及技术规划 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">依山慕雪</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.5.0/pjax.min.js" integrity="sha256-3NkoLDrmHLTYj7csHIZSr0MHAFTXth7Ua/DDt4MRUAg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js" integrity="sha256-EdPgYcPk/IIrw7FYeuJQexva49pVRZNmt3LculEr7zM=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lozad@1.16.0/dist/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+  
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/quicklink@2.2.0/dist/quicklink.umd.js" integrity="sha256-4kQf9z5ntdQrzsBC3YSHnEz02Z9C1UeW/E9OgnvlzSY=" crossorigin="anonymous"></script>
+  <script class="next-config" data-name="quicklink" type="application/json">{"enable":true,"home":true,"archive":true,"delay":true,"timeout":3000,"priority":true,"url":"https://laysan.site/2017/06/js-decorator/"}</script>
+  <script src="/js/third-party/quicklink.js"></script>
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"lslvxy","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

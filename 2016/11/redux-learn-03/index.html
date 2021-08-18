@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://gitee.com/lslvxy/pics/raw/master/blog/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://gitee.com/lslvxy/pics/raw/master/blog/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://gitee.com/lslvxy/pics/raw/master/blog/favicon.ico">
+  <link rel="mask-icon" href="https://gitee.com/lslvxy/pics/raw/master/blog/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"laysan.site","root":"/","images":"/images","scheme":"Gemini","version":"8.7.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="前面的教程里面，我们搭建了一个简单红绿灯示例，通过在console输出当面的倒计时时间；由于界面上不能显示倒计时，用户体验并不良好，本节我们就添加一个简单的倒计时改善一下。 作为本系列的最后一篇文章，将示例如何处理多个Redux、React的情形；">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redux教程3：添加倒计时">
+<meta property="og:url" content="https://laysan.site/2016/11/redux-learn-03/index.html">
+<meta property="og:site_name" content="新生代农民工">
+<meta property="og:description" content="前面的教程里面，我们搭建了一个简单红绿灯示例，通过在console输出当面的倒计时时间；由于界面上不能显示倒计时，用户体验并不良好，本节我们就添加一个简单的倒计时改善一下。 作为本系列的最后一篇文章，将示例如何处理多个Redux、React的情形；">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gw.alicdn.com/tps/TB1iUuTKVXXXXXyXXXXXXXXXXXX-248-316.gif">
+<meta property="og:image" content="https://gw.alicdn.com/tps/TB1HYmUKVXXXXXhXXXXXXXXXXXX-224-316.gif">
+<meta property="article:published_time" content="2016-11-14T06:30:00.000Z">
+<meta property="article:modified_time" content="2021-04-21T08:06:03.000Z">
+<meta property="article:author" content="依山慕雪">
+<meta property="article:tag" content="React">
+<meta property="article:tag" content="Redux">
+<meta property="article:tag" content="Web">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gw.alicdn.com/tps/TB1iUuTKVXXXXXyXXXXXXXXXXXX-248-316.gif">
+
+
+<link rel="canonical" href="https://laysan.site/2016/11/redux-learn-03/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://laysan.site/2016/11/redux-learn-03/","path":"2016/11/redux-learn-03/","title":"Redux教程3：添加倒计时"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Redux教程3：添加倒计时 | 新生代农民工</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-87346390-1"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-87346390-1","only_pageview":false}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="新生代农民工" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">新生代农民工</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">依山慕雪的个人博客</p>
+      <img class="custom-logo-image" src="https://gitee.com/lslvxy/pics/raw/master/blog/logo.png" alt="新生代农民工">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E5%88%9B%E5%BB%BACounter%E7%B1%BB"><span class="nav-number">1.</span> <span class="nav-text">1、创建Counter类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81%E5%88%9B%E5%BB%BA%E5%85%A5%E5%8F%A3%E6%96%87%E4%BB%B6"><span class="nav-number">2.</span> <span class="nav-text">2、创建入口文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1%E3%80%81reducer%E5%85%A5%E5%8F%A3%E6%96%87%E4%BB%B6"><span class="nav-number">2.1.</span> <span class="nav-text">2.1、reducer入口文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2%E3%80%81store%E5%85%A5%E5%8F%A3%E6%96%87%E4%BB%B6"><span class="nav-number">2.2.</span> <span class="nav-text">2.2、store入口文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3%E3%80%81%E5%88%9B%E5%BB%BA%E5%BA%94%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text">3、创建应用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1%E3%80%81%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-number">3.1.</span> <span class="nav-text">3.1、初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2%E3%80%81%E5%88%9B%E5%BB%BAReact%E7%BB%84%E4%BB%B6%EF%BC%8C%E5%B9%B6%E9%93%BE%E6%8E%A5%E5%88%B0Redux"><span class="nav-number">3.2.</span> <span class="nav-text">3.2、创建React组件，并链接到Redux</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3%E3%80%81%E5%AE%8C%E5%96%84App%E7%BB%84%E4%BB%B6%E5%86%85%E5%AE%B9"><span class="nav-number">3.3.</span> <span class="nav-text">3.3、完善App组件内容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4%E3%80%81%E9%A2%84%E8%A7%88%E6%95%88%E6%9E%9C"><span class="nav-number">3.4.</span> <span class="nav-text">3.4、预览效果</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4%E3%80%81%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">4、总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-overview">
+            <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="依山慕雪"
+      src="https://gitee.com/lslvxy/pics/raw/master/blog/avatar.v1.png">
+  <p class="site-author-name" itemprop="name">依山慕雪</p>
+  <div class="site-description" itemprop="description">诗意的橙子,内涵的柚子.</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">93</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/lslvxy" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;lslvxy" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a target="_blank" rel="noopener" href="//chenguoji.com" title="&#x2F;&#x2F;chenguoji.com">陈国际</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a target="_blank" rel="noopener" href="//ystyle.top" title="&#x2F;&#x2F;ystyle.top">东方星痕</a>
+        </li>
+    </ul>
+  </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://laysan.site/2016/11/redux-learn-03/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://gitee.com/lslvxy/pics/raw/master/blog/avatar.v1.png">
+      <meta itemprop="name" content="依山慕雪">
+      <meta itemprop="description" content="诗意的橙子,内涵的柚子.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新生代农民工">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Redux教程3：添加倒计时
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2016-11-14 14:30:00" itemprop="dateCreated datePublished" datetime="2016-11-14T14:30:00+08:00">2016-11-14</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-04-21 16:06:03" itemprop="dateModified" datetime="2021-04-21T16:06:03+08:00">2021-04-21</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Web/" itemprop="url" rel="index"><span itemprop="name">Web</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2016/11/redux-learn-03/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/11/redux-learn-03/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>前面的教程里面，我们搭建了一个简单红绿灯示例，通过在console输出当面的倒计时时间；由于界面上不能显示倒计时，用户体验并不良好，本节我们就添加一个简单的倒计时改善一下。</p>
+<p>作为本系列的最后一篇文章，将示例如何处理多个Redux、React的情形；</p>
+<span id="more"></span>
+
+<h2 id="1、创建Counter类"><a href="#1、创建Counter类" class="headerlink" title="1、创建Counter类"></a>1、创建Counter类</h2><p>我们定义倒计时的类名为 <em>Counter</em> ，创建所需要的文件（夹）：</p>
+<pre><code class="js">mkdir actions/counter reducers/counter stores/counter components/counter views/counter
+
+touch constants/Counter.js actions/counter/index.js reducers/counter/index.js stores/counter/index.js components/counter/index.js components/counter/redux.js components/counter/index.less  components/counter/demo.js views/counter/index.hbs
+</code></pre>
+<p>创建 <em>Counter</em> 的 Redux 和 React 组件的过程就相当于重复了一下之前两篇文章的过程，代码也不复杂，我这边也就不粘贴了。可自行参考代码，代码托管在 <a target="_blank" rel="noopener" href="https://github.com/boycgit/demos/tree/master/traffic">https://github.com/boycgit/demos/tree/master/traffic</a> </p>
+<p>可以通过 <a target="_blank" rel="noopener" href="http://localhost:3000/counter/redux">http://localhost:3000/counter/redux</a> 检验是否正常运行；</p>
+<p><a target="_blank" rel="noopener" href="https://gw.alicdn.com/tps/TB1iUuTKVXXXXXyXXXXXXXXXXXX-248-316.gif"><img data-src="https://gw.alicdn.com/tps/TB1iUuTKVXXXXXyXXXXXXXXXXXX-248-316.gif" alt="预览效果" title="gif"></a></p>
+<p>（这个是gif图，如果没动画请点击在新窗口打开）</p>
+<p>在假设用户已经编写上面的代码文件的基础上，我们继续讲解如何将 <em>Counter</em> 和 <em>Light</em> 两个组件联合起来。</p>
+<h2 id="2、创建入口文件"><a href="#2、创建入口文件" class="headerlink" title="2、创建入口文件"></a>2、创建入口文件</h2><p>Redux的三个原则之一 ： <em>单一store，单一reducer</em> 。我们创建两个文件，分别整合之前所写的 reducer 和 store 。</p>
+<h3 id="2-1、reducer入口文件"><a href="#2-1、reducer入口文件" class="headerlink" title="2.1、reducer入口文件"></a>2.1、reducer入口文件</h3><p>创建<code>reducers/traffic.js</code>文件，作为 <em>主reducer</em> 入口文件：</p>
+<pre><code class="js">import &#123; combineReducers &#125; from &#39;redux&#39;
+import light from &#39;./light/&#39;
+import count from &#39;./counter/&#39;
+
+const rootReducer = combineReducers(&#123;
+    light,
+    count
+&#125;);
+
+export default rootReducer
+</code></pre>
+<p>这里包含了最佳实践法则， <em>将不同的状态转移关系写进不同的js文件，最后汇总到 index.js 中（这里名为traffic.js，地位是一样的）</em> ，比如后期如果多出一种 “汽车的状态转移” 关系，只要新建对应的js文件，然后再在index.js中的<code>combineReducers</code>函数中多添加一行配置即可；</p>
+<blockquote>
+<p>详细的概念及作用请参考Redux的中文文档<a target="_blank" rel="noopener" href="http://camsong.github.io/redux-in-chinese/docs/basics/Reducers.html">Reducer</a></p>
+</blockquote>
+<h3 id="2-2、store入口文件"><a href="#2-2、store入口文件" class="headerlink" title="2.2、store入口文件"></a>2.2、store入口文件</h3><p>创建<code>stores/traffic.js</code>文件，作为 <em>主store</em> 入口文件：</p>
+<pre><code class="js">import &#123; createStore &#125; from &#39;redux&#39;
+import rootReducer from &#39;../reducers/traffic&#39;
+
+export default function trafficStore(initState)&#123;
+    return createStore(rootReducer,initState);
+&#125;
+</code></pre>
+<p>可以看到并没有什么工作量，只是多了几行代码而已；</p>
+<h2 id="3、创建应用"><a href="#3、创建应用" class="headerlink" title="3、创建应用"></a>3、创建应用</h2><p>前面创建的 <em>Counter</em> 和 <em>Light</em> 算是组件，将两者结合起来，可以视作一款小应用了（假设应用名为<code>traffic</code>）；</p>
+<p>为了方便管理，专门创建 <em>App</em> 文件夹来存放应用，并创建应用相关的等辅助内容（比如视图等）：</p>
+<pre><code class="js">mkdir app app/traffic views/app
+
+touch app/traffic/index.js app/traffic/index.less views/app/index.hbs views/app/traffic.hbs
+</code></pre>
+<p>核心是 <em>app/traffic/index.js</em> 文件，其余文件只是其辅助作用，这边也不重点讲解，可自行到git clone后查看；</p>
+<h3 id="3-1、初始化"><a href="#3-1、初始化" class="headerlink" title="3.1、初始化"></a>3.1、初始化</h3><p>在 <em>app/traffic/index.js</em> 中引入 <em>Counter</em> 和 <em>Light</em> 组件并设置初始化值：</p>
+<pre><code class="js">import React, &#123;Component, PropTypes&#125; from &#39;react&#39;
+import &#123;render&#125; from &#39;react-dom&#39;
+import &#123; Provider, connect &#125; from &#39;react-redux&#39;
+import &#123; bindActionCreators &#125; from &#39;redux&#39;
+import * as LightActions from &#39;../../actions/light/&#39;
+import * as CounterActions from &#39;../../actions/counter/&#39;
+import Light from &#39;../../components/light/&#39;
+import Counter from &#39;../../components/counter/&#39;
+import trafficStore from &#39;../../stores/traffic&#39;
+
+// 初始化状态
+let initLight = &#123;
+    light:&#123;
+        color:&#39;green&#39;,
+        time:&#39;5&#39;
+    &#125;
+&#125;
+let initCount = &#123;
+    count:&#123;
+        num : parseInt(initLight.light.time)
+    &#125;
+&#125;
+let initState = Object.assign(&#123;&#125;,initLight,initCount);
+
+// 声明store
+let store = trafficStore(initState);
+</code></pre>
+<ul>
+<li>  初始化的时候，我们从绿灯开始；</li>
+<li>  倒计时的时间来自于 <em>initLight.light.time</em> ，这样在初始化状态的时候关联起来两个组件</li>
+<li>  将两个组件的状态（initLight,initCount）合并成 <em>initState</em> ，传给应用的 store，以完成 <em>应用store的初始化</em></li>
+</ul>
+<h3 id="3-2、创建React组件，并链接到Redux"><a href="#3-2、创建React组件，并链接到Redux" class="headerlink" title="3.2、创建React组件，并链接到Redux"></a>3.2、创建React组件，并链接到Redux</h3><p>紧接着，使用 <em>connect</em> 方法链接 Redux 和 React组件：</p>
+<pre><code class="js">class App extends Component&#123;
+    // 占位
+&#125;
+
+// 声明 connect 连接
+// 将 redux 中的 state传给 App
+function mapStateToProps(state)&#123;
+    return&#123;
+        light:state.light,
+        count:state.count
+    &#125;
+&#125;
+
+// 绑定多个actions
+function mapDispatchToProps(dispatch)&#123;
+    let boundLight = bindActionCreators(LightActions,dispatch);
+    let boundCount = bindActionCreators(CounterActions,dispatch);
+    return&#123;
+        actions : Object.assign(&#123;&#125;,boundLight,boundCount)
+    &#125;
+&#125;
+
+// 声明 connect 连接
+App = connect(mapStateToProps,mapDispatchToProps)(App);
+
+// 真正的连接
+render(
+    &lt;Provider store=&#123;store&#125;&gt;
+        &lt;App /&gt;
+    &lt;/Provider&gt;,
+    document.getElementById(&#39;demo&#39;)
+)
+</code></pre>
+<p>形式和上篇提到的类似，细节略微有些不同：</p>
+<ul>
+<li>   <em>mapStateToProps</em> 中返回的对象有两个属性 <em>light</em> 和 <em>count</em> ，在React组件中 对应 this.props.light 、 this.props.count</li>
+<li>   <em>mapDispatchToProps</em> 中现将两个组件的方法先和<code>dispatch</code>绑定，合成一个对象之后再赋值，这样在React组件中使用 <em>this.props.actions</em> 可以调用这两个组件的所有的actions创造函数；</li>
+<li>  最后使用<code>&amp;lt;Provider&amp;gt;</code>注入 store 实例；</li>
+</ul>
+<h3 id="3-3、完善App组件内容"><a href="#3-3、完善App组件内容" class="headerlink" title="3.3、完善App组件内容"></a>3.3、完善App组件内容</h3><p>最后，绑定store之后完善 <em>App类</em> 的代码，大部分的逻辑和前一篇的类似：</p>
+<pre><code class="js">class App extends Component&#123;
+    _bind(...methods)&#123;
+        methods.forEach((method)=&gt;this[method] = this[method].bind(this));
+    &#125;
+    constructor()&#123;
+        super();
+        this._bind(&#39;changeColor&#39;,&#39;handleClick&#39;,&#39;autoChange&#39;);
+        this.state = &#123;
+            timeId : null
+        &#125;
+    &#125;
+    changeColor(light,actions)&#123; // 红路灯变换规则
+        switch(light.color)&#123;
+            case &#39;red&#39;:
+                actions.changeGreen();
+                break;
+            case &#39;green&#39;:
+                actions.changeYellow();
+                break;
+            case &#39;yellow&#39;:
+                actions.changeRed();
+                break;
+            default:
+                actions.changeRed();
+        &#125;       
+    &#125;
+    autoChange()&#123; // 自动更改红绿灯
+        const &#123; light,count, actions &#125; = this.props;
+
+        let _self = this;
+
+        actions.countDown();
+
+        let curState = store.getState();
+        if(curState.count.num &lt; 1)&#123;
+            this.changeColor(light,actions);
+            curState = store.getState();
+            actions.countInit(parseInt(curState.light.time));
+        &#125;
+        // 自动更改
+        this.state.timeId = setTimeout(function()&#123;
+            _self.autoChange();
+        &#125;,1000);
+
+    &#125;
+    handleClick(e)&#123;  // 用点击模拟红路灯
+        if(this.state.timeId)&#123;
+            clearTimeout(this.state.timeId);
+            this.state.timeId = null;
+        &#125; else &#123;
+            this.autoChange();
+        &#125;
+
+    &#125;
+    render()&#123;
+        // 通过connect 注入 redux 的 dispatch 方法
+        const &#123; light,count, actions &#125; = this.props;
+
+        return (
+            &lt;div id=&quot;traffic&quot; onClick=&#123;this.handleClick&#125;&gt;
+                &lt;Light light=&#123;light&#125;/&gt;
+                &lt;Counter num=&#123;count.num&#125;/&gt;
+            &lt;/div&gt;
+        )
+    &#125;
+&#125;
+
+// 声明 connect 连接
+</code></pre>
+<p>变换的逻辑都在 <em>autoChange</em> 方法中</p>
+<ul>
+<li>  使用 <em>actions.countDown();</em> 让倒计时减1，通过 <em>store.getState();</em> 获取更新后的状态，因为如果直接使用 <em>count.num</em> 获取的是 <em>更新之前</em> 的状态；</li>
+<li>  当 <em>curState.count.num</em> 小于 0 的时候，调用 <em>this.changeColor(light,actions);</em> 更改红绿等的颜色，同时将 新的红绿灯的time值初始化 Counter 组件，这样就完成了两者的绑定</li>
+</ul>
+<h3 id="3-4、预览效果"><a href="#3-4、预览效果" class="headerlink" title="3.4、预览效果"></a>3.4、预览效果</h3><p>在 <a target="_blank" rel="noopener" href="http://localhost:3000/app/traffic">http://localhost:3000/app/traffic</a> 中查看效果，效果正如此系列文章第一篇开头所展示的那样，红绿灯搭配倒计时运行：</p>
+<p><a target="_blank" rel="noopener" href="https://gw.alicdn.com/tps/TB1HYmUKVXXXXXhXXXXXXXXXXXX-224-316.gif"><img data-src="https://gw.alicdn.com/tps/TB1HYmUKVXXXXXhXXXXXXXXXXXX-224-316.gif" alt="预览效果" title="result"></a></p>
+<p>（这个是gif图，如果没动画请点击在新窗口打开）</p>
+<p>红绿灯初始状态是 <em>绿灯5s</em> ，继而循环 <em>黄灯3s</em> -&gt; <em>红灯7s</em> -&gt; <em>绿灯5s</em> -&gt; <em>黄灯3s</em> -&gt; …</p>
+<p>就这样， <em>Counter</em> 和 <em>Light</em> 融洽地结合起来，完美，happy ending~</p>
+<h2 id="4、总结"><a href="#4、总结" class="headerlink" title="4、总结"></a>4、总结</h2><p>到这里，Redux 的入门教程算是完结；整个过程下来，你可以体会得到，React只需要关注逐渐的展示就行了，所有状态的管理交由<code>redux</code>即可，这种绑定恰好体现了<a target="_blank" rel="noopener" href="https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0">容器组件和展示组件相分离</a>的开发思想： <em>只在最顶层组件（如路由操作）里使用 Redux；内部组件应该像木偶一样保持“呆滞”，所有数据都通过 props 传入</em> 。</p>
+<p>这里需要再强调一下：Redux 和 React 之间没有关系。Redux 支持 React、Angular、Ember、jQuery 甚至纯 JavaScript。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/React/" rel="tag"># React</a>
+              <a href="/tags/Redux/" rel="tag"># Redux</a>
+              <a href="/tags/Web/" rel="tag"># Web</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2016/11/redux-learn-02/" rel="prev" title="Redux教程2：链接React">
+                  <i class="fa fa-chevron-left"></i> Redux教程2：链接React
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2016/11/npm-tips-and-tricks/" rel="next" title="提升你的开发效率，10 个 NPM 使用技巧">
+                  提升你的开发效率，10 个 NPM 使用技巧 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">依山慕雪</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.5.0/pjax.min.js" integrity="sha256-3NkoLDrmHLTYj7csHIZSr0MHAFTXth7Ua/DDt4MRUAg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js" integrity="sha256-EdPgYcPk/IIrw7FYeuJQexva49pVRZNmt3LculEr7zM=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lozad@1.16.0/dist/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+  
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/quicklink@2.2.0/dist/quicklink.umd.js" integrity="sha256-4kQf9z5ntdQrzsBC3YSHnEz02Z9C1UeW/E9OgnvlzSY=" crossorigin="anonymous"></script>
+  <script class="next-config" data-name="quicklink" type="application/json">{"enable":true,"home":true,"archive":true,"delay":true,"timeout":3000,"priority":true,"url":"https://laysan.site/2016/11/redux-learn-03/"}</script>
+  <script src="/js/third-party/quicklink.js"></script>
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"lslvxy","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

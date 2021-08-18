@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://gitee.com/lslvxy/pics/raw/master/blog/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://gitee.com/lslvxy/pics/raw/master/blog/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://gitee.com/lslvxy/pics/raw/master/blog/favicon.ico">
+  <link rel="mask-icon" href="https://gitee.com/lslvxy/pics/raw/master/blog/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"laysan.site","root":"/","images":"/images","scheme":"Gemini","version":"8.7.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="Oracle程序控制结构简介">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Oracle之程序控制结构">
+<meta property="og:url" content="https://laysan.site/2014/04/oracle-case/index.html">
+<meta property="og:site_name" content="新生代农民工">
+<meta property="og:description" content="Oracle程序控制结构简介">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2014-04-21T09:30:00.000Z">
+<meta property="article:modified_time" content="2021-04-21T08:06:03.000Z">
+<meta property="article:author" content="依山慕雪">
+<meta property="article:tag" content="oracle">
+<meta property="article:tag" content="控制">
+<meta property="article:tag" content="if">
+<meta property="article:tag" content="case">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://laysan.site/2014/04/oracle-case/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://laysan.site/2014/04/oracle-case/","path":"2014/04/oracle-case/","title":"Oracle之程序控制结构"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Oracle之程序控制结构 | 新生代农民工</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-87346390-1"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-87346390-1","only_pageview":false}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="新生代农民工" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">新生代农民工</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">依山慕雪的个人博客</p>
+      <img class="custom-logo-image" src="https://gitee.com/lslvxy/pics/raw/master/blog/logo.png" alt="新生代农民工">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%9D%A1%E4%BB%B6%E6%8E%A7%E5%88%B6"><span class="nav-number">1.</span> <span class="nav-text">1.条件控制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-IF%E8%AF%AD%E5%8F%A5"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 IF语句</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-CASE%E8%AF%AD%E5%8F%A5%E5%92%8CCASE%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 CASE语句和CASE表达式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E5%9C%A8CASE%E8%AF%AD%E5%8F%A5%E4%B8%AD%E4%BD%BF%E7%94%A8%E5%8D%95%E4%B8%80%E9%80%89%E6%8B%A9%E7%AC%A6%E8%BF%9B%E8%A1%8C%E7%AD%89%E5%80%BC%E6%AF%94%E8%BE%83"><span class="nav-number">1.2.1.</span> <span class="nav-text">1) 在CASE语句中使用单一选择符进行等值比较</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E5%9C%A8CASE%E8%AF%AD%E5%8F%A5%E4%B8%AD%E4%BD%BF%E7%94%A8%E5%A4%9A%E7%A7%8D%E6%9D%A1%E4%BB%B6%E6%AF%94%E8%BE%83"><span class="nav-number">1.2.2.</span> <span class="nav-text">2) 在CASE语句中使用多种条件比较</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-CASE%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-number">1.3.</span> <span class="nav-text">3) CASE表达式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%BE%AA%E7%8E%AF%E6%8E%A7%E5%88%B6"><span class="nav-number">2.</span> <span class="nav-text">2.循环控制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E5%9F%BA%E6%9C%AC%E5%BE%AA%E7%8E%AF"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 基本循环</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-WHILE%E5%BE%AA%E7%8E%AF"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 WHILE循环</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-FOR%E5%BE%AA%E7%8E%AF"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 FOR循环</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4%E5%B5%8C%E5%A5%97%E5%BE%AA%E7%8E%AF%E5%92%8C%E6%A0%87%E5%8F%B7"><span class="nav-number">2.4.</span> <span class="nav-text">2.4嵌套循环和标号</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E9%A1%BA%E5%BA%8F%E6%8E%A7%E5%88%B6"><span class="nav-number">3.</span> <span class="nav-text">3.顺序控制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-GOTO%E8%AF%AD%E5%8F%A5"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 GOTO语句</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-NULL%E8%AF%AD%E5%8F%A5"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 NULL语句</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86"><span class="nav-number">4.</span> <span class="nav-text">4.异常处理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1%EF%BC%89-%E7%B3%BB%E7%BB%9F%E5%BC%82%E5%B8%B8"><span class="nav-number">4.0.1.</span> <span class="nav-text">1） 系统异常</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2%EF%BC%89%E8%87%AA%E5%AE%9A%E4%B9%89%E5%BC%82%E5%B8%B8"><span class="nav-number">4.0.2.</span> <span class="nav-text">2）自定义异常</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-%E5%AE%9A%E4%B9%89%E5%BC%82%E5%B8%B8"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 定义异常</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E2%91%A0-%E5%AE%9A%E4%B9%89%E5%91%BD%E5%90%8D%E7%9A%84%E5%BC%82%E5%B8%B8"><span class="nav-number">4.1.1.</span> <span class="nav-text">① 定义命名的异常</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E2%91%A1%E5%B0%86%E5%BC%82%E5%B8%B8%E5%90%8D%E7%A7%B0%E4%B8%8E%E9%94%99%E8%AF%AF%E5%8F%B7%E5%85%B3%E8%81%94"><span class="nav-number">4.1.2.</span> <span class="nav-text">②将异常名称与错误号关联</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-%E6%8A%9B%E5%87%BA%E5%BC%82%E5%B8%B8"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 抛出异常</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1%EF%BC%89RAISE%E8%AF%AD%E5%8F%A5%E6%8A%9B%E5%87%BA%E5%BC%82%E5%B8%B8"><span class="nav-number">4.2.1.</span> <span class="nav-text">1）RAISE语句抛出异常</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2%EF%BC%89RAISE-APPLICATION-ERROR%E8%AF%AD%E5%8F%A5%E6%8A%9B%E5%87%BA%E5%BC%82%E5%B8%B8"><span class="nav-number">4.2.2.</span> <span class="nav-text">2）RAISE_APPLICATION_ERROR语句抛出异常</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3%E5%A4%84%E7%90%86%E5%BC%82%E5%B8%B8"><span class="nav-number">4.3.</span> <span class="nav-text">4.3处理异常</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-overview">
+            <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="依山慕雪"
+      src="https://gitee.com/lslvxy/pics/raw/master/blog/avatar.v1.png">
+  <p class="site-author-name" itemprop="name">依山慕雪</p>
+  <div class="site-description" itemprop="description">诗意的橙子,内涵的柚子.</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">93</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/lslvxy" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;lslvxy" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a target="_blank" rel="noopener" href="//chenguoji.com" title="&#x2F;&#x2F;chenguoji.com">陈国际</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a target="_blank" rel="noopener" href="//ystyle.top" title="&#x2F;&#x2F;ystyle.top">东方星痕</a>
+        </li>
+    </ul>
+  </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://laysan.site/2014/04/oracle-case/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://gitee.com/lslvxy/pics/raw/master/blog/avatar.v1.png">
+      <meta itemprop="name" content="依山慕雪">
+      <meta itemprop="description" content="诗意的橙子,内涵的柚子.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新生代农民工">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Oracle之程序控制结构
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2014-04-21 17:30:00" itemprop="dateCreated datePublished" datetime="2014-04-21T17:30:00+08:00">2014-04-21</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-04-21 16:06:03" itemprop="dateModified" datetime="2021-04-21T16:06:03+08:00">2021-04-21</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Database/" itemprop="url" rel="index"><span itemprop="name">Database</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2014/04/oracle-case/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2014/04/oracle-case/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>Oracle程序控制结构简介</p>
+<span id="more"></span>
+<h2 id="1-条件控制"><a href="#1-条件控制" class="headerlink" title="1.条件控制"></a>1.条件控制</h2><h3 id="1-1-IF语句"><a href="#1-1-IF语句" class="headerlink" title="1.1 IF语句"></a>1.1 IF语句</h3><p>if语句由于根据条件，执行两个代码块之一。其语法形式如下：</p>
+<p><code>IF 条件1 THEN...ELSEIF 条件2 THEN...ELSE...END IF; </code></p>
+<p>这里，elseif和else块时可选的。当使用条件分支语句时，不仅可以使用if语句进行简单条件判断，而且还可以使用if语句进行二重分支和多重分支判断。</p>
+<h3 id="1-2-CASE语句和CASE表达式"><a href="#1-2-CASE语句和CASE表达式" class="headerlink" title="1.2 CASE语句和CASE表达式"></a>1.2 CASE语句和CASE表达式</h3><p>使用CASE语句处理多重条件分支有两种方法：使用单一选择符进行等值比较；使用多种条件进行非等值比较。</p>
+<h4 id="1-在CASE语句中使用单一选择符进行等值比较"><a href="#1-在CASE语句中使用单一选择符进行等值比较" class="headerlink" title="1) 在CASE语句中使用单一选择符进行等值比较"></a>1) 在CASE语句中使用单一选择符进行等值比较</h4><p>当使用CASE语句进行多重条件分支时，如果条件选择符完全相同，并且条件表达式为相同条件选择，那么可以选择使用单一选择符进行等值比较。</p>
+<p><code>CASE selector  WHEN exp1  THEN state1;   WHEN exp2  THEN state2; .... [else stateN;] END CASE; </code></p>
+<p>这里，selector用于指定条件选择符，exp用于指定条件值的表达式，state用于指定要执行的条件操作。如果设置的所有条件都不满足，就会执行else语句，为避免CASE_NOT_FOUND异常，在编写CASE语句时应该带有else子句。</p>
+<h4 id="2-在CASE语句中使用多种条件比较"><a href="#2-在CASE语句中使用多种条件比较" class="headerlink" title="2) 在CASE语句中使用多种条件比较"></a>2) 在CASE语句中使用多种条件比较</h4><p>如果包含有多种条件进行不等比较，那么必须在WHEN子句中指定比较条件。<br><code>CASEWHEN condition1 THEN state1; WHEN condition2 THEN state2;....[else stateN;] END CASE; </code></p>
+<p>condition用于指定不同的比较条件。</p>
+<h3 id="3-CASE表达式"><a href="#3-CASE表达式" class="headerlink" title="3) CASE表达式"></a>3) CASE表达式</h3><p>CASE表达式也可以采用上面两种形式。</p>
+<p>case_experssion ：= CASE exp WHEN。。。</p>
+<p>或者</p>
+<p>case_experssion ：= CASE WHEN。。。</p>
+<h2 id="2-循环控制"><a href="#2-循环控制" class="headerlink" title="2.循环控制"></a>2.循环控制</h2><h3 id="2-1-基本循环"><a href="#2-1-基本循环" class="headerlink" title="2.1 基本循环"></a>2.1 基本循环</h3><p>基本循环语句以LOOP开始，END LOOP 结束。</p>
+<p><code>LOOP statement; ... EXIT [WHEN condition]; END LOOP; </code></p>
+<p>当使用基本循环时，无论是否满足条件，语句至少会执行一次。当条件为true时，会退出循环，并执行end LOOP后的相应操作。注意，当编写基本循环时，一定要包含exit语句，否则PL/SQL块会陷入死循环；另外还应该定义循环控制变量，并且在循环体内修改循环控制的值。</p>
+<h3 id="2-2-WHILE循环"><a href="#2-2-WHILE循环" class="headerlink" title="2.2 WHILE循环"></a>2.2 WHILE循环</h3><p>只有条件为true时，才执行循环体内的内容，while循环以while…LOOP 开始，以end LOOP结束。</p>
+<h3 id="2-3-FOR循环"><a href="#2-3-FOR循环" class="headerlink" title="2.3 FOR循环"></a>2.3 FOR循环</h3><p>当使用基本循环或者while循环时，需要定义循环控制变量，并且循环控制变量不仅可以是NUMBER类型，也可以使用其他数据类型；而当使用for循环时，会隐含定义循环控制变量</p>
+<p><code>FOR counter IN [REVERSE] lower_bound ..upper_bound LOOP statement; ... end loop; </code></p>
+<p>counter是循环控制变量，该变量由Oracle隐含定义，不需要显式定义；lower_bound和upper_bound分别对应于循环控制变量的上下界值。默认情况下，当使用FOR循环时，每次循环时循环控制变量会自动加1，如果指定了reverse选项，则每次循环控制变量自动减1.</p>
+<h3 id="2-4嵌套循环和标号"><a href="#2-4嵌套循环和标号" class="headerlink" title="2.4嵌套循环和标号"></a>2.4嵌套循环和标号</h3><p>嵌套循环是指在一个循环语句中嵌入另一个循环语句，而标号（Lable）则用于标记嵌套块或者嵌套循环。通过在嵌套循环中使用标号，可以区分内层和外层循环，并且可以在内层循环中直接退出外层循环。可以使用&lt;&gt;定义标号。</p>
+<h2 id="3-顺序控制"><a href="#3-顺序控制" class="headerlink" title="3.顺序控制"></a>3.顺序控制</h2><p>PL/SQL不仅提供了条件分支语句和循环控制语句，还提供了顺序控制语句GOTO和NULL。但是，在一般情况下尽量不要使用goto和null语句。</p>
+<h3 id="3-1-GOTO语句"><a href="#3-1-GOTO语句" class="headerlink" title="3.1 GOTO语句"></a>3.1 GOTO语句</h3><p>GOTO语句用于跳转到指定标号处去执行语句。注意，因为使用GOTO语句会增加程序的复杂性，并且使得应用程序可读性变差，所以开发应用程序时，一般不建议使用GOTO语句。</p>
+<p>其语法形式为：</p>
+<p><code>GOTO label_name; </code></p>
+<p>其中，label_name是已经定义的标号名，需要注意的是，标号后至少要包含一条可执行语句。</p>
+<h3 id="3-2-NULL语句"><a href="#3-2-NULL语句" class="headerlink" title="3.2 NULL语句"></a>3.2 NULL语句</h3><p>NULL语句不会执行任何操作，并且会直接将控制传递到下一条语句。使用NULL语句的好处时可以提高程序的可读性。</p>
+<h2 id="4-异常处理"><a href="#4-异常处理" class="headerlink" title="4.异常处理"></a>4.异常处理</h2><p>PL/SQL语言中，任何类型的错误将被看作为不应该在程序中发生的异常情况。异常可以是以下之一：</p>
+<p>☆ 由系统产生的错误（例如内存不足，重复索引值）</p>
+<p>☆ 由用户行为导致的错误</p>
+<p>☆ 由应用程序发出给用户的警告</p>
+<p>PL/SQL使用一种异常处理器来捕获和响应这些错误。当发生错误时，不管是系统错误还是应用程序错误都会抛出一个异常。此时，当前PL/SQL块执行部分的处理就会中止，程序流程就会转到当前块的异常处理部分来处理异常。在完成异常处理后，程序不能返回到执行部分。</p>
+<p>通常，异常分为两种类型：系统异常和程序员自定义的异常。</p>
+<h4 id="1）-系统异常"><a href="#1）-系统异常" class="headerlink" title="1） 系统异常"></a>1） 系统异常</h4><p>系统异常时由Oracle自己定义的，通常时由PL/SQL运行时引擎在检测了错误时抛出的。</p>
+<p>系统异常不需要我们定义，在应用程序运行时会自动抛出，然后交给我们编写异常处理部分进行异常处理。</p>
+<p>表4-1 Oracle预定义异常</p>
+<table>
+<thead>
+<tr>
+<th align="left">异常名</th>
+<th>错误号</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">ACCESS_INTO_NULL</td>
+<td>ORA-06530</td>
+<td>当开发对象类型应用时，在引用对象属性之前，必须先初始化对象。如果没有初始化，直接为对象属性赋值则会抛出异常。</td>
+</tr>
+<tr>
+<td align="left">CASE_NOT_FOUND</td>
+<td>ORA-06592</td>
+<td>在CASE语句中，WHEN子句中没有包含必须的条件分支，且没有ELSE语句。</td>
+</tr>
+<tr>
+<td align="left">COLLECTION_IS_NULL</td>
+<td>ORA-06531</td>
+<td>在给集合元素赋值前，必须首先初始化集合元素。</td>
+</tr>
+<tr>
+<td align="left">CURSOR_ALREADY_OPEN</td>
+<td>ORA-06511</td>
+<td>当重新打开已经打开的游标时抛出异常</td>
+</tr>
+<tr>
+<td align="left">DUP_VAL_INDEX</td>
+<td>ORA-00001</td>
+<td>在唯一索引对应的列上键入重复值时抛出异常</td>
+</tr>
+<tr>
+<td align="left">INVALID_CURSOR</td>
+<td>ORA-01001</td>
+<td>当试图在不合法的游标上执行操作时抛出</td>
+</tr>
+<tr>
+<td align="left">INVALID_NULBER</td>
+<td>ORA-01722</td>
+<td>当内嵌sql语句不能呢个有效地将字符转换为数字时抛出</td>
+</tr>
+<tr>
+<td align="left">NO_DATA_FOUND</td>
+<td>ORA-01403</td>
+<td>当执行select into 未返回行，或者引用了索引表未初始化元素时抛出</td>
+</tr>
+<tr>
+<td align="left">TOO_MANY_ROWS</td>
+<td>ORA-01422</td>
+<td>当执行select into 语句时，如果返回超过一行抛出</td>
+</tr>
+<tr>
+<td align="left">ZERO_DIVIDE</td>
+<td>ORA-01476</td>
+<td>除数为0时抛出</td>
+</tr>
+<tr>
+<td align="left">SUBSCRIPT-BEYOND-COUNT</td>
+<td>ORA-06533</td>
+<td>当使用嵌套表或者VARRAY元素时，如果元素下标超过了范围则抛出</td>
+</tr>
+<tr>
+<td align="left">SUBSCRIPT_OUTSIDE_LIMIT</td>
+<td>ORA-06532</td>
+<td>当使用嵌套表或者VARRAY元素时，如果元素下标为负数抛出</td>
+</tr>
+<tr>
+<td align="left">VALUE_ERROR</td>
+<td>ORA-06502</td>
+<td>执行赋值操作时，如果变量长度不足以容纳实际数据时抛出</td>
+</tr>
+<tr>
+<td align="left">LOGIN_BENIED</td>
+<td>ORA-01017</td>
+<td>应用程序需要连接到Oracle数据库时，如果提供了错误的用户名或口令时抛出</td>
+</tr>
+<tr>
+<td align="left">NOT_LOGGED_ON</td>
+<td>ORA-01012</td>
+<td>如果应用程序没有连接到Oracle数据库时抛出</td>
+</tr>
+<tr>
+<td align="left">PROGRAM_ERROR</td>
+<td>ORA-06501</td>
+<td>如果出现该错误说明PL/SQL内部存在问题，可能需要重装数据字典</td>
+</tr>
+<tr>
+<td align="left">ROWTYPE_MISMATCH</td>
+<td>ORA-06504</td>
+<td>当执行赋值操作时，如果宿主游标变量和PL/SQL游标变量的返回类型不兼容时抛出</td>
+</tr>
+<tr>
+<td align="left">SELF_IS_NULL</td>
+<td>ORA-30625</td>
+<td>当使用对象类型时，如果在NULL实例上调用成员方法时抛出</td>
+</tr>
+<tr>
+<td align="left">STORAGE_ERROR</td>
+<td>ORA-06500</td>
+<td>如果超出内存空间或者内存被损坏时抛出</td>
+</tr>
+<tr>
+<td align="left">SYS_INVALID_ROWID</td>
+<td>ORA-01410</td>
+<td>将字符串转换为rowid时，必须使用有效的字符串，否则抛出异常</td>
+</tr>
+<tr>
+<td align="left">TIMEOUT_ON_RESOURCE</td>
+<td>ORA-00051</td>
+<td>如果Oracle等待资源时出现超时错误时抛出</td>
+</tr>
+</tbody></table>
+<h4 id="2）自定义异常"><a href="#2）自定义异常" class="headerlink" title="2）自定义异常"></a>2）自定义异常</h4><p>异常处理的流程包括定义异常、抛出异常和处理异常三个部分。</p>
+<h3 id="4-1-定义异常"><a href="#4-1-定义异常" class="headerlink" title="4.1 定义异常"></a>4.1 定义异常</h3><p>在异常被抛出或处理之前，必须先定义。系统异常已经由Oracle本身定义了，因此我们在应用程序中不需要定义它们。我们可以使用两种不同的方式来自定义异常。</p>
+<h4 id="①-定义命名的异常"><a href="#①-定义命名的异常" class="headerlink" title="① 定义命名的异常"></a>① 定义命名的异常</h4><p>为了处理异常，必须对有一个该异常的名称。通过在EXCEPTION关键字前列出我们想在程序中抛出的异常的名称，就可以定义一个异常。</p>
+<p>异常的名称只能以两种方式被引用：</p>
+<p>☆ 在要跑出异常的程序执行部分用RAISE语句引用</p>
+<p>☆ 在要处理抛出的异常的异常处理部分的WHEN子句中引用。</p>
+<h4 id="②将异常名称与错误号关联"><a href="#②将异常名称与错误号关联" class="headerlink" title="②将异常名称与错误号关联"></a>②将异常名称与错误号关联</h4><p>EXCEPTION_INIT命令用于将一个内部错误号与异常的名称关联。关联完成后，就可以通过名称抛出异常，并编写一个显式的WHEN处理器捕获异常。</p>
+<p>EXCEPTION_INIT必须出现在块的定义部分，并且异常的名字必须在相同的块或者包规范中已经定义了。</p>
+<p><code>DECLARE  异常名称  EXCEPTION; PRAGMA EXCEPTION_INIT(异常名称,错误号); </code></p>
+<p>这里，错误号是一个整数，他有如下的限制：</p>
+<p>☆ 不能是-1403 （这个错误号时给NO_DATA_FOUND的）</p>
+<p>☆ 不能是0或者任何除100以外的正数。</p>
+<p>☆ 不能时小于-10000000的负数。</p>
+<h3 id="4-2-抛出异常"><a href="#4-2-抛出异常" class="headerlink" title="4.2 抛出异常"></a>4.2 抛出异常</h3><p>在应用程序中抛出异常的方式有三种：</p>
+<p>☆ 当Oracle检测到错误时会自动抛出异常；</p>
+<p>☆ 程序员可以使用RAISE语句抛出异常；</p>
+<p>☆ 程序员可以使用RAISE_APPLICATION_ERROR内置函数抛出异常。</p>
+<h4 id="1）RAISE语句抛出异常"><a href="#1）RAISE语句抛出异常" class="headerlink" title="1）RAISE语句抛出异常"></a>1）RAISE语句抛出异常</h4><p>使用RAISE语句可以抛出自定义异常或系统异常。</p>
+<p><code>RAISE 异常名称;</code></p>
+<h4 id="2）RAISE-APPLICATION-ERROR语句抛出异常"><a href="#2）RAISE-APPLICATION-ERROR语句抛出异常" class="headerlink" title="2）RAISE_APPLICATION_ERROR语句抛出异常"></a>2）RAISE_APPLICATION_ERROR语句抛出异常</h4><p>使用RAISE_APPLICATION_ERROR替代RAISE的优点在于，我们可以将错误消息与异常关联起来。注意，该过程只能在数据库端的子程序（过程、函数、包、触发器）中使用，而不能在匿名块和客户端的子程序中使用。</p>
+<p><code>RAISE_APPLICATION_ERROR（错误号，错误描述 [,&#123;true|false&#125; ]）; </code></p>
+<p>其中，错误号必须是-20000到-20999之间的负整数；错误描述长度不能超过2048字节；第三个参数为可选参数，如果设置为true，则该错误号被放在先前的错误堆栈中；如果设置为false（默认值），则会替代先前所有错误。</p>
+<h3 id="4-3处理异常"><a href="#4-3处理异常" class="headerlink" title="4.3处理异常"></a>4.3处理异常</h3><p>一旦异常被抛出，当前PL/SQL块就会停止正常执行，将控制权交给异常处理部分。为了处理抛出的异常，必须在异常处理部分编写异常处理器。异常处理器必须出现在执行部分之后，在END语句之前。EXception关键字指示了异常处理部分和异常处理器的开始。</p>
+<p>异常只有在抛出的异常匹配WHEN子句中的异常名时才会被处理。这里WHEN子句之后只能跟异常名，不能跟错误号。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/oracle/" rel="tag"># oracle</a>
+              <a href="/tags/%E6%8E%A7%E5%88%B6/" rel="tag"># 控制</a>
+              <a href="/tags/if/" rel="tag"># if</a>
+              <a href="/tags/case/" rel="tag"># case</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2014/04/sql-all/" rel="prev" title="SQL大全">
+                  <i class="fa fa-chevron-left"></i> SQL大全
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2014/08/eliminate_repetitive/" rel="next" title="通过MD5排除重复文件">
+                  通过MD5排除重复文件 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">依山慕雪</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.5.0/pjax.min.js" integrity="sha256-3NkoLDrmHLTYj7csHIZSr0MHAFTXth7Ua/DDt4MRUAg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js" integrity="sha256-EdPgYcPk/IIrw7FYeuJQexva49pVRZNmt3LculEr7zM=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lozad@1.16.0/dist/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+  
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/quicklink@2.2.0/dist/quicklink.umd.js" integrity="sha256-4kQf9z5ntdQrzsBC3YSHnEz02Z9C1UeW/E9OgnvlzSY=" crossorigin="anonymous"></script>
+  <script class="next-config" data-name="quicklink" type="application/json">{"enable":true,"home":true,"archive":true,"delay":true,"timeout":3000,"priority":true,"url":"https://laysan.site/2014/04/oracle-case/"}</script>
+  <script src="/js/third-party/quicklink.js"></script>
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"lslvxy","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

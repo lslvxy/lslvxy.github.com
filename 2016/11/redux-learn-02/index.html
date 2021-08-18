@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://gitee.com/lslvxy/pics/raw/master/blog/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://gitee.com/lslvxy/pics/raw/master/blog/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://gitee.com/lslvxy/pics/raw/master/blog/favicon.ico">
+  <link rel="mask-icon" href="https://gitee.com/lslvxy/pics/raw/master/blog/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"laysan.site","root":"/","images":"/images","scheme":"Gemini","version":"8.7.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="通过前面的教程，我们有了简单的环境，并且可以运行Redux的程序，也对 如何编写Redux示例 有了初步的印象； 掌握了 使用Redux控制状态转移 ，继而驱动 React 组件发生改变，这才是学习Redux的初衷。 本篇我们将 Redux 和 React 联合起来，着重讲解redux-react模块的使用；">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redux教程2：链接React">
+<meta property="og:url" content="https://laysan.site/2016/11/redux-learn-02/index.html">
+<meta property="og:site_name" content="新生代农民工">
+<meta property="og:description" content="通过前面的教程，我们有了简单的环境，并且可以运行Redux的程序，也对 如何编写Redux示例 有了初步的印象； 掌握了 使用Redux控制状态转移 ，继而驱动 React 组件发生改变，这才是学习Redux的初衷。 本篇我们将 Redux 和 React 联合起来，着重讲解redux-react模块的使用；">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gw.alicdn.com/tps/TB1Ca9FKVXXXXXQXFXXXXXXXXXX-252-245.jpg">
+<meta property="og:image" content="https://gw.alicdn.com/tps/TB1uaysKVXXXXXiaXXXXXXXXXXX-320-188.gif">
+<meta property="article:published_time" content="2016-11-14T01:30:00.000Z">
+<meta property="article:modified_time" content="2021-04-21T08:06:03.000Z">
+<meta property="article:author" content="依山慕雪">
+<meta property="article:tag" content="React">
+<meta property="article:tag" content="Redux">
+<meta property="article:tag" content="Web">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gw.alicdn.com/tps/TB1Ca9FKVXXXXXQXFXXXXXXXXXX-252-245.jpg">
+
+
+<link rel="canonical" href="https://laysan.site/2016/11/redux-learn-02/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://laysan.site/2016/11/redux-learn-02/","path":"2016/11/redux-learn-02/","title":"Redux教程2：链接React"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Redux教程2：链接React | 新生代农民工</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-87346390-1"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-87346390-1","only_pageview":false}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="新生代农民工" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">新生代农民工</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">依山慕雪的个人博客</p>
+      <img class="custom-logo-image" src="https://gitee.com/lslvxy/pics/raw/master/blog/logo.png" alt="新生代农民工">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E7%BC%96%E5%86%99%E7%BA%A2%E7%BB%BF%E7%81%AFReact%E7%BB%84%E4%BB%B6"><span class="nav-number">1.</span> <span class="nav-text">1、编写红绿灯React组件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81%E9%93%BE%E6%8E%A5React%E5%92%8Credux"><span class="nav-number">2.</span> <span class="nav-text">2、链接React和redux</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1%E3%80%81%E5%88%9B%E5%BB%BA%E7%A4%BA%E4%BE%8B%E6%96%87%E4%BB%B6"><span class="nav-number">2.1.</span> <span class="nav-text">2.1、创建示例文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2%E3%80%81%E5%88%9B%E5%BB%BA%E5%AE%B9%E5%99%A8React"><span class="nav-number">2.2.</span> <span class="nav-text">2.2、创建容器React</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3%E3%80%81%E9%93%BE%E6%8E%A5React%E7%BB%84%E4%BB%B6%E5%92%8CRedux%E7%B1%BB"><span class="nav-number">2.3.</span> <span class="nav-text">2.3、链接React组件和Redux类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4%E3%80%81%E5%88%A9%E7%94%A8redux%E9%A9%B1%E5%8A%A8react"><span class="nav-number">2.4.</span> <span class="nav-text">2.4、利用redux驱动react</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-overview">
+            <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="依山慕雪"
+      src="https://gitee.com/lslvxy/pics/raw/master/blog/avatar.v1.png">
+  <p class="site-author-name" itemprop="name">依山慕雪</p>
+  <div class="site-description" itemprop="description">诗意的橙子,内涵的柚子.</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">93</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/lslvxy" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;lslvxy" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a target="_blank" rel="noopener" href="//chenguoji.com" title="&#x2F;&#x2F;chenguoji.com">陈国际</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a target="_blank" rel="noopener" href="//ystyle.top" title="&#x2F;&#x2F;ystyle.top">东方星痕</a>
+        </li>
+    </ul>
+  </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://laysan.site/2016/11/redux-learn-02/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://gitee.com/lslvxy/pics/raw/master/blog/avatar.v1.png">
+      <meta itemprop="name" content="依山慕雪">
+      <meta itemprop="description" content="诗意的橙子,内涵的柚子.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新生代农民工">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Redux教程2：链接React
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2016-11-14 09:30:00" itemprop="dateCreated datePublished" datetime="2016-11-14T09:30:00+08:00">2016-11-14</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-04-21 16:06:03" itemprop="dateModified" datetime="2021-04-21T16:06:03+08:00">2021-04-21</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Web/" itemprop="url" rel="index"><span itemprop="name">Web</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2016/11/redux-learn-02/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/11/redux-learn-02/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>通过前面的教程，我们有了简单的环境，并且可以运行<code>Redux</code>的程序，也对 <em>如何编写Redux示例</em> 有了初步的印象；</p>
+<p>掌握了 <em>使用Redux控制状态转移</em> ，继而驱动 <em>React</em> 组件发生改变，这才是学习Redux的初衷。</p>
+<p>本篇我们将 Redux 和 React 联合起来，着重讲解<code>redux-react</code>模块的使用；</p>
+<span id="more"></span>
+
+<h2 id="1、编写红绿灯React组件"><a href="#1、编写红绿灯React组件" class="headerlink" title="1、编写红绿灯React组件"></a>1、编写红绿灯React组件</h2><p>在原有的基础上，我们编写红绿灯组件：</p>
+<pre><code>touch components/light/index.js components/light/index.less
+</code></pre>
+<p>在 <em>components/light/index.js</em> 中写React代码，其结构非常简单：</p>
+<pre><code class="js">import React, &#123; PropTypes, Component &#125; from &#39;react&#39;
+import &#123; render &#125; from &#39;react-dom&#39;
+import classnames from &#39;classnames&#39;
+import &#39;./index.less&#39;
+
+class Light extends Component&#123;
+    render()&#123;
+        let color = this.props.light.color;
+        return(
+            &lt;div className=&quot;traffic-light&quot;&gt;
+                &lt;span className=&#123;classnames(&#39;light&#39;,color)&#125; /&gt;
+            &lt;/div&gt;
+        )
+    &#125;
+&#125;
+
+Light.propTypes = &#123;
+    light: PropTypes.object.isRequired
+&#125;
+
+Light.defaultProps = &#123;
+    light : &#123;color:&#39;red&#39;,time:&#39;4&#39;&#125;
+&#125;
+
+export default Light
+</code></pre>
+<p>根据更改样式类名（’red’、’green’、’yellow’），从而移动 <em>sprite图</em> 产生灯变换的效果：</p>
+<pre><code class="css">.traffic-light&#123;
+  .light&#123;
+    display: inline-block;
+    background: url(//lh3.googleusercontent.com/-YWLqWZXDYHU/VmWC7GHoAuI/AAAAAAAACgk/nXvEmSWAhQU/s800/light.png) no-repeat 0 0;
+    background-size: auto 100%;
+    overflow: hidden;
+    width:140px / 2;
+    height:328px / 2;
+
+    &amp;.red&#123;
+      background-position: 0,0;
+    &#125;
+    &amp;.yellow&#123;
+      background-position: -78px , 0;
+    &#125;
+    &amp;.green&#123;
+      background-position: -156px , 0;
+    &#125;
+  &#125;
+&#125;
+</code></pre>
+<p>修改 <em>components/light/demo.js</em> 文件代码为：</p>
+<pre><code class="js">import React, &#123;Component, PropTypes&#125; from &#39;react&#39;
+import &#123;render&#125; from &#39;react-dom&#39;
+import Light from &#39;./index&#39;
+
+var color = &#39;red&#39;;
+
+render(
+    &lt;div id=&quot;traffic&quot;&gt;
+        &lt;Light color=&#123;color&#125;/&gt;
+    &lt;/div&gt;,
+    document.getElementById(&#39;demo&#39;)
+)
+</code></pre>
+<p>这样就能通过 <a target="_blank" rel="noopener" href="http://localhost:3000/light/demo">http://localhost:3000/light/demo</a> 预览这个组件了；</p>
+<p><a target="_blank" rel="noopener" href="https://gw.alicdn.com/tps/TB1Ca9FKVXXXXXQXFXXXXXXXXXX-252-245.jpg"><img data-src="https://gw.alicdn.com/tps/TB1Ca9FKVXXXXXQXFXXXXXXXXXX-252-245.jpg" alt="demo light" title="demo light"></a></p>
+<h2 id="2、链接React和redux"><a href="#2、链接React和redux" class="headerlink" title="2、链接React和redux"></a>2、链接React和redux</h2><p>有了React和之前的Redux，现在就要将两者链接起来了。我们的目标是让红绿灯运行起来，就好比平时在十字路口看到的那样；</p>
+<h3 id="2-1、创建示例文件"><a href="#2-1、创建示例文件" class="headerlink" title="2.1、创建示例文件"></a>2.1、创建示例文件</h3><p>再创建一个示例文件，就不叫demo了，叫做<code>redux</code>好了：</p>
+<pre><code class="js">touch components/light/redux.js
+</code></pre>
+<blockquote>
+<p>之所以示例文件名称为<code>demo.js</code>或<code>redux.js</code>，是因为我在 <em>webpack.config.js</em> 中配置了，如果想用其他的文件名，只要依样画葫芦就可以；</p>
+</blockquote>
+<p>首先在 <em>components/light/redux.js</em> 中输入最基本的脚手架代码，引入所需要的组件或模块：</p>
+<pre><code class="js">import React, &#123;Component, PropTypes&#125; from &#39;react&#39;
+import &#123;render&#125; from &#39;react-dom&#39;
+import &#123; Provider, connect &#125; from &#39;react-redux&#39;
+import &#123; bindActionCreators &#125; from &#39;redux&#39;
+import * as LightActions from &#39;../../actions/light/&#39;
+import lightStore from &#39;../../stores/light/&#39;
+import Light from &#39;./index&#39;
+
+// 声明store
+let store = lightStore();
+</code></pre>
+<h3 id="2-2、创建容器React"><a href="#2-2、创建容器React" class="headerlink" title="2.2、创建容器React"></a>2.2、创建容器React</h3><p>继而创建一个 <em>App React类</em> ，作为总的容器，将上述的 <em>Light</em> 组件放入其中：</p>
+<pre><code class="js">import React, &#123;Component, PropTypes&#125; from &#39;react&#39;
+import &#123;render&#125; from &#39;react-dom&#39;
+import &#123; Provider, connect &#125; from &#39;react-redux&#39;
+import &#123; bindActionCreators &#125; from &#39;redux&#39;
+import * as LightActions from &#39;../../actions/light/&#39;
+import lightStore from &#39;../../stores/light/&#39;
+import Light from &#39;./index&#39;
+
+// 声明store
+let store = lightStore();
+
+class App extends Component&#123;
+    _bind(...methods)&#123;
+        methods.forEach((method)=&gt;this[method] = this[method].bind(this));
+    &#125;
+    constructor()&#123;
+        super();
+        this._bind(&#39;autoChange&#39;,&#39;handleClick&#39;);
+        this.state = &#123;
+            count : 0,
+            timeId : null
+        &#125;
+    &#125;
+
+    autoChange()&#123; // 自动更改红绿灯
+        var _self = this;
+
+        // 这里放置逻辑代码
+
+        this.state.timeId = setTimeout(function()&#123;
+            // 递归调用，实现 setInterval 方法
+            _self.autoChange();
+        &#125;,1000);
+    &#125;
+    handleClick(e)&#123;  // 用点击模拟红路灯
+
+        if(this.state.timeId)&#123;
+            clearTimeout(this.state.timeId);
+            this.state.timeId = null;
+        &#125; else &#123;
+            this.autoChange();
+        &#125;
+
+    &#125;
+    render()&#123;
+        // 通过connect 注入 redux 的 dispatch 方法
+        return (
+            &lt;div id=&quot;traffic&quot; onClick=&#123;this.handleClick&#125;&gt;
+                &lt;Light light=&#123;&#39;yellow&#39;&#125;/&gt;
+            &lt;/div&gt;
+        )
+    &#125;
+&#125;
+</code></pre>
+<p>上面的代码还是个半成品，看不到效果；简单描述一下上面的代码做了什么：</p>
+<ul>
+<li>  定义<code>App</code>容器，将 <em>Light</em> 组件放在其<code>render</code>方法中</li>
+<li>   <em>constructor</em> 方法引用了 <em>_bind</em> 方法，方便一次性绑定<code>this</code>上下文，该方法来自文章<a target="_blank" rel="noopener" href="http://www.newmediacampaigns.com/blog/refactoring-react-components-to-es6-classes">Refactoring React Components to ES6 Classes</a></li>
+<li>   <em>handleClick</em> 方法是纯粹是为了演示，当用户点击红绿灯的时候，红绿灯调用 <em>autoChange方法</em> 开始自动变换，用户再次点击的时候就停止变换；</li>
+<li>   <em>autoChange</em> 方法用于红绿灯状态自动转换的，这里占位；本质是使用<code>setTimeout</code>代替<code>setInterval</code>实现；</li>
+</ul>
+<h3 id="2-3、链接React组件和Redux类"><a href="#2-3、链接React组件和Redux类" class="headerlink" title="2.3、链接React组件和Redux类"></a>2.3、链接React组件和Redux类</h3><p>这是最为关键的一个步骤，</p>
+<pre><code class="js">class App extends Component&#123;
+
+    ...
+&#125;
+
+// 声明 connect 连接
+// 将 redux 中的 state传给 App
+function mapStateToProps(state)&#123;
+    return&#123;
+        light:state
+    &#125;
+&#125;
+
+function mapDispatchToProps(dispatch)&#123;
+    return&#123;
+        actions : bindActionCreators(LightActions,dispatch)
+    &#125;
+&#125;
+
+// 声明 connect 连接
+App = connect(mapStateToProps,mapDispatchToProps)(App);
+
+// 真正的连接
+render(
+    &lt;Provider store=&#123;store&#125;&gt;
+        &lt;App /&gt;
+    &lt;/Provider&gt;,
+    document.getElementById(&#39;demo&#39;)
+)
+</code></pre>
+<p>这里使用 <em>react-redux</em> 提供<code>connect</code>的方法 <em>链接React组件和Redux类</em> ：</p>
+<pre><code class="js">// 声明 connect 连接
+App = connect(mapStateToProps,mapDispatchToProps)(App);
+</code></pre>
+<ul>
+<li>   <em>connect</em> 方法不会改变原来的组件类，反而返回一个新的 <em>已与 Redux store 连接的</em> 组件类。注意这里并没有注入<code>store</code>对象，真正<code>store</code>对象的注入靠最后的<code>&lt;Provider store&gt;</code>组件；（更多说明请参考 [react-redux 的 API][1]）</li>
+<li>  传入 <em>connect</em> 的 <em>mapStateToProps方法</em> ，正如其名，是将 Redux 的状态 映射到 React组件的props属性。任何时候，<strong>只要 Redux store 发生改变，mapStateToProps 函数就会被调用</strong>。这里返回对象是<code>&#123;light:state&#125;</code>，这样确保 Redux 中的 state 发生改变时，组件的 props.light 都是最新的 Redux state。</li>
+<li>   <em>mapDispatchToProps方法</em> 则是将 Store 中的 dispatch方法 直接封装成对象的一个属性，一般会用到 Redux 的辅助函数<a target="_blank" rel="noopener" href="http://camsong.github.io/redux-in-chinese/docs/api/bindActionCreators.html">bindActionCreators()</a>；这里将<code>dispatch</code>绑定到<code>action</code>属性，这样在红绿灯组件内让其变成红灯的时候，不需要<code>dispatch(changeRed())</code>这么调用，直接使用<code>actions.changeRed()</code>，语义化更好；（更多说明请参考 [react-redux 的 API][1]）</li>
+<li>  最后的<code>&lt;Provider store&gt;</code>使组件层级中的 <em>connect()</em> 方法都能够获得 <em>Redux store</em> ，这里才真正注入<code>store</code>变量，之前的只是声明而已（之前的好比store是个形参，到了这一步store就是实参了）。（更多说明请参考 [react-redux 的 API][1]）</li>
+</ul>
+<p>经过上面的语句，Redux就将 <em>state属性</em> 、 （<strong>store</strong> 的）<code>dispatch方法</code>与 React 组件的 <em>props</em> 绑定在一起，凡是更改 <em>redux</em> 的 states，就会更新所连接组件的<code>props</code>属性。</p>
+<blockquote>
+<p> <em>react-redux</em> 中的 <em>connect</em> 方法就算是HOC（High Order Component，高阶组件）了，具体原理可参考文章<a target="_blank" rel="noopener" href="http://leozdgao.me/chushi-hoc/">初识React中的High Order Component</a>，这是因为如果使用ES6 写React组件的话，mixin是不支持的，因此使用High Order Component代替；</p>
+</blockquote>
+<h3 id="2-4、利用redux驱动react"><a href="#2-4、利用redux驱动react" class="headerlink" title="2.4、利用redux驱动react"></a>2.4、利用redux驱动react</h3><p>理解了最为困难的部分，之后的事情就水到渠成了；</p>
+<p>现在，只要记住 <em>在App中可以直接使用Redux中的一切了</em> 就行了</p>
+<p>我们回过头来，完善<code>App</code>组件的代码，完善 <em>autoChange</em> 方法：</p>
+<pre><code class="js">class App extends Component&#123;
+    _bind(...methods)&#123;
+        methods.forEach((method)=&gt;this[method] = this[method].bind(this));
+    &#125;
+    constructor()&#123;
+        super();
+        this._bind(&#39;changeColor&#39;,&#39;handleClick&#39;,&#39;autoChange&#39;);
+        this.state = &#123;
+            count : 0,
+            timeId : null
+        &#125;
+    &#125;
+    changeColor(light,actions)&#123; // 红路灯变换规则
+        switch(light.color)&#123;
+            case &#39;red&#39;:
+                actions.changeGreen();
+                break;
+            case &#39;green&#39;:
+                actions.changeYellow();
+                break;
+            case &#39;yellow&#39;:
+                actions.changeRed();
+                break;
+            default:
+                actions.changeRed();
+        &#125;       
+    &#125;
+    autoChange()&#123; // 自动更改红绿灯
+        const &#123; light, actions &#125; = this.props;
+        let _self = this;
+
+        let curCount = ++this.state.count;
+
+        // console.log(&#39;xx,&#39;,curCount);
+        if(this.state.count &gt; +light.time)&#123;
+            curCount = 0;
+            this.changeColor(light,actions);
+        &#125;
+        // 自动更改
+        this.state.timeId = setTimeout(function()&#123;
+            _self.setState(&#123;count:curCount&#125;);
+            _self.autoChange();
+        &#125;,1000);
+
+    &#125;
+    handleClick(e)&#123;  // 用点击模拟红路灯
+
+        if(this.state.timeId)&#123;
+            clearTimeout(this.state.timeId);
+        &#125; else &#123;
+            this.autoChange();
+        &#125;
+
+    &#125;
+    render()&#123;
+        // 通过connect 注入 redux 的 dispatch 方法
+        const &#123; light, actions &#125; = this.props;
+        return (
+            &lt;div id=&quot;traffic&quot; onClick=&#123;this.handleClick.bind(this)&#125;&gt;
+                &lt;Light light=&#123;light&#125;/&gt;
+            &lt;/div&gt;
+        )
+    &#125;
+&#125;
+</code></pre>
+<p>至此已经完成本节示例，通过<code>npm start</code>开启服务， 在 <a target="_blank" rel="noopener" href="http://localhost:3000/light/redux">http://localhost:3000/light/redux</a> 中查看。</p>
+<p>在这个示例里，通过点击红绿灯，每隔若干秒红绿灯就会变换颜色，这说明两者已经链接起来；</p>
+<p><a target="_blank" rel="noopener" href="https://gw.alicdn.com/tps/TB1uaysKVXXXXXiaXXXXXXXXXXX-320-188.gif"><img data-src="https://gw.alicdn.com/tps/TB1uaysKVXXXXXiaXXXXXXXXXXX-320-188.gif" alt="demo light" title="demo light"></a></p>
+<p>（这个是gif图，如果没动画请点击在新窗口打开）</p>
+<p>在后一篇文章，将示例如何处理多个Redux、React的情形；</p>
+<p>[1]<a target="_blank" rel="noopener" href="http://camsong.github.io/redux-in-chinese/docs/react-redux/api.html">http://camsong.github.io/redux-in-chinese/docs/react-redux/api.html</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/React/" rel="tag"># React</a>
+              <a href="/tags/Redux/" rel="tag"># Redux</a>
+              <a href="/tags/Web/" rel="tag"># Web</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2016/11/redux-learn-01/" rel="prev" title="Redux教程1：环境搭建，初写Redux">
+                  <i class="fa fa-chevron-left"></i> Redux教程1：环境搭建，初写Redux
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2016/11/redux-learn-03/" rel="next" title="Redux教程3：添加倒计时">
+                  Redux教程3：添加倒计时 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">依山慕雪</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.5.0/pjax.min.js" integrity="sha256-3NkoLDrmHLTYj7csHIZSr0MHAFTXth7Ua/DDt4MRUAg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js" integrity="sha256-EdPgYcPk/IIrw7FYeuJQexva49pVRZNmt3LculEr7zM=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lozad@1.16.0/dist/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+  
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/quicklink@2.2.0/dist/quicklink.umd.js" integrity="sha256-4kQf9z5ntdQrzsBC3YSHnEz02Z9C1UeW/E9OgnvlzSY=" crossorigin="anonymous"></script>
+  <script class="next-config" data-name="quicklink" type="application/json">{"enable":true,"home":true,"archive":true,"delay":true,"timeout":3000,"priority":true,"url":"https://laysan.site/2016/11/redux-learn-02/"}</script>
+  <script src="/js/third-party/quicklink.js"></script>
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"lslvxy","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

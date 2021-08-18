@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://gitee.com/lslvxy/pics/raw/master/blog/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://gitee.com/lslvxy/pics/raw/master/blog/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://gitee.com/lslvxy/pics/raw/master/blog/favicon.ico">
+  <link rel="mask-icon" href="https://gitee.com/lslvxy/pics/raw/master/blog/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"laysan.site","root":"/","images":"/images","scheme":"Gemini","version":"8.7.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="日常工作中常用到的sql语句，现总结如下，留作日后查看。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="oracle数据库常用SQL语句">
+<meta property="og:url" content="https://laysan.site/2013/12/oracle-sql/index.html">
+<meta property="og:site_name" content="新生代农民工">
+<meta property="og:description" content="日常工作中常用到的sql语句，现总结如下，留作日后查看。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2013-12-03T08:46:00.000Z">
+<meta property="article:modified_time" content="2021-04-21T08:06:03.000Z">
+<meta property="article:author" content="依山慕雪">
+<meta property="article:tag" content="oracle">
+<meta property="article:tag" content="数据库">
+<meta property="article:tag" content="sql">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://laysan.site/2013/12/oracle-sql/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://laysan.site/2013/12/oracle-sql/","path":"2013/12/oracle-sql/","title":"oracle数据库常用SQL语句"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>oracle数据库常用SQL语句 | 新生代农民工</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-87346390-1"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-87346390-1","only_pageview":false}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="新生代农民工" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">新生代农民工</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">依山慕雪的个人博客</p>
+      <img class="custom-logo-image" src="https://gitee.com/lslvxy/pics/raw/master/blog/logo.png" alt="新生代农民工">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1%E3%80%81%E6%8C%89%E7%85%A7%E4%B8%A4%E5%88%97%E4%B8%AD%E7%9A%84%E6%9C%80%E5%A4%A7%E5%80%BC%E5%8F%96-%EF%BC%8C%E5%8F%AA%E5%8F%96%E4%B8%A4%E5%88%97%E5%85%B6%E4%B8%AD%E7%9A%84%E4%B8%80%E5%88%97"><span class="nav-number">1.</span> <span class="nav-text">1、按照两列中的最大值取 ，只取两列其中的一列</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2%E3%80%81%E5%8F%96%E4%B8%A4%E5%88%97%E4%B9%8B%E5%92%8C"><span class="nav-number">2.</span> <span class="nav-text">2、取两列之和</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3%E3%80%81%E5%8F%96%E4%B8%A4%E5%88%97%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BF%9E%E6%8E%A5"><span class="nav-number">3.</span> <span class="nav-text">3、取两列字符串连接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4%E3%80%81%E8%8E%B7%E5%8F%96oracle%E6%95%B0%E6%8D%AE%E5%BA%93%E5%BD%93%E5%89%8D%E7%94%A8%E6%88%B7%E4%B8%8B%E6%89%80%E6%9C%89%E8%A1%A8%E5%90%8D%E5%92%8C%E8%A1%A8%E5%90%8D%E7%9A%84%E6%B3%A8%E9%87%8A"><span class="nav-number">4.</span> <span class="nav-text">4、获取oracle数据库当前用户下所有表名和表名的注释</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5%E3%80%81%E4%B8%A4%E5%88%97%E7%BB%93%E6%9E%9C%E5%90%88%E5%B9%B6%E4%B8%BA%E4%B8%80%E5%88%97%E8%BE%93%E5%87%BA%EF%BC%88%E4%B8%A4%E5%88%97%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%BF%85%E9%A1%BB%E4%B8%80%E6%A0%B7%EF%BC%89"><span class="nav-number">5.</span> <span class="nav-text">5、两列结果合并为一列输出（两列数据类型必须一样）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6%E3%80%81%E5%B0%86%E4%B8%80%E5%88%97%E5%A4%9A%E8%A1%8C%E6%8B%BC%E6%8E%A5%E6%88%90%E4%B8%80%E8%A1%8C"><span class="nav-number">6.</span> <span class="nav-text">6、将一列多行拼接成一行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7%E3%80%81-%E4%B8%8D%E6%98%AF-SELECTed-%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-number">7.</span> <span class="nav-text">7、 不是 SELECTed 表达式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8%E3%80%81%E6%9F%A5%E8%AF%A2%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E7%9A%84%E5%BB%BA%E8%A1%A8%E6%97%B6%E9%97%B4"><span class="nav-number">8.</span> <span class="nav-text">8、查询数据库表的建表时间</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9%E3%80%81%E6%9F%A5%E8%AF%A2%E5%BA%8F%E5%88%97%E7%9A%84%E5%BD%93%E5%89%8D%E5%80%BC"><span class="nav-number">9.</span> <span class="nav-text">9、查询序列的当前值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#10%E3%80%81%E6%81%A2%E5%A4%8D%E8%AF%AF%E5%88%A0%E9%99%A4%E7%9A%84%E6%95%B0%E6%8D%AE"><span class="nav-number">10.</span> <span class="nav-text">10、恢复误删除的数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#11%E3%80%81%E6%81%A2%E5%A4%8D%E8%AF%AF%E5%88%A0%E9%99%A4%E7%9A%84PL-SQL%E5%AF%B9%E8%B1%A1"><span class="nav-number">11.</span> <span class="nav-text">11、恢复误删除的PL&#x2F;SQL对象</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-overview">
+            <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="依山慕雪"
+      src="https://gitee.com/lslvxy/pics/raw/master/blog/avatar.v1.png">
+  <p class="site-author-name" itemprop="name">依山慕雪</p>
+  <div class="site-description" itemprop="description">诗意的橙子,内涵的柚子.</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">93</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/lslvxy" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;lslvxy" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a target="_blank" rel="noopener" href="//chenguoji.com" title="&#x2F;&#x2F;chenguoji.com">陈国际</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a target="_blank" rel="noopener" href="//ystyle.top" title="&#x2F;&#x2F;ystyle.top">东方星痕</a>
+        </li>
+    </ul>
+  </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://laysan.site/2013/12/oracle-sql/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://gitee.com/lslvxy/pics/raw/master/blog/avatar.v1.png">
+      <meta itemprop="name" content="依山慕雪">
+      <meta itemprop="description" content="诗意的橙子,内涵的柚子.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新生代农民工">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          oracle数据库常用SQL语句
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2013-12-03 16:46:00" itemprop="dateCreated datePublished" datetime="2013-12-03T16:46:00+08:00">2013-12-03</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-04-21 16:06:03" itemprop="dateModified" datetime="2021-04-21T16:06:03+08:00">2021-04-21</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/DataBase/" itemprop="url" rel="index"><span itemprop="name">DataBase</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2013/12/oracle-sql/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2013/12/oracle-sql/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>日常工作中常用到的sql语句，现总结如下，留作日后查看。</p>
+<span id="more"></span>
+<h4 id="1、按照两列中的最大值取-，只取两列其中的一列"><a href="#1、按照两列中的最大值取-，只取两列其中的一列" class="headerlink" title="1、按照两列中的最大值取 ，只取两列其中的一列"></a>1、按照两列中的最大值取 ，只取两列其中的一列</h4><pre><code class="sql">SELECT *  FROM t_doc T  ORDER BY GREATEST(T.Load_Count,T.Read_Count) desc
+</code></pre>
+<h4 id="2、取两列之和"><a href="#2、取两列之和" class="headerlink" title="2、取两列之和"></a>2、取两列之和</h4><pre><code class="sql">select  t.*,(nvl(T.Load_Count,0)+nvl(T.Read_Count,0 )) as c FROM t_doc T   order by c desc
+</code></pre>
+<h4 id="3、取两列字符串连接"><a href="#3、取两列字符串连接" class="headerlink" title="3、取两列字符串连接"></a>3、取两列字符串连接</h4><pre><code class="sql">select T.Load_Count||T.Read_Count FROM t_doc T
+</code></pre>
+<h4 id="4、获取oracle数据库当前用户下所有表名和表名的注释"><a href="#4、获取oracle数据库当前用户下所有表名和表名的注释" class="headerlink" title="4、获取oracle数据库当前用户下所有表名和表名的注释"></a>4、获取oracle数据库当前用户下所有表名和表名的注释</h4><pre><code class="sql">select a.TABLE_NAME,b.COMMENTS
+from user_tables a,user_tab_comments b
+WHERE a.TABLE_NAME=b.TABLE_NAME
+order by TABLE_NAME
+</code></pre>
+<h4 id="5、两列结果合并为一列输出（两列数据类型必须一样）"><a href="#5、两列结果合并为一列输出（两列数据类型必须一样）" class="headerlink" title="5、两列结果合并为一列输出（两列数据类型必须一样）"></a>5、两列结果合并为一列输出（两列数据类型必须一样）</h4><pre><code class="sql">select a from tb
+union all
+select b from tb
+</code></pre>
+<h4 id="6、将一列多行拼接成一行"><a href="#6、将一列多行拼接成一行" class="headerlink" title="6、将一列多行拼接成一行"></a>6、将一列多行拼接成一行</h4><pre><code class="sql">select wmsys.wm_concat(name) from table_name
+//wmsys.wm_concat()拼接字段 以逗号分开
+</code></pre>
+<h4 id="7、-不是-SELECTed-表达式"><a href="#7、-不是-SELECTed-表达式" class="headerlink" title="7、 不是 SELECTed 表达式"></a>7、 不是 SELECTed 表达式</h4><p>Oracle 数据库，执行下面语句出现错误“ORA-01791: 不是 SELECTed 表达式”：</p>
+<pre><code class="sql">select distinct t.name from auth_employee t order by t.auth_employee_id asc
+</code></pre>
+<p>原来：SELECT语句中含有DISTINCT关键字或者有运算符时，排序用字段必须与SELECT语句中的字段相对应。<br>网上搜到解释如下：<br>在ORDER BY中指定多个列，结果将先按照子句中的第一列排序，然后第二个，依此类推。<br>在SELECT中未出现的列名也可用于ORDER BY 子句中，只要TABLE中有就行。<br>但如果SELECT子句中出现了DISTINCT关键字，则只能用出现过的列名，<br>而且如果SELECT子句中使用了任何运算符，在ORDER BY 子句中必须保持和SELECT子句中表达式完全一致，否则出现错误：“ORA-01791: 不是 SELECTed 表达式”。</p>
+<h4 id="8、查询数据库表的建表时间"><a href="#8、查询数据库表的建表时间" class="headerlink" title="8、查询数据库表的建表时间"></a>8、查询数据库表的建表时间</h4><pre><code class="sql">SELECT OBJECT_NAME,CREATED FROM USER_OBJECTS
+    WHERE object_type = &#39;TABLE&#39; ORDER BY  CREATED DESC
+</code></pre>
+<h4 id="9、查询序列的当前值"><a href="#9、查询序列的当前值" class="headerlink" title="9、查询序列的当前值"></a>9、查询序列的当前值</h4><pre><code class="sql">select ANALYSIS_FIX_SEQ.currval  from dual (注：此sql只能在nextval之后才可以使用)
+select last_number from User_Sequences where sequence_name=&#39;ANALYSIS_FIX_SEQ&#39;
+</code></pre>
+<h4 id="10、恢复误删除的数据"><a href="#10、恢复误删除的数据" class="headerlink" title="10、恢复误删除的数据"></a>10、恢复误删除的数据</h4><pre><code class="sql">create table quick as
+SELECT * FROM T_LOCATION_ALARM AS  OF TIMESTAMP  
+to_timestamp(&#39;2013-11-29 11:00:00&#39;, &#39;yyyy-mm-dd hh24:mi:ss&#39;);
+</code></pre>
+<p>这样可以查询到这个时间点的数据</p>
+<h4 id="11、恢复误删除的PL-SQL对象"><a href="#11、恢复误删除的PL-SQL对象" class="headerlink" title="11、恢复误删除的PL/SQL对象"></a>11、恢复误删除的PL/SQL对象</h4><pre><code class="sql">SELECT  r.object_name ,r.original_name,r.operation ,r.droptime
+FROM user_recyclebin  r order by droptime desc;
+</code></pre>
+<p>通过这个sql就可以查询到已经删除的对象。</p>
+<p>再通过下面这个sql就可以查询到对象的内容，不过需要管理权限</p>
+<pre><code class="sql">SELECT NAME, TEXT FROM DBA_SOURCE AS OF TIMESTAMP
+TO_TIMESTAMP(&#39;2013-11-29:11:20:15&#39;, &#39;yyyy-mm-dd hh24:mi:ss&#39;)
+</code></pre>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/oracle/" rel="tag"># oracle</a>
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag"># 数据库</a>
+              <a href="/tags/sql/" rel="tag"># sql</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2013/12/paixusuanfa/" rel="prev" title="排序算法总结">
+                  <i class="fa fa-chevron-left"></i> 排序算法总结
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2013/12/javascript-eval/" rel="next" title="JavaScript中的eval()函数">
+                  JavaScript中的eval()函数 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">依山慕雪</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.5.0/pjax.min.js" integrity="sha256-3NkoLDrmHLTYj7csHIZSr0MHAFTXth7Ua/DDt4MRUAg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js" integrity="sha256-EdPgYcPk/IIrw7FYeuJQexva49pVRZNmt3LculEr7zM=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lozad@1.16.0/dist/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+  
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/quicklink@2.2.0/dist/quicklink.umd.js" integrity="sha256-4kQf9z5ntdQrzsBC3YSHnEz02Z9C1UeW/E9OgnvlzSY=" crossorigin="anonymous"></script>
+  <script class="next-config" data-name="quicklink" type="application/json">{"enable":true,"home":true,"archive":true,"delay":true,"timeout":3000,"priority":true,"url":"https://laysan.site/2013/12/oracle-sql/"}</script>
+  <script src="/js/third-party/quicklink.js"></script>
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"lslvxy","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

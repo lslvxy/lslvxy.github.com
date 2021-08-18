@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://gitee.com/lslvxy/pics/raw/master/blog/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://gitee.com/lslvxy/pics/raw/master/blog/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://gitee.com/lslvxy/pics/raw/master/blog/favicon.ico">
+  <link rel="mask-icon" href="https://gitee.com/lslvxy/pics/raw/master/blog/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"laysan.site","root":"/","images":"/images","scheme":"Gemini","version":"8.7.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="这几天要把项目中的几个模块有ext3升级到ext4，还要保持页面展示和功能要跟3.x版本的一样。升级并不是一件简单的是，基本相当于重写了，3.x版本的复选框树级联操作是在网上找的一个现成的插件，直接搬运到4.2中就不能用了，但是又找不到可用的插件。百度谷歌了好久，还真让我搞出来一个方法，记录下来吧，也分享给大家。如有不合理或者更好的方法希望不吝赐教。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ExtJs4中的复选树级联选择">
+<meta property="og:url" content="https://laysan.site/2014/02/extjs4-check-tree/index.html">
+<meta property="og:site_name" content="新生代农民工">
+<meta property="og:description" content="这几天要把项目中的几个模块有ext3升级到ext4，还要保持页面展示和功能要跟3.x版本的一样。升级并不是一件简单的是，基本相当于重写了，3.x版本的复选框树级联操作是在网上找的一个现成的插件，直接搬运到4.2中就不能用了，但是又找不到可用的插件。百度谷歌了好久，还真让我搞出来一个方法，记录下来吧，也分享给大家。如有不合理或者更好的方法希望不吝赐教。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2014-02-18T07:30:00.000Z">
+<meta property="article:modified_time" content="2021-04-21T08:06:03.000Z">
+<meta property="article:author" content="依山慕雪">
+<meta property="article:tag" content="extjs">
+<meta property="article:tag" content="tree">
+<meta property="article:tag" content="树">
+<meta property="article:tag" content="级联">
+<meta property="article:tag" content="选择">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://laysan.site/2014/02/extjs4-check-tree/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://laysan.site/2014/02/extjs4-check-tree/","path":"2014/02/extjs4-check-tree/","title":"ExtJs4中的复选树级联选择"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>ExtJs4中的复选树级联选择 | 新生代农民工</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-87346390-1"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-87346390-1","only_pageview":false}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="新生代农民工" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">新生代农民工</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">依山慕雪的个人博客</p>
+      <img class="custom-logo-image" src="https://gitee.com/lslvxy/pics/raw/master/blog/logo.png" alt="新生代农民工">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-overview">
+            <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="依山慕雪"
+      src="https://gitee.com/lslvxy/pics/raw/master/blog/avatar.v1.png">
+  <p class="site-author-name" itemprop="name">依山慕雪</p>
+  <div class="site-description" itemprop="description">诗意的橙子,内涵的柚子.</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">93</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/lslvxy" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;lslvxy" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a target="_blank" rel="noopener" href="//chenguoji.com" title="&#x2F;&#x2F;chenguoji.com">陈国际</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a target="_blank" rel="noopener" href="//ystyle.top" title="&#x2F;&#x2F;ystyle.top">东方星痕</a>
+        </li>
+    </ul>
+  </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://laysan.site/2014/02/extjs4-check-tree/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://gitee.com/lslvxy/pics/raw/master/blog/avatar.v1.png">
+      <meta itemprop="name" content="依山慕雪">
+      <meta itemprop="description" content="诗意的橙子,内涵的柚子.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新生代农民工">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          ExtJs4中的复选树级联选择
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2014-02-18 15:30:00" itemprop="dateCreated datePublished" datetime="2014-02-18T15:30:00+08:00">2014-02-18</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-04-21 16:06:03" itemprop="dateModified" datetime="2021-04-21T16:06:03+08:00">2021-04-21</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/ExtJs/" itemprop="url" rel="index"><span itemprop="name">ExtJs</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2014/02/extjs4-check-tree/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2014/02/extjs4-check-tree/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>这几天要把项目中的几个模块有ext3升级到ext4，还要保持页面展示和功能要跟3.x版本的一样。升级并不是一件简单的是，基本相当于重写了，3.x版本的复选框树级联操作是在网上找的一个现成的插件，直接搬运到4.2中就不能用了，但是又找不到可用的插件。百度谷歌了好久，还真让我搞出来一个方法，记录下来吧，也分享给大家。如有不合理或者更好的方法希望不吝赐教。</p>
+<span id="more"></span>
+<p>在3.x版本中要实现级联选择的话，我使用的是一个<code>TreeCheckNodeUI.js</code>这个文件百度一下都能找到啊，就不详细说明了，很好用。</p>
+<p>在4.2中实现的方法是在<code>treepanel</code>的配置项<code>viewConfig</code>中添加函数<code>onCheckboxChange</code>，表示复选框选择状态发生变化是触发的事件，先把代码贴出来：</p>
+<pre><code class="js">viewConfig:&#123;
+  onCheckboxChange: function(e, t) &#123;
+         var item = e.getTarget(this.getItemSelector(), this.getTargetEl()), record;
+         if (item) &#123;
+             record = this.getRecord(item);
+             var check = !record.get(&#39;checked&#39;);
+             record.set(&#39;checked&#39;, check);
+             if (check) &#123;
+                 record.bubble(function(parentNode) &#123;
+                     parentNode.set(&#39;checked&#39;, true);
+                 &#125;);
+                 record.cascadeBy(function(node) &#123;
+                     node.set(&#39;checked&#39;, true);
+                 &#125;);
+                 record.expand();
+               record.expandChildren();
+             &#125; else &#123;
+               record.collapse();
+               record.collapseChildren();
+                 record.cascadeBy(function(node) &#123;
+                     node.set(&#39;checked&#39;, false);
+                 &#125;);
+               record.bubble(function(parentNode) &#123;
+                var childHasChecked=false;
+                var childNodes = parentNode.childNodes;
+              if(childNodes || childNodes.length&gt;0)&#123;
+                for(var i=0;i&lt;childNodes.length;i++)&#123;
+                  if(childNodes[i].data.checked)&#123;
+                    childHasChecked= true;
+                    break;
+                  &#125;
+                &#125;
+              &#125;
+                if(!childHasChecked)&#123;
+                       parentNode.set(&#39;checked&#39;, false);
+                     &#125;
+                 &#125;);
+
+             &#125;
+         &#125;
+     &#125;
+&#125;
+</code></pre>
+<p>其实这段代码我也不是很懂，几个方法是百度出来的，然后纯属于东拼西凑，最后居然还实现了功能，等闲来再好好了解一下这段代码的意思。</p>
+<p>还遇到过一个问题，3.x的版本中有个grid的单元格悬浮展示数据的功能，其实就是一个<code>quicktip</code>将单元格中的内容展示出来。同样的，直接搬运到extjs4中还是实现不了的，又花了半天时间才找到一个方法，还是直接贴出代码吧：</p>
+<pre><code class="js">&#123;
+  header : &quot;姓名&quot;,
+  width : 100,
+  dataIndex : &quot;name&quot;,
+  menuDisabled : true,
+  sortable : false,
+  renderer : function(value, metadata, record, rowIndex,
+      columnIndex, store) &#123;
+    value = value.replace(/&lt;/g, &#39;&amp;lt&#39;);
+    metadata.tdAttr = &#39;data-qtip=&quot;&#39; + value+ &#39;&quot;&#39;;
+    return value;
+  &#125;
+&#125;
+</code></pre>
+<p>给colmodel中的列添加一个<code>renderer</code>函数，给单元格所在的<code>td</code>添加一个<code>qtip</code>，将单元格的内容放到里面就可以了。</p>
+<p>extjs的qtip提示会有个小问题，也不知道是不是bug，如果value的值中包含了空格，横线等特殊符号的时候qtip显示的内容不完整，只能显示第一个空格之前的内容。为了避免这种情况可以用<code>xmp</code>标签将value包含起来：<br><code>metadata.tdAttr = &#39;data-qtip=&quot;&lt;xmp&gt;&#39; + value+ &#39;&lt;/xmp&gt;&quot;&#39;;</code></p>
+<p>还有一种办法就是给grid添加一个鼠标移动事件，当鼠标移动到单元格内的时候取到单元格的内容，然后生成一个tooltip显示出来。代码如下：</p>
+<pre><code class="js">listeners:&#123;
+   &#39;render&#39;: function(g) &#123;    
+       g.on(&quot;itemmouseenter&quot;, function(view,record,mode,index,e) &#123;
+           var view = g.getView();
+           logGrid.tip = Ext.create(&#39;Ext.tip.ToolTip&#39;, &#123;  
+              target: view.el,
+              delegate: view.getCellSelector(),
+              trackMouse: true,
+              renderTo: Ext.getBody(),
+              listeners: &#123;   
+                  beforeshow: function updateTipBody(tip) &#123;
+                      tip.update(tip.triggerElement.innerHTML);
+                  &#125;  
+              &#125;  
+           &#125;);  
+       &#125;);    
+   &#125;  
+&#125;
+</code></pre>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/extjs/" rel="tag"># extjs</a>
+              <a href="/tags/tree/" rel="tag"># tree</a>
+              <a href="/tags/%E6%A0%91/" rel="tag"># 树</a>
+              <a href="/tags/%E7%BA%A7%E8%81%94/" rel="tag"># 级联</a>
+              <a href="/tags/%E9%80%89%E6%8B%A9/" rel="tag"># 选择</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2014/01/maven-dependency/" rel="prev" title="Maven排除项目中同名不同版本的jar">
+                  <i class="fa fa-chevron-left"></i> Maven排除项目中同名不同版本的jar
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2014/02/extjs-tree-refresh/" rel="next" title="ExtJs 刷新后，默认选中刷新前最后一次选中的节点">
+                  ExtJs 刷新后，默认选中刷新前最后一次选中的节点 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">依山慕雪</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.5.0/pjax.min.js" integrity="sha256-3NkoLDrmHLTYj7csHIZSr0MHAFTXth7Ua/DDt4MRUAg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js" integrity="sha256-EdPgYcPk/IIrw7FYeuJQexva49pVRZNmt3LculEr7zM=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lozad@1.16.0/dist/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+  
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/quicklink@2.2.0/dist/quicklink.umd.js" integrity="sha256-4kQf9z5ntdQrzsBC3YSHnEz02Z9C1UeW/E9OgnvlzSY=" crossorigin="anonymous"></script>
+  <script class="next-config" data-name="quicklink" type="application/json">{"enable":true,"home":true,"archive":true,"delay":true,"timeout":3000,"priority":true,"url":"https://laysan.site/2014/02/extjs4-check-tree/"}</script>
+  <script src="/js/third-party/quicklink.js"></script>
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"lslvxy","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

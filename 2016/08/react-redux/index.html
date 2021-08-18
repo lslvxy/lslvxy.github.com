@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://gitee.com/lslvxy/pics/raw/master/blog/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://gitee.com/lslvxy/pics/raw/master/blog/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://gitee.com/lslvxy/pics/raw/master/blog/favicon.ico">
+  <link rel="mask-icon" href="https://gitee.com/lslvxy/pics/raw/master/blog/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"laysan.site","root":"/","images":"/images","scheme":"Gemini","version":"8.7.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="React + Redux 基本入坑配置">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React + Redux 入坑指南">
+<meta property="og:url" content="https://laysan.site/2016/08/react-redux/index.html">
+<meta property="og:site_name" content="新生代农民工">
+<meta property="og:description" content="React + Redux 基本入坑配置">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img.leense.site/post/2016/08/201608080930-1.png">
+<meta property="article:published_time" content="2016-08-08T01:30:00.000Z">
+<meta property="article:modified_time" content="2021-04-21T08:06:03.000Z">
+<meta property="article:author" content="依山慕雪">
+<meta property="article:tag" content="React">
+<meta property="article:tag" content="Redux">
+<meta property="article:tag" content="Web">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.leense.site/post/2016/08/201608080930-1.png">
+
+
+<link rel="canonical" href="https://laysan.site/2016/08/react-redux/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://laysan.site/2016/08/react-redux/","path":"2016/08/react-redux/","title":"React + Redux 入坑指南"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>React + Redux 入坑指南 | 新生代农民工</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-87346390-1"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-87346390-1","only_pageview":false}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="新生代农民工" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">新生代农民工</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">依山慕雪的个人博客</p>
+      <img class="custom-logo-image" src="https://gitee.com/lslvxy/pics/raw/master/blog/logo.png" alt="新生代农民工">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Redux"><span class="nav-number">1.</span> <span class="nav-text">Redux</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8E%9F%E7%90%86"><span class="nav-number">1.1.</span> <span class="nav-text">原理</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#React-Redux"><span class="nav-number">2.</span> <span class="nav-text">React + Redux</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Action"><span class="nav-number">2.1.</span> <span class="nav-text">Action</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Action-nbsp-%E5%9F%BA%E7%A1%80%E5%86%99%E6%B3%95"><span class="nav-number">2.1.1.</span> <span class="nav-text">1. Action 基础写法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Action-%E5%BC%82%E6%AD%A5%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95"><span class="nav-number">2.1.2.</span> <span class="nav-text">2. Action 异步解决方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-redux-thunk-%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="nav-number">2.1.3.</span> <span class="nav-text">2.1 redux-thunk 使用方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reducer"><span class="nav-number">2.2.</span> <span class="nav-text">Reducer</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Reducer-%E5%9F%BA%E7%A1%80%E5%86%99%E6%B3%95"><span class="nav-number">2.2.1.</span> <span class="nav-text">Reducer 基础写法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E4%BE%9D%E6%8D%AE%E4%B8%8D%E5%90%8C%E6%89%A7%E8%A1%8C-ActionType-%E7%9B%B4%E6%8E%A5%E6%9B%B4%E6%96%B0%E7%8A%B6%E6%80%81"><span class="nav-number">2.2.1.1.</span> <span class="nav-text">1.依据不同执行 ActionType 直接更新状态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E5%AF%B9-Action-%E4%BC%A0%E9%80%92%E7%9A%84%E6%95%B0%E6%8D%AE%E5%A4%9A%E5%8A%A0%E4%B8%80%E5%B1%82%E5%A4%84%E7%90%86"><span class="nav-number">2.2.1.2.</span> <span class="nav-text">2.对 Action 传递的数据多加一层处理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E5%90%88%E5%B9%B6%E5%A4%9A%E4%B8%AA-Reducer"><span class="nav-number">2.2.1.3.</span> <span class="nav-text">3.合并多个 Reducer</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Store"><span class="nav-number">2.3.</span> <span class="nav-text">Store</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%B0%86-Store-%E7%BB%91%E5%AE%9A-React"><span class="nav-number">2.3.1.</span> <span class="nav-text">1. 将 Store 绑定 React</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%B0%86-state-%E7%BB%91%E5%AE%9A%E5%88%B0-Component"><span class="nav-number">2.3.2.</span> <span class="nav-text">2. 将 state 绑定到 Component</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Component"><span class="nav-number">2.4.</span> <span class="nav-text">Component</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%A6%82%E5%BF%B5"><span class="nav-number">2.4.1.</span> <span class="nav-text">1. 概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Component-%E5%9F%BA%E7%A1%80%E5%86%99%E6%B3%95"><span class="nav-number">2.4.2.</span> <span class="nav-text">2. Component 基础写法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Conclusion"><span class="nav-number">3.</span> <span class="nav-text">Conclusion</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-overview">
+            <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="依山慕雪"
+      src="https://gitee.com/lslvxy/pics/raw/master/blog/avatar.v1.png">
+  <p class="site-author-name" itemprop="name">依山慕雪</p>
+  <div class="site-description" itemprop="description">诗意的橙子,内涵的柚子.</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">93</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/lslvxy" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;lslvxy" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a target="_blank" rel="noopener" href="//chenguoji.com" title="&#x2F;&#x2F;chenguoji.com">陈国际</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a target="_blank" rel="noopener" href="//ystyle.top" title="&#x2F;&#x2F;ystyle.top">东方星痕</a>
+        </li>
+    </ul>
+  </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://laysan.site/2016/08/react-redux/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://gitee.com/lslvxy/pics/raw/master/blog/avatar.v1.png">
+      <meta itemprop="name" content="依山慕雪">
+      <meta itemprop="description" content="诗意的橙子,内涵的柚子.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新生代农民工">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          React + Redux 入坑指南
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2016-08-08 09:30:00" itemprop="dateCreated datePublished" datetime="2016-08-08T09:30:00+08:00">2016-08-08</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-04-21 16:06:03" itemprop="dateModified" datetime="2021-04-21T16:06:03+08:00">2021-04-21</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Web/" itemprop="url" rel="index"><span itemprop="name">Web</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2016/08/react-redux/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/08/react-redux/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>React + Redux 基本入坑配置</p>
+<span id="more"></span>
+
+<h1 id="Redux"><a href="#Redux" class="headerlink" title="Redux"></a>Redux</h1><h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p><strong>1. 单一数据源</strong></p>
+<p><code>all states ==&gt;Store</code></p>
+<ul>
+<li>随着组件的复杂度上升（包括交互逻辑和业务逻辑），数据来源逐渐混乱，导致组件内部数据调用十分复杂，会产生数据冗余或者混用等情况。</li>
+<li>Store 的基本思想是将所有的数据集中管理，数据通过 Store 分类处理更新，不再在组件内放养式生长。</li>
+</ul>
+<p><strong>2. 单向数据流</strong></p>
+<p><code>dispatch(actionCreator) =&gt; Reducer =&gt; (state, action) =&gt; state</code></p>
+<ul>
+<li>单向数据流保证了数据的变化是有迹可循且受控制的。</li>
+<li>通过绑定 Store 可以确定唯一数据来源。</li>
+<li>actionCreator 通过 dispatch 触发，使组件内事件调用逻辑清晰，具体的事件处理逻辑不用放在组件写，保持 view 层的纯净。</li>
+<li>Reducer 通过判断不同的 actionType 处理不同数据更新，保证数据有秩序更新。</li>
+</ul>
+<h1 id="React-Redux"><a href="#React-Redux" class="headerlink" title="React + Redux"></a>React + Redux</h1><h2 id="Action"><a href="#Action" class="headerlink" title="Action"></a>Action</h2><ul>
+<li>actionType 定义操作类型</li>
+<li>actionCreator 定义操作具体执行函数</li>
+</ul>
+<h3 id="1-Action-nbsp-基础写法"><a href="#1-Action-nbsp-基础写法" class="headerlink" title="1. Action&nbsp;基础写法"></a>1. Action&nbsp;基础写法</h3><ul>
+<li>actionType 提供给 Reducer 判断动作类型</li>
+<li>actionCreator 为可调用的执行函数，必须返回 actionType 类型</li>
+</ul>
+<pre><code class="js">// actionType
+export const ACTION_TYPE = &quot;ACTION_TYPE&quot;;
+
+// actionCreator
+let actionCreator = config =&gt; &#123;
+  return &#123;
+    type: ACTION_TYPE, // 必须定义 type
+    config // 传递参数 =&gt; reducer
+  &#125;;
+&#125;;
+</code></pre>
+<h3 id="2-Action-异步解决方法"><a href="#2-Action-异步解决方法" class="headerlink" title="2. Action 异步解决方法"></a>2. Action 异步解决方法</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/gaearon/redux-thunk?spm=5176.100239.blogcont58700.7.nE2wTr">redux-thunk</a> 中间层做数据异步转换</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/yelouafi/redux-saga?spm=5176.100239.blogcont58700.8.nE2wTr">redux-saga</a> 使用 ES6 generator / yield</li>
+</ul>
+<h3 id="2-1-redux-thunk-使用方法"><a href="#2-1-redux-thunk-使用方法" class="headerlink" title="2.1 redux-thunk 使用方法"></a>2.1 redux-thunk 使用方法</h3><ul>
+<li><strong>redux-thunk 配置</strong><br>redux-thunk 为独立工具，需要另外安装，通过 redux 提供的中间件 applyMiddleware ，绑定到 store 中。</li>
+</ul>
+<pre><code class="js">import &#123; createStore, applyMiddleware &#125; from &quot;redux&quot;;
+import thunk from &quot;redux-thunk&quot;;
+import reducers from &quot;../reducers&quot;;
+
+let store = createStore(reducers, applyMiddleware(thunk));
+</code></pre>
+<ul>
+<li><strong>Action 使用 redux-thunk</strong><br>获取数据方法在异步获取数据后需要再次调用接收方法接收数据。</li>
+</ul>
+<pre><code class="js">// 接收方法
+let receiveSomething = res =&gt; &#123;
+  return &#123;
+    type: RECEIVE_SOME,
+    res
+  &#125;;
+&#125;;
+
+// 获取数据方法
+export let fetchSomething = args =&gt; &#123;
+  return dispatch =&gt; &#123;
+    return fetch(args).then(res =&gt; &#123;
+      return dispatch(receiveSomething(res));
+    &#125;);
+  &#125;;
+&#125;;
+</code></pre>
+<h2 id="Reducer"><a href="#Reducer" class="headerlink" title="Reducer"></a>Reducer</h2><ul>
+<li>引入 Action 中定义好的 actionType</li>
+<li>传入 初始数据 和 actionType 后，返回更新数据<code>(initialState, action) =&gt; newState</code></li>
+</ul>
+<h3 id="Reducer-基础写法"><a href="#Reducer-基础写法" class="headerlink" title="Reducer 基础写法"></a>Reducer 基础写法</h3><h4 id="1-依据不同执行-ActionType-直接更新状态"><a href="#1-依据不同执行-ActionType-直接更新状态" class="headerlink" title="1.依据不同执行 ActionType 直接更新状态"></a>1.依据不同执行 ActionType 直接更新状态</h4><pre><code class="js">import &#123; ACTION_A, ACTION_B &#125; from &#39;../actions&#39;;
+
+let initialState = &#123; ... &#125;
+
+function example(state = initialState, action) &#123;
+    switch(action.type) &#123;
+        case ACTION_A:
+          return Object.assign(&#123;&#125;, state, action.config)
+        case ACTION_B:
+          return Object.assign(&#123;&#125;, state, action.config)
+    &#125;
+&#125;
+</code></pre>
+<h4 id="2-对-Action-传递的数据多加一层处理"><a href="#2-对-Action-传递的数据多加一层处理" class="headerlink" title="2.对 Action 传递的数据多加一层处理"></a>2.对 Action 传递的数据多加一层处理</h4><pre><code class="js">let doSomething = config =&gt; &#123;
+  let &#123; a, b &#125; = config;
+  // do something with a, b
+  return &#123; a, b &#125;;
+&#125;;
+
+function example(state = initialState, action) &#123;
+  switch (action.type) &#123;
+    case ACTION_TYPE:
+      return Object.assign(&#123;&#125;, state, doSomething(action.config));
+  &#125;
+&#125;
+</code></pre>
+<h4 id="3-合并多个-Reducer"><a href="#3-合并多个-Reducer" class="headerlink" title="3.合并多个 Reducer"></a>3.合并多个 Reducer</h4><p>通过 redux 提供的 combineReducers 将不同处理逻辑的 reducer 合并起来。</p>
+<pre><code class="js">import &#123; combineReducers &#125; from &#39;redux&#39;;
+
+export default combineReducers(&#123;
+  reducerA,
+  reducerB
+&#125;);
+
+// or
+
+export let reducer = (state = initialState, action) &#123;
+    a: processA(state.a, action),
+    b: processB(state.b, action)
+&#125;
+</code></pre>
+<h2 id="Store"><a href="#Store" class="headerlink" title="Store"></a>Store</h2><h3 id="1-将-Store-绑定-React"><a href="#1-将-Store-绑定-React" class="headerlink" title="1. 将 Store 绑定 React"></a>1. 将 Store 绑定 React</h3><p>使用 react-redux 提供的 Provider 可以将 Store 注入到 react 中。</p>
+<p>Store 将合并后的 reducers 通过 createStore 创建，此外下面示例代码还使用中间件加入了一层 react-thunk 处理。</p>
+<pre><code class="js">import ReactDOM from &quot;react-dom&quot;;
+import &#123; createStore, applyMiddleware &#125; from &quot;redux&quot;;
+import &#123; Provider &#125; from &quot;react-redux&quot;;
+import thunk from &quot;redux-thunk&quot;;
+import reducers from &quot;./reducers&quot;;
+
+let store = createStore(reducers, applyMiddleware(thunk));
+
+ReactDOM.render(
+  &lt;Provider store=&#123;store&#125;&gt;// ...&lt;/Provider&gt;,
+  document.querySelector(&quot;#app&quot;)
+);
+</code></pre>
+<h3 id="2-将-state-绑定到-Component"><a href="#2-将-state-绑定到-Component" class="headerlink" title="2. 将 state 绑定到 Component"></a>2. 将 state 绑定到 Component</h3><p>使用 react-redux 提供的 connect 方法 将组件和所需数据绑定。</p>
+<p><strong>需要注意的是</strong>，Store 创建时接收的是合并后的 reducers, 因此不同 reducer 上的处理数据绑定在了不同 reducer 对象上，而不是全部挂载在 Store 上。</p>
+<p>mapStateToProps 将组件内部所需数据通过 props 传入组件内部。更多绑定机制，具体可参考<a target="_blank" rel="noopener" href="http://cn.redux.js.org/docs/react-redux/api.html?spm=5176.100239.blogcont58700.9.nE2wTr">connect</a></p>
+<pre><code class="js">import React, &#123; Component &#125; from &quot;react&quot;;
+import &#123; connect &#125; from &quot;react-redux&quot;;
+
+class ComponentA extends Component &#123;
+  //...
+&#125;
+
+let mapStateToProps = state =&gt; &#123;
+  // attention !!!
+  let &#123; reducerA, reducerB &#125; = state;
+  return &#123;
+    propA: reducerA.propA,
+    propB: reducerB.propB
+  &#125;;
+&#125;;
+
+export default connect(mapStateToProps)(ComponentA);
+</code></pre>
+<h2 id="Component"><a href="#Component" class="headerlink" title="Component"></a>Component</h2><h3 id="1-概念"><a href="#1-概念" class="headerlink" title="1. 概念"></a>1. 概念</h3><blockquote>
+<p>React bindings for Redux embrace the idea of separating presentational and container components.</p>
+<p>Redux 的 React 绑定库包含了 <strong>容器组件和展示组件相分离</strong> 的开发思想。</p>
+</blockquote>
+<ul>
+<li>Presentational Components 展示型组件</li>
+<li>Container Components 容器型组件</li>
+</ul>
+<p>展示型组件和容器型组件的区别在官方文档中已经给出很详细的解释了，但是中文文档的翻译有误，所以直接看英文比较更容易懂。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Presentational Components</th>
+<th>Container Components</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Purpose</td>
+<td>How things look (markup, styles)</td>
+<td>How things work (data fetching, state updates)</td>
+</tr>
+<tr>
+<td>Aware of Redux</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>To read data</td>
+<td>Read data from props</td>
+<td>Subscribe to Redux state</td>
+</tr>
+<tr>
+<td>To change data</td>
+<td>Invoke callbacks from props</td>
+<td>Dispatch Redux actions</td>
+</tr>
+<tr>
+<td>Are written</td>
+<td>By hand</td>
+<td>Usually generated by React Redux</td>
+</tr>
+</tbody></table>
+<p>组件类型区分的模糊点在于怎么界定组件的内部功能规划。如果判定一个组件为展示型组件，那么它所需数据和处理方法都应该从父级传入，保持组件内部“纯净”。</p>
+<p>在实际开发中，一个组件的逻辑跟业务紧密相关。如果需要将数据和方法从外部传入，那么父级组件所做的事情会很多，多重的子组件也会把父级逻辑弄乱，这就不是 redux 的初衷了。</p>
+<p>中文文档翻译的意思是：容器组件应该为路由层面的组件，但这样既不符合实际开发需要，也违背了 redux 思想。真正界定两种组件的因素是：</p>
+<ul>
+<li><strong>展示型组件：</strong> 类似纯模板引擎，外加一层样式渲染，只负责渲染从 props 传进来的数据或者监听事件和父组件做小联动。它是“纯净”的，不需要使用到 Redux 的一套规则。</li>
+<li><strong>容器型组件：</strong> 需要异步获取数据，更新组件状态等等。需要跟业务逻辑打交道的组件都可以认为是容器组件。这些逻辑的复杂性需要将数据整合到 Store 里统一管理。</li>
+</ul>
+<h3 id="2-Component-基础写法"><a href="#2-Component-基础写法" class="headerlink" title="2. Component 基础写法"></a>2. Component 基础写法</h3><ul>
+<li><strong>组件渲染完成后调用 Action</strong></li>
+</ul>
+<p>当组件 connect 后，dispatch 方法已经注入到 props 中，所以触发 Action 可以从 props 获取 dispatch 方法。</p>
+<pre><code class="js">import React, &#123; Component &#125; from &quot;react&quot;;
+// actionCreator
+import &#123; actionA, actionB &#125; from &quot;actions/actionA&quot;;
+
+class ComponentA extends Component &#123;
+  constructor(props) &#123;
+    super(props);
+  &#125;
+  componentDidMount() &#123;
+    let &#123; dispatch &#125; = this.props;
+    dispatch(actionA());
+  &#125;
+&#125;
+export default connect()(ComponentA);
+</code></pre>
+<ul>
+<li><strong>组件模板内调用 Action</strong></li>
+</ul>
+<p>组件内部所需的渲染数据都已经绑定在了 props 上，直接获取即可。</p>
+<p><strong>需要注意的是</strong>，在事件监听中触发 Action，需要用一个匿名函数封装，否则 React 在渲染时就会执行事件绑定事件，而不是当事件发生再执行。</p>
+<pre><code class="js">render() &#123;
+  let &#123; dispatch, propA, propB &#125; = this.props;
+
+    return (
+      &lt;section&gt;
+        // Attention !!!
+        &lt;input type=&quot;text&quot; onClick=&#123;(ev) =&gt; dispatch(actionB(ev))&#125; /&gt;
+        &lt;p className=&#123;propA&#125;&gt;&#123;propB&#125;&lt;/p&gt;
+      &lt;/section&gt;
+    )
+&#125;
+</code></pre>
+<ul>
+<li><strong>容器组件传递方法</strong></li>
+</ul>
+<p>容器型组件需要连接 Redux，使用 dispatch 触发 actionCreator。</p>
+<p>展示型组件需要用到的方法调用在容器型组件内定义好，通过 props 传入到展示型组件中。</p>
+<pre><code class="js">// get actionCreator
+import &#123; actionA &#125; from &quot;./actions/actionA&quot;;
+
+class Parent extends Component &#123;
+  handleCallback(data) &#123;
+    // use dispatch
+    let &#123; dispatch &#125; = this.props;
+    dispatch(actionA(data));
+  &#125;
+  render() &#123;
+    return &lt;Child onSomethingChange=&#123;this.handleCallback&#125; /&gt;;
+  &#125;
+&#125;
+// connet Redux
+export default connect()(Parent);
+</code></pre>
+<ul>
+<li><strong>展示组件接收 props</strong></li>
+</ul>
+<p>展示型组件不需要用到 Redux 的一切，它的 props 仅仅存在于父级传入的数据和方法。</p>
+<pre><code class="js">// don&#39;t need action/dispatch/connect
+class Child extends Component &#123;
+  handleSomething(data) &#123;
+    // handle anything with props
+    this.props.onSomethingChange(data);
+  &#125;
+  render() &#123;
+    return (
+      // just markup &amp; style
+      &lt;input onChange=&#123;handleSomething&#125; /&gt;
+    );
+  &#125;
+&#125;
+</code></pre>
+<h1 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h1><p>图示箭头代表各概念之间的相互关系，不代表数据流。（ 能理解下面这张图，这篇文章就没白看了 -。- ）</p>
+<p><img data-src="//img.leense.site/post/2016/08/201608080930-1.png"></p>
+<p><strong>参考文档</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://redux.js.org/?spm=5176.100239.blogcont58700.11.nE2wTr">Redux 英文文档</a></li>
+<li><a target="_blank" rel="noopener" href="http://cn.redux.js.org/index.html?spm=5176.100239.blogcont58700.12.nE2wTr">Redux 中文文档</a></li>
+</ul>
+<p>END.</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/React/" rel="tag"># React</a>
+              <a href="/tags/Redux/" rel="tag"># Redux</a>
+              <a href="/tags/Web/" rel="tag"># Web</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2016/06/jetbrains-with-me/" rel="prev" title="我与JetBrains">
+                  <i class="fa fa-chevron-left"></i> 我与JetBrains
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2016/11/linux-mint-use/" rel="next" title="Ubuntu日常问题搜集和解决办法">
+                  Ubuntu日常问题搜集和解决办法 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">依山慕雪</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.5.0/pjax.min.js" integrity="sha256-3NkoLDrmHLTYj7csHIZSr0MHAFTXth7Ua/DDt4MRUAg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js" integrity="sha256-EdPgYcPk/IIrw7FYeuJQexva49pVRZNmt3LculEr7zM=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lozad@1.16.0/dist/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+  
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/quicklink@2.2.0/dist/quicklink.umd.js" integrity="sha256-4kQf9z5ntdQrzsBC3YSHnEz02Z9C1UeW/E9OgnvlzSY=" crossorigin="anonymous"></script>
+  <script class="next-config" data-name="quicklink" type="application/json">{"enable":true,"home":true,"archive":true,"delay":true,"timeout":3000,"priority":true,"url":"https://laysan.site/2016/08/react-redux/"}</script>
+  <script src="/js/third-party/quicklink.js"></script>
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"lslvxy","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

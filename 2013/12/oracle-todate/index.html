@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://gitee.com/lslvxy/pics/raw/master/blog/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://gitee.com/lslvxy/pics/raw/master/blog/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://gitee.com/lslvxy/pics/raw/master/blog/favicon.ico">
+  <link rel="mask-icon" href="https://gitee.com/lslvxy/pics/raw/master/blog/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"laysan.site","root":"/","images":"/images","scheme":"Gemini","version":"8.7.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="Oracle中TO_DATE的用法，包括时间格式化以及常用的时间相关函数和方法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Oracle中TO_DATE用法">
+<meta property="og:url" content="https://laysan.site/2013/12/oracle-todate/index.html">
+<meta property="og:site_name" content="新生代农民工">
+<meta property="og:description" content="Oracle中TO_DATE的用法，包括时间格式化以及常用的时间相关函数和方法。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2013-12-04T02:46:00.000Z">
+<meta property="article:modified_time" content="2021-04-21T08:06:03.000Z">
+<meta property="article:author" content="依山慕雪">
+<meta property="article:tag" content="oracle">
+<meta property="article:tag" content="日期">
+<meta property="article:tag" content="to_date">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://laysan.site/2013/12/oracle-todate/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://laysan.site/2013/12/oracle-todate/","path":"2013/12/oracle-todate/","title":"Oracle中TO_DATE用法"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Oracle中TO_DATE用法 | 新生代农民工</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-87346390-1"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-87346390-1","only_pageview":false}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="新生代农民工" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">新生代农民工</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">依山慕雪的个人博客</p>
+      <img class="custom-logo-image" src="https://gitee.com/lslvxy/pics/raw/master/blog/logo.png" alt="新生代农民工">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%92%8C%E6%97%B6%E9%97%B4%E4%BA%92%E8%BD%AC"><span class="nav-number">2.</span> <span class="nav-text">2. 字符串和时间互转</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E6%B1%82%E6%9F%90%E5%A4%A9%E6%98%AF%E6%98%9F%E6%9C%9F%E5%87%A0"><span class="nav-number">3.</span> <span class="nav-text">3.求某天是星期几</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-%E4%B8%A4%E4%B8%AA%E6%97%A5%E6%9C%9F%E9%97%B4%E7%9A%84%E5%A4%A9%E6%95%B0"><span class="nav-number">4.</span> <span class="nav-text">4. 两个日期间的天数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-%E6%97%B6%E9%97%B4%E4%B8%BAnull%E7%9A%84%E7%94%A8%E6%B3%95"><span class="nav-number">5.</span> <span class="nav-text">5. 时间为null的用法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-%E6%9C%88%E4%BB%BD%E5%B7%AE"><span class="nav-number">6.</span> <span class="nav-text">6.月份差</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-%E6%97%A5%E6%9C%9F%E6%A0%BC%E5%BC%8F%E5%86%B2%E7%AA%81%E9%97%AE%E9%A2%98"><span class="nav-number">7.</span> <span class="nav-text">7. 日期格式冲突问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-%E6%9F%A5%E8%AF%A2%E7%89%B9%E6%AE%8A%E6%9D%A1%E4%BB%B6%E5%A4%A9%E6%95%B0"><span class="nav-number">8.</span> <span class="nav-text">8.查询特殊条件天数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9-%E6%9F%A5%E6%89%BE%E6%9C%88%E4%BB%BD"><span class="nav-number">9.</span> <span class="nav-text">9. 查找月份</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#10-Next-day%E7%9A%84%E7%94%A8%E6%B3%95"><span class="nav-number">10.</span> <span class="nav-text">10. Next_day的用法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#11-%E8%8E%B7%E5%BE%97%E5%B0%8F%E6%97%B6%E6%95%B0"><span class="nav-number">11.</span> <span class="nav-text">11.获得小时数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#12-%E5%B9%B4%E6%9C%88%E6%97%A5%E7%9A%84%E5%A4%84%E7%90%86"><span class="nav-number">12.</span> <span class="nav-text">12.年月日的处理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#13-%E5%A4%84%E7%90%86%E6%9C%88%E4%BB%BD%E5%A4%A9%E6%95%B0%E4%B8%8D%E5%AE%9A%E7%9A%84%E5%8A%9E%E6%B3%95"><span class="nav-number">13.</span> <span class="nav-text">13.处理月份天数不定的办法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#14-%E6%89%BE%E5%87%BA%E4%BB%8A%E5%B9%B4%E7%9A%84%E5%A4%A9%E6%95%B0"><span class="nav-number">14.</span> <span class="nav-text">14.找出今年的天数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#15-yyyy%E4%B8%8Errrr%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">15.</span> <span class="nav-text">15.yyyy与rrrr的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#16-%E4%B8%8D%E5%90%8C%E6%97%B6%E5%8C%BA%E7%9A%84%E5%A4%84%E7%90%86"><span class="nav-number">16.</span> <span class="nav-text">16.不同时区的处理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#17-5%E7%A7%92%E9%92%9F%E4%B8%80%E4%B8%AA%E9%97%B4%E9%9A%94"><span class="nav-number">17.</span> <span class="nav-text">17. 5秒钟一个间隔</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#18-%E4%B8%80%E5%B9%B4%E7%9A%84%E7%AC%AC%E5%87%A0%E5%A4%A9"><span class="nav-number">18.</span> <span class="nav-text">18.一年的第几天</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#19-%E8%AE%A1%E7%AE%97%E5%B0%8F%E6%97%B6-%E5%88%86-%E7%A7%92-%E6%AF%AB%E7%A7%92"><span class="nav-number">19.</span> <span class="nav-text">19.计算小时,分,秒,毫秒</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#20-next-day%E5%87%BD%E6%95%B0"><span class="nav-number">20.</span> <span class="nav-text">20.next_day函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#21-round-%E8%88%8D%E5%85%A5%E5%88%B0%E6%9C%80%E6%8E%A5%E8%BF%91%E7%9A%84%E6%97%A5%E6%9C%9F"><span class="nav-number">21.</span> <span class="nav-text">21.round[舍入到最接近的日期]</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#22-trunc-%E6%88%AA%E6%96%AD%E5%88%B0%E6%9C%80%E6%8E%A5%E8%BF%91%E7%9A%84%E6%97%A5%E6%9C%9F-%E5%8D%95%E4%BD%8D%E4%B8%BA%E5%A4%A9-%E8%BF%94%E5%9B%9E%E7%9A%84%E6%98%AF%E6%97%A5%E6%9C%9F%E7%B1%BB%E5%9E%8B"><span class="nav-number">22.</span> <span class="nav-text">22.trunc[截断到最接近的日期,单位为天] ,返回的是日期类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#23-%E8%BF%94%E5%9B%9E%E6%97%A5%E6%9C%9F%E5%88%97%E8%A1%A8%E4%B8%AD%E6%9C%80%E6%99%9A%E6%97%A5%E6%9C%9F"><span class="nav-number">23.</span> <span class="nav-text">23.返回日期列表中最晚日期</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#24-%E8%AE%A1%E7%AE%97%E6%97%B6%E9%97%B4%E5%B7%AE"><span class="nav-number">24.</span> <span class="nav-text">24.计算时间差</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#25-%E6%9B%B4%E6%96%B0%E6%97%B6%E9%97%B4"><span class="nav-number">25.</span> <span class="nav-text">25.更新时间</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#26-%E6%9F%A5%E6%89%BE%E6%9C%88%E7%9A%84%E7%AC%AC%E4%B8%80%E5%A4%A9-%E6%9C%80%E5%90%8E%E4%B8%80%E5%A4%A9"><span class="nav-number">26.</span> <span class="nav-text">26.查找月的第一天,最后一天</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-overview">
+            <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="依山慕雪"
+      src="https://gitee.com/lslvxy/pics/raw/master/blog/avatar.v1.png">
+  <p class="site-author-name" itemprop="name">依山慕雪</p>
+  <div class="site-description" itemprop="description">诗意的橙子,内涵的柚子.</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">93</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/lslvxy" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;lslvxy" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a target="_blank" rel="noopener" href="//chenguoji.com" title="&#x2F;&#x2F;chenguoji.com">陈国际</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a target="_blank" rel="noopener" href="//ystyle.top" title="&#x2F;&#x2F;ystyle.top">东方星痕</a>
+        </li>
+    </ul>
+  </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://laysan.site/2013/12/oracle-todate/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://gitee.com/lslvxy/pics/raw/master/blog/avatar.v1.png">
+      <meta itemprop="name" content="依山慕雪">
+      <meta itemprop="description" content="诗意的橙子,内涵的柚子.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新生代农民工">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Oracle中TO_DATE用法
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2013-12-04 10:46:00" itemprop="dateCreated datePublished" datetime="2013-12-04T10:46:00+08:00">2013-12-04</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-04-21 16:06:03" itemprop="dateModified" datetime="2021-04-21T16:06:03+08:00">2021-04-21</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/DataBase/" itemprop="url" rel="index"><span itemprop="name">DataBase</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2013/12/oracle-todate/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2013/12/oracle-todate/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>Oracle中TO_DATE的用法，包括时间格式化以及常用的时间相关函数和方法。</p>
+<span id="more"></span>
+<p>TO_DATE格式(以时间:2007-11-02   13:45:25为例)</p>
+<p>Year:</p>
+<pre><code>yy     two digits   两位年                显示值:07
+yyy    three digits 三位年                显示值:007
+yyyy   four digits  四位年                显示值:2007
+</code></pre>
+<p>Month:</p>
+<pre><code>mm     number       两位月               显示值:11
+mon    abbreviated  字符集表示           显示值:11月,若是英文版,显示nov
+month  spelled out  字符集表示           显示值:11月,若是英文版,显示november
+</code></pre>
+<p>Day:</p>
+<pre><code>dd     number         当月第几天         显示值:02
+ddd    number         当年第几天         显示值:02
+dy     abbreviated    当周第几天简写     显示值:星期五,若是英文版,显示fri
+day    spelled out    当周第几天全写     显示值:星期五,若是英文版,显示friday
+</code></pre>
+<p>Hour:</p>
+<pre><code>hh     two digits     12小时进制        显示值:01
+hh24   two digits     24小时进制        显示值:13
+</code></pre>
+<p>Minute:</p>
+<pre><code>mi    two digits      60进制            显示值:45```
+
+Second:
+</code></pre>
+<p>ss    two digits      60进制            显示值:25```</p>
+<p>其它</p>
+<pre><code>Q     digit           季度              显示值:4
+WW    digit           当年第几周         显示值:44
+W     digit           当月第几周         显示值:1
+</code></pre>
+<p>24小时格式下时间范围为： 0:00:00 - 23:59:59….</p>
+<p>12小时格式下时间范围为： 1:00:00 - 12:59:59….</p>
+<h4 id=""><a href="#" class="headerlink" title=""></a></h4><ol>
+<li>日期和字符转换函数用法（to_date,to_char）</li>
+</ol>
+<pre><code class="sql">select to_char(sysdate,&#39;yyyy-mm-dd hh24:mi:ss&#39;) as nowTime from dual;   //日期转化为字符串  
+select to_char(sysdate,&#39;yyyy&#39;)  as nowYear   from dual;   //获取时间的年  
+select to_char(sysdate,&#39;mm&#39;)    as nowMonth  from dual;   //获取时间的月  
+select to_char(sysdate,&#39;dd&#39;)    as nowDay    from dual;   //获取时间的日  
+select to_char(sysdate,&#39;hh24&#39;)  as nowHour   from dual;   //获取时间的时  
+select to_char(sysdate,&#39;mi&#39;)    as nowMinute from dual;   //获取时间的分  
+select to_char(sysdate,&#39;ss&#39;)    as nowSecond from dual;   //获取时间的秒
+</code></pre>
+<h4 id="2-字符串和时间互转"><a href="#2-字符串和时间互转" class="headerlink" title="2. 字符串和时间互转"></a>2. 字符串和时间互转</h4><pre><code class="sql">select to_date(&#39;2004-05-07 13:23:44&#39;,&#39;yyyy-mm-dd hh24:mi:ss&#39;) from dual
+select to_char( to_date(222,&#39;J&#39;),&#39;Jsp&#39;) from dual //显示Two Hundred Twenty-Two    
+</code></pre>
+<h4 id="3-求某天是星期几"><a href="#3-求某天是星期几" class="headerlink" title="3.求某天是星期几"></a>3.求某天是星期几</h4><pre><code class="sql">select to_char(to_date(&#39;2002-08-26&#39;,&#39;yyyy-mm-dd&#39;),&#39;day&#39;) from dual;     //星期一     
+select to_char(to_date(&#39;2002-08-26&#39;,&#39;yyyy-mm-dd&#39;),&#39;day&#39;,
+&#39;NLS_DATE_LANGUAGE = American&#39;) from dual;   // monday   
+//设置日期语言     
+ALTER SESSION SET NLS_DATE_LANGUAGE=&#39;AMERICAN&#39;;     
+//也可以这样     
+TO_DATE (&#39;2002-08-26&#39;, &#39;YYYY-mm-dd&#39;, &#39;NLS_DATE_LANGUAGE = American&#39;)    
+</code></pre>
+<h4 id="4-两个日期间的天数"><a href="#4-两个日期间的天数" class="headerlink" title="4. 两个日期间的天数"></a>4. 两个日期间的天数</h4><pre><code class="sql">select floor(sysdate - to_date(&#39;20020405&#39;,&#39;yyyymmdd&#39;)) from dual;
+</code></pre>
+<h4 id="5-时间为null的用法"><a href="#5-时间为null的用法" class="headerlink" title="5. 时间为null的用法"></a>5. 时间为null的用法</h4><pre><code class="sql">select id, active_date from table1     
+UNION     
+select 1, TO_DATE(null) from dual;  //注意要用TO_DATE(null)    
+</code></pre>
+<h4 id="6-月份差"><a href="#6-月份差" class="headerlink" title="6.月份差"></a>6.月份差</h4><pre><code class="sql">a_date between to_date(&#39;20011201&#39;,&#39;yyyymmdd&#39;) and to_date(&#39;20011231&#39;,&#39;yyyymmdd&#39;)     
+//那么12月31号中午12点之后和12月1号的12点之前是不包含在这个范围之内的。     
+//所以，当时间需要精确的时候，觉得to_char还是必要的
+</code></pre>
+<h4 id="7-日期格式冲突问题"><a href="#7-日期格式冲突问题" class="headerlink" title="7. 日期格式冲突问题"></a>7. 日期格式冲突问题</h4><p>输入的格式要看你安装的ORACLE字符集的类型, 比如: US7ASCII, date格式的类型就是: ‘01-Jan-01’  </p>
+<pre><code class="sql">alter system set NLS_DATE_LANGUAGE = American     
+alter session set NLS_DATE_LANGUAGE = American     
+//或者在to_date中写     
+select to_char(to_date(&#39;2002-08-26&#39;,&#39;yyyy-mm-dd&#39;),
+   &#39;day&#39;,&#39;NLS_DATE_LANGUAGE = American&#39;) from dual;     
+//注意我这只是举了NLS_DATE_LANGUAGE，当然还有很多，可查看     
+select * from nls_session_parameters     
+select * from V$NLS_PARAMETERS    
+</code></pre>
+<h4 id="8-查询特殊条件天数"><a href="#8-查询特殊条件天数" class="headerlink" title="8.查询特殊条件天数"></a>8.查询特殊条件天数</h4><pre><code class="sql">select count(*)     
+from ( select rownum-1 rnum     
+   from all_objects     
+   where rownum &lt;= to_date(&#39;2002-02-28&#39;,&#39;yyyy-mm-dd&#39;) - to_date(&#39;2002-     
+   02-01&#39;,&#39;yyyy-mm-dd&#39;)+1     
+  )     
+where to_char( to_date(&#39;2002-02-01&#39;,&#39;yyyy-mm-dd&#39;)+rnum-1, &#39;D&#39; )     
+    not in ( &#39;1&#39;, &#39;7&#39; )     
+
+//查找2002-02-28至2002-02-01间除星期一和七的天数     
+//在前后分别调用DBMS_UTILITY.GET_TIME, 让后将结果相减(得到的是1/100秒, 而不是毫秒).    
+</code></pre>
+<h4 id="9-查找月份"><a href="#9-查找月份" class="headerlink" title="9. 查找月份"></a>9. 查找月份</h4><pre><code class="sql">select months_between(to_date(&#39;01-31-1999&#39;,&#39;MM-DD-YYYY&#39;),
+to_date(&#39;12-31-1998&#39;,&#39;MM-DD-YYYY&#39;)) &quot;MONTHS&quot; FROM DUAL;     
+//结果为：1     
+select months_between(to_date(&#39;02-01-1999&#39;,&#39;MM-DD-YYYY&#39;),
+to_date(&#39;12-31-1998&#39;,&#39;MM-DD-YYYY&#39;)) &quot;MONTHS&quot; FROM DUAL;     
+//结果为：1.03225806451613
+</code></pre>
+<h4 id="10-Next-day的用法"><a href="#10-Next-day的用法" class="headerlink" title="10. Next_day的用法"></a>10. Next_day的用法</h4><pre><code class="sql">Next_day(date, day)     
+Monday-Sunday, for format code DAY     
+Mon-Sun, for format code DY     
+1-7, for format code D    
+</code></pre>
+<h4 id="11-获得小时数"><a href="#11-获得小时数" class="headerlink" title="11.获得小时数"></a>11.获得小时数</h4><pre><code class="sql">//extract()找出日期或间隔值的字段值
+SELECT EXTRACT(HOUR FROM TIMESTAMP &#39;2001-02-16 2:38:40&#39;) from offer     
+select sysdate ,to_char(sysdate,&#39;hh&#39;) from dual;     
+
+SYSDATE               TO_CHAR(SYSDATE,&#39;HH&#39;)     
+--      
+2003-10-13 19:35:21   07     
+
+select sysdate ,to_char(sysdate,&#39;hh24&#39;) from dual;     
+
+SYSDATE               TO_CHAR(SYSDATE,&#39;HH24&#39;)     
+-- --     
+2003-10-13 19:35:21   19    
+</code></pre>
+<h4 id="12-年月日的处理"><a href="#12-年月日的处理" class="headerlink" title="12.年月日的处理"></a>12.年月日的处理</h4><pre><code class="sql">SELECT
+  older_date,
+  newer_date,
+  years,
+  months,
+  ABS (
+    TRUNC (
+      newer_date - ADD_MONTHS (older_date, years * 12 + months)
+    )
+  ) days
+FROM
+  (
+    SELECT
+      TRUNC (
+        MONTHS_BETWEEN (newer_date, older_date) / 12
+      ) YEARS,
+      MOD (
+        TRUNC (
+          MONTHS_BETWEEN (newer_date, older_date)
+        ),
+        12
+      ) MONTHS,
+      newer_date,
+      older_date
+    FROM
+      (
+        SELECT
+          hiredate older_date,
+          ADD_MONTHS (hiredate, ROWNUM) + ROWNUM newer_date
+        FROM
+          emp
+      )
+  )   
+</code></pre>
+<h4 id="13-处理月份天数不定的办法"><a href="#13-处理月份天数不定的办法" class="headerlink" title="13.处理月份天数不定的办法"></a>13.处理月份天数不定的办法</h4><pre><code class="sql">select to_char(add_months(last_day(sysdate) +1, -2), &#39;yyyymmdd&#39;),
+    last_day(sysdate) from dual    
+</code></pre>
+<h4 id="14-找出今年的天数"><a href="#14-找出今年的天数" class="headerlink" title="14.找出今年的天数"></a>14.找出今年的天数</h4><pre><code class="sql">select add_months(trunc(sysdate,&#39;year&#39;), 12) - trunc(sysdate,&#39;year&#39;) from dual    
+//闰年的处理方法     
+to_char( last_day( to_date(&#39;02&#39;    | | :year,&#39;mmyyyy&#39;) ), &#39;dd&#39; )     
+//如果是28就不是闰年
+</code></pre>
+<h4 id="15-yyyy与rrrr的区别"><a href="#15-yyyy与rrrr的区别" class="headerlink" title="15.yyyy与rrrr的区别"></a>15.yyyy与rrrr的区别</h4><pre><code class="sql">YYYY99  TO_C     
+
+yyyy 99 0099     
+rrrr 99 1999     
+yyyy 01 0001     
+rrrr 01 2001   
+</code></pre>
+<h4 id="16-不同时区的处理"><a href="#16-不同时区的处理" class="headerlink" title="16.不同时区的处理"></a>16.不同时区的处理</h4><pre><code class="sql">select to_char( NEW_TIME( sysdate, &#39;GMT&#39;,&#39;EST&#39;), &#39;dd/mm/yyyy hh:mi:ss&#39;) ,
+sysdate   from dual;    
+</code></pre>
+<h4 id="17-5秒钟一个间隔"><a href="#17-5秒钟一个间隔" class="headerlink" title="17. 5秒钟一个间隔"></a>17. 5秒钟一个间隔</h4><pre><code class="sql">Select TO_DATE(FLOOR(TO_CHAR(sysdate,&#39;SSSSS&#39;)/300) * 300,&#39;SSSSS&#39;) ,
+TO_CHAR(sysdate,&#39;SSSSS&#39;)   from dual    
+//2002-11-1 9:55:00 35786     
+//SSSSS表示5位秒数    
+</code></pre>
+<h4 id="18-一年的第几天"><a href="#18-一年的第几天" class="headerlink" title="18.一年的第几天"></a>18.一年的第几天</h4><pre><code class="sql">select TO_CHAR(SYSDATE,&#39;DDD&#39;),sysdate from dual   
+//310  2002-11-6 10:03:51    
+</code></pre>
+<h4 id="19-计算小时-分-秒-毫秒"><a href="#19-计算小时-分-秒-毫秒" class="headerlink" title="19.计算小时,分,秒,毫秒"></a>19.计算小时,分,秒,毫秒</h4><pre><code class="sql">SELECT
+  Days,
+  A,
+  TRUNC (A * 24) Hours,
+  TRUNC (A * 24 * 60 - 60 * TRUNC(A * 24)) Minutes,
+  TRUNC (
+    A * 24 * 60 * 60 - 60 * TRUNC (A * 24 * 60)
+  ) Seconds,
+  TRUNC (
+    A * 24 * 60 * 60 * 100 - 100 * TRUNC (A * 24 * 60 * 60)
+  ) mSeconds
+FROM
+  (
+    SELECT
+      TRUNC (SYSDATE) Days,
+      SYSDATE - TRUNC (SYSDATE) A
+    FROM
+      dual
+  ) SELECT
+    *
+  FROM
+    tabname
+  ORDER BY
+    DECODE (MODE, &#39;FIFO&#39;, 1 ,- 1) * TO_CHAR (rq, &#39;yyyymmddhh24miss&#39;)
+
+//   floor((date2-date1) /365) 作为年     
+//  floor((date2-date1, 365) /30) 作为月     
+//  d(mod(date2-date1, 365), 30)作为日.
+</code></pre>
+<h4 id="20-next-day函数"><a href="#20-next-day函数" class="headerlink" title="20.next_day函数"></a>20.next_day函数</h4><pre><code class="sql">//返回下个星期的日期,day为1-7或星期日-星期六,1表示星期日
+next_day(sysdate,6)是从当前开始下一个星期五。后面的数字是从星期日开始算起。     
+// 1  2  3  4  5  6  7     
+//日 一 二 三 四 五 六   
+select (sysdate-to_date(&#39;2003-12-03 12:55:45&#39;,&#39;yyyy-mm-dd hh24:mi:ss&#39;))*24*60*60 from dual
+//日期 返回的是天 然后 转换为ss
+</code></pre>
+<h4 id="21-round-舍入到最接近的日期"><a href="#21-round-舍入到最接近的日期" class="headerlink" title="21.round[舍入到最接近的日期]"></a>21.round[舍入到最接近的日期]</h4><pre><code class="sql">select sysdate S1,
+round(sysdate) S2 ,
+round(sysdate,&#39;year&#39;) YEAR,
+round(sysdate,&#39;month&#39;) MONTH ,
+round(sysdate,&#39;day&#39;) DAY from dual
+</code></pre>
+<h4 id="22-trunc-截断到最接近的日期-单位为天-返回的是日期类型"><a href="#22-trunc-截断到最接近的日期-单位为天-返回的是日期类型" class="headerlink" title="22.trunc[截断到最接近的日期,单位为天] ,返回的是日期类型"></a>22.trunc[截断到最接近的日期,单位为天] ,返回的是日期类型</h4><pre><code class="sql">select sysdate S1,                    
+   trunc(sysdate) S2,                 //返回当前日期,无时分秒
+   trunc(sysdate,&#39;year&#39;) YEAR,        //返回当前年的1月1日,无时分秒
+   trunc(sysdate,&#39;month&#39;) MONTH ,     //返回当前月的1日,无时分秒
+   trunc(sysdate,&#39;day&#39;) DAY           //返回当前星期的星期天,无时分秒
+ from dual
+</code></pre>
+<h4 id="23-返回日期列表中最晚日期"><a href="#23-返回日期列表中最晚日期" class="headerlink" title="23.返回日期列表中最晚日期"></a>23.返回日期列表中最晚日期</h4><pre><code class="sql">   select greatest(&#39;01-1月-04&#39;,&#39;04-1月-04&#39;,&#39;10-2月-04&#39;) from dual
+</code></pre>
+<h4 id="24-计算时间差"><a href="#24-计算时间差" class="headerlink" title="24.计算时间差"></a>24.计算时间差</h4><pre><code class="sql">     注:oracle时间差是以天数为单位,所以换算成年月,日
+      select floor(to_number(sysdate-to_date(&#39;2007-11-02 15:55:03&#39;,
+      &#39;yyyy-mm-dd hh24:mi:ss&#39;))/365) as spanYears from dual        //时间差-年
+      select ceil(moths_between(sysdate-to_date(&#39;2007-11-02 15:55:03&#39;,
+      &#39;yyyy-mm-dd hh24:mi:ss&#39;))) as spanMonths from dual           //时间差-月
+      select floor(to_number(sysdate-to_date(&#39;2007-11-02 15:55:03&#39;,
+      &#39;yyyy-mm-dd hh24:mi:ss&#39;))) as spanDays from dual             //时间差-天
+      select floor(to_number(sysdate-to_date(&#39;2007-11-02 15:55:03&#39;,
+      &#39;yyyy-mm-dd hh24:mi:ss&#39;))*24) as spanHours from dual         //时间差-时
+      select floor(to_number(sysdate-to_date(&#39;2007-11-02 15:55:03&#39;,
+      &#39;yyyy-mm-dd hh24:mi:ss&#39;))*24*60) as spanMinutes from dual    //时间差-分
+      select floor(to_number(sysdate-to_date(&#39;2007-11-02 15:55:03&#39;,
+      &#39;yyyy-mm-dd hh24:mi:ss&#39;))*24*60*60) as spanSeconds from dual //时间差-秒
+</code></pre>
+<h4 id="25-更新时间"><a href="#25-更新时间" class="headerlink" title="25.更新时间"></a>25.更新时间</h4><pre><code class="sql"> //oracle时间加减是以天数为单位,设改变量为n,所以换算成年月,日
+ select to_char(sysdate,&#39;yyyy-mm-dd hh24:mi:ss&#39;),
+    to_char(sysdate+n*365,&#39;yyyy-mm-dd hh24:mi:ss&#39;) as newTime from dual        //改变时间-年
+ select to_char(sysdate,&#39;yyyy-mm-dd hh24:mi:ss&#39;),
+     add_months(sysdate,n) as newTime from dual                                 //改变时间-月
+ select to_char(sysdate,&#39;yyyy-mm-dd hh24:mi:ss&#39;),
+     to_char(sysdate+n,&#39;yyyy-mm-dd hh24:mi:ss&#39;) as newTime from dual            //改变时间-日
+ select to_char(sysdate,&#39;yyyy-mm-dd hh24:mi:ss&#39;),
+     to_char(sysdate+n/24,&#39;yyyy-mm-dd hh24:mi:ss&#39;) as newTime from dual         //改变时间-时
+ select to_char(sysdate,&#39;yyyy-mm-dd hh24:mi:ss&#39;),
+     to_char(sysdate+n/24/60,&#39;yyyy-mm-dd hh24:mi:ss&#39;) as newTime from dual      //改变时间-分
+ select to_char(sysdate,&#39;yyyy-mm-dd hh24:mi:ss&#39;),
+     to_char(sysdate+n/24/60/60,&#39;yyyy-mm-dd hh24:mi:ss&#39;) as newTime from dual   //改变时间-秒
+</code></pre>
+<h4 id="26-查找月的第一天-最后一天"><a href="#26-查找月的第一天-最后一天" class="headerlink" title="26.查找月的第一天,最后一天"></a>26.查找月的第一天,最后一天</h4><pre><code class="sql">     SELECT Trunc(Trunc(SYSDATE, &#39;MONTH&#39;) - 1, &#39;MONTH&#39;) First_Day_Last_Month,
+       Trunc(SYSDATE, &#39;MONTH&#39;) - 1 / 86400 Last_Day_Last_Month,
+       Trunc(SYSDATE, &#39;MONTH&#39;) First_Day_Cur_Month,
+       LAST_DAY(Trunc(SYSDATE, &#39;MONTH&#39;)) + 1 - 1 / 86400 Last_Day_Cur_Month
+   FROM dual;
+</code></pre>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/oracle/" rel="tag"># oracle</a>
+              <a href="/tags/%E6%97%A5%E6%9C%9F/" rel="tag"># 日期</a>
+              <a href="/tags/to-date/" rel="tag"># to_date</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2013/12/java-jc30/" rel="prev" title="JAVA基础：JAVA代码编写的30条建议">
+                  <i class="fa fa-chevron-left"></i> JAVA基础：JAVA代码编写的30条建议
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2013/12/maven-plugins/" rel="next" title="常用Maven插件介绍">
+                  常用Maven插件介绍 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">依山慕雪</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.5.0/pjax.min.js" integrity="sha256-3NkoLDrmHLTYj7csHIZSr0MHAFTXth7Ua/DDt4MRUAg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js" integrity="sha256-EdPgYcPk/IIrw7FYeuJQexva49pVRZNmt3LculEr7zM=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lozad@1.16.0/dist/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+  
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/quicklink@2.2.0/dist/quicklink.umd.js" integrity="sha256-4kQf9z5ntdQrzsBC3YSHnEz02Z9C1UeW/E9OgnvlzSY=" crossorigin="anonymous"></script>
+  <script class="next-config" data-name="quicklink" type="application/json">{"enable":true,"home":true,"archive":true,"delay":true,"timeout":3000,"priority":true,"url":"https://laysan.site/2013/12/oracle-todate/"}</script>
+  <script src="/js/third-party/quicklink.js"></script>
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"lslvxy","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

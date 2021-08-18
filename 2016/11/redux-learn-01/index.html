@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://gitee.com/lslvxy/pics/raw/master/blog/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://gitee.com/lslvxy/pics/raw/master/blog/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://gitee.com/lslvxy/pics/raw/master/blog/favicon.ico">
+  <link rel="mask-icon" href="https://gitee.com/lslvxy/pics/raw/master/blog/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"laysan.site","root":"/","images":"/images","scheme":"Gemini","version":"8.7.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="如果将React比喻成士兵的话，你的程序还需要一位将军，去管理士兵（的状态），而Redux恰好是一位好将军，简单高效； 相比起React的学习曲线，Redux的稍微平坦一些；本系列教程，将以“红绿灯”为示例贯穿整个demo，希望能让用户快速理解&amp;学习Redux。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redux教程1：环境搭建，初写Redux">
+<meta property="og:url" content="https://laysan.site/2016/11/redux-learn-01/index.html">
+<meta property="og:site_name" content="新生代农民工">
+<meta property="og:description" content="如果将React比喻成士兵的话，你的程序还需要一位将军，去管理士兵（的状态），而Redux恰好是一位好将军，简单高效； 相比起React的学习曲线，Redux的稍微平坦一些；本系列教程，将以“红绿灯”为示例贯穿整个demo，希望能让用户快速理解&amp;学习Redux。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gw.alicdn.com/tps/TB1HYmUKVXXXXXhXXXXXXXXXXXX-224-316.gif">
+<meta property="og:image" content="https://gw.alicdn.com/tps/TB1lE1DKVXXXXaDXFXXXXXXXXXX-170-352.jpg">
+<meta property="og:image" content="https://gw.alicdn.com/tps/TB1HK1IKVXXXXbRXpXXXXXXXXXX-1043-623.jpg">
+<meta property="og:image" content="https://gw.alicdn.com/tps/TB1PEqxKVXXXXXuXVXXXXXXXXXX-1556-817.jpg">
+<meta property="og:image" content="https://gw.alicdn.com/tps/TB1n_uzKVXXXXXBXVXXXXXXXXXX-912-388.jpg">
+<meta property="article:published_time" content="2016-11-13T01:30:00.000Z">
+<meta property="article:modified_time" content="2021-04-21T08:06:03.000Z">
+<meta property="article:author" content="依山慕雪">
+<meta property="article:tag" content="React">
+<meta property="article:tag" content="Redux">
+<meta property="article:tag" content="Web">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gw.alicdn.com/tps/TB1HYmUKVXXXXXhXXXXXXXXXXXX-224-316.gif">
+
+
+<link rel="canonical" href="https://laysan.site/2016/11/redux-learn-01/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://laysan.site/2016/11/redux-learn-01/","path":"2016/11/redux-learn-01/","title":"Redux教程1：环境搭建，初写Redux"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Redux教程1：环境搭建，初写Redux | 新生代农民工</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-87346390-1"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-87346390-1","only_pageview":false}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="新生代农民工" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">新生代农民工</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">依山慕雪的个人博客</p>
+      <img class="custom-logo-image" src="https://gitee.com/lslvxy/pics/raw/master/blog/logo.png" alt="新生代农民工">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81Redux%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">1、Redux简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81%E6%96%87%E4%BB%B6%E5%A4%B9%E7%BB%93%E6%9E%84"><span class="nav-number">2.</span> <span class="nav-text">2、文件夹结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1%E3%80%81%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96"><span class="nav-number">2.1.</span> <span class="nav-text">2.1、安装依赖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2%E3%80%81%E9%85%8D%E7%BD%AE%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83"><span class="nav-number">2.2.</span> <span class="nav-text">2.2、配置开发环境</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3%E3%80%81%E5%BC%80%E5%A7%8BRedux%E5%90%A7"><span class="nav-number">3.</span> <span class="nav-text">3、开始Redux吧</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1%E3%80%81Actions"><span class="nav-number">3.1.</span> <span class="nav-text">3.1、Actions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2%E3%80%81Reducer"><span class="nav-number">3.2.</span> <span class="nav-text">3.2、Reducer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3%E3%80%81Store"><span class="nav-number">3.3.</span> <span class="nav-text">3.3、Store</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4%E3%80%81%E6%A3%80%E6%9F%A5%E8%83%BD%E5%90%A6%E8%BF%90%E8%A1%8C"><span class="nav-number">4.</span> <span class="nav-text">4、检查能否运行</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1%E3%80%81%E7%BC%96%E5%86%99demo%E6%96%87%E4%BB%B6"><span class="nav-number">4.1.</span> <span class="nav-text">4.1、编写demo文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2%E3%80%81%E7%BC%96%E5%86%99view%E6%A8%A1%E6%9D%BF"><span class="nav-number">4.2.</span> <span class="nav-text">4.2、编写view模板</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3%E3%80%81%E6%9F%A5%E7%9C%8B%E7%BB%93%E6%9E%9C"><span class="nav-number">4.3.</span> <span class="nav-text">4.3、查看结果</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5%E3%80%81%E6%80%BB%E7%BB%93"><span class="nav-number">5.</span> <span class="nav-text">5、总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-overview">
+            <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="依山慕雪"
+      src="https://gitee.com/lslvxy/pics/raw/master/blog/avatar.v1.png">
+  <p class="site-author-name" itemprop="name">依山慕雪</p>
+  <div class="site-description" itemprop="description">诗意的橙子,内涵的柚子.</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">93</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/lslvxy" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;lslvxy" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a target="_blank" rel="noopener" href="//chenguoji.com" title="&#x2F;&#x2F;chenguoji.com">陈国际</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a target="_blank" rel="noopener" href="//ystyle.top" title="&#x2F;&#x2F;ystyle.top">东方星痕</a>
+        </li>
+    </ul>
+  </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://laysan.site/2016/11/redux-learn-01/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://gitee.com/lslvxy/pics/raw/master/blog/avatar.v1.png">
+      <meta itemprop="name" content="依山慕雪">
+      <meta itemprop="description" content="诗意的橙子,内涵的柚子.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新生代农民工">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Redux教程1：环境搭建，初写Redux
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2016-11-13 09:30:00" itemprop="dateCreated datePublished" datetime="2016-11-13T09:30:00+08:00">2016-11-13</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-04-21 16:06:03" itemprop="dateModified" datetime="2021-04-21T16:06:03+08:00">2021-04-21</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Web/" itemprop="url" rel="index"><span itemprop="name">Web</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2016/11/redux-learn-01/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/11/redux-learn-01/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>如果将React比喻成士兵的话，你的程序还需要一位将军，去管理士兵（的状态），而Redux恰好是一位好将军，简单高效；</p>
+<p>相比起React的学习曲线，Redux的稍微平坦一些；本系列教程，将以“红绿灯”为示例贯穿整个demo，希望能让用户快速理解&amp;学习Redux。</p>
+<span id="more"></span>
+
+<p>强烈推荐 <a target="_blank" rel="noopener" href="http://camsong.github.io/redux-in-chinese/index.html">Redux 中文文档</a>，本redux教程所有的材料和思路都来源于此；</p>
+<p>这个系列拆分成3篇文章，最后获得的效果图为：</p>
+<p><a target="_blank" rel="noopener" href="https://gw.alicdn.com/tps/TB1HYmUKVXXXXXhXXXXXXXXXXXX-224-316.gif"><img data-src="https://gw.alicdn.com/tps/TB1HYmUKVXXXXXhXXXXXXXXXXXX-224-316.gif" alt="result" title="result"></a><br>（这个是gif图，如果没动画请点击在新窗口打开）</p>
+<p>红绿灯初始状态是 #绿灯5s#，继而循环 #黄灯3s# -&gt; #红灯7s# -&gt; #绿灯5s# -&gt; #黄灯3s# -&gt; …</p>
+<h2 id="1、Redux简介"><a href="#1、Redux简介" class="headerlink" title="1、Redux简介"></a>1、Redux简介</h2><p>在Redux中，最为核心的概念就是 <code>state</code>、<code>action</code> 、<code>reducer</code> 以及 <code>store</code>，单词大家都懂，就是初学者不知道该怎么用。</p>
+<p>以常见的红路灯为例，将其应用到Redux中：</p>
+<ul>
+<li>  <code>action</code>：就是灯的变化，”红变绿”等，用名词表述</li>
+<li>  <code>state</code>：就是灯的名字，红灯、绿灯等，用名词表述</li>
+<li>  <code>reducer</code>：就是灯的变化规则，红灯之后是绿灯等，用状态转移表述，归根到底也是名词</li>
+<li>  <code>store</code>：就像是交警，执行上述的交通规则；</li>
+</ul>
+<p>简单的说，Redux所想表达的就是这些内容，所以它的学习曲线不会很陡。对于程序员来讲，阅读代码会比阅读文字舒服，那么我们如何简单地用redux实现。</p>
+<h2 id="2、文件夹结构"><a href="#2、文件夹结构" class="headerlink" title="2、文件夹结构"></a>2、文件夹结构</h2><h3 id="2-1、安装依赖"><a href="#2-1、安装依赖" class="headerlink" title="2.1、安装依赖"></a>2.1、安装依赖</h3><p>创建符合redux风格的文件夹结构：</p>
+<pre><code class="js">mkdir actions constants components layouts reducers stores tests views
+touch server.js index.js webpack.config.js
+</code></pre>
+<p>这些文件夹结构也是借鉴自官网redux的todos示例；</p>
+<p>然后安装依赖：</p>
+<pre><code class="js">npm init
+npm install --save koa koa-handlebars koa-router react react-dom react-redux classnames
+npm install --save-dev webpack webpack-dev-server webpack-hot-middleware babel-core babel-loader babel-plugin-react-transform style-loader less-loader css-loader extract-text-webpack-plugin babel-preset-es2015 babel-preset-react
+</code></pre>
+<p>最终的文件夹结构为：</p>
+<p><a target="_blank" rel="noopener" href="https://gw.alicdn.com/tps/TB1lE1DKVXXXXaDXFXXXXXXXXXX-170-352.jpg"><img data-src="https://gw.alicdn.com/tps/TB1lE1DKVXXXXaDXFXXXXXXXXXX-170-352.jpg" alt="file structor" title="file structor"></a></p>
+<h3 id="2-2、配置开发环境"><a href="#2-2、配置开发环境" class="headerlink" title="2.2、配置开发环境"></a>2.2、配置开发环境</h3><p>这里需要启用两个服务器，一个是webpack服务器，专门用于转换代码；另外一个是web应用服务器，响应客户端的请求</p>
+<pre><code class="js">var path = require(&#39;path&#39;);
+var fs = require(&#39;fs&#39;);
+var webpack = require(&#39;webpack&#39;);
+var ExtractTextPlugin = require(&#39;extract-text-webpack-plugin&#39;);
+
+// 遍历目录
+var searchDir = [&#39;components&#39;,&#39;app&#39;]; // 需要webpack打包的目录
+var entry = &#123;&#125;;
+
+searchDir.forEach(function(dir)&#123;
+  var srcBasePath = path.join(__dirname, &#39;./&#39;, dir);
+  var files = fs.readdirSync(srcBasePath);
+  var ignore = [&#39;.DS_Store&#39;]; // 忽略某些文件夹
+  files.map(function (file) &#123;
+
+    if (ignore.indexOf(file) &lt; 0) &#123;
+      entry[dir+&#39;/&#39;+file] = path.join(srcBasePath, file, &#39;index.js&#39;);
+
+      var demofile = path.join(srcBasePath, file, &#39;demo.js&#39;);
+      if(fs.existsSync(demofile))&#123;
+        entry[dir+&#39;/&#39;+file + &#39;/demo&#39;] = demofile;
+      &#125;
+
+      var reduxfile = path.join(srcBasePath, file, &#39;redux.js&#39;);
+      if(fs.existsSync(reduxfile))&#123;
+        entry[dir+&#39;/&#39;+file + &#39;/redux&#39;] = reduxfile;
+      &#125;
+    &#125;
+
+  &#125;);
+&#125;);
+
+Object.keys(entry).forEach(function (key) &#123;
+  entry[key] = [entry[key], &#39;webpack-hot-middleware/client&#39;];
+&#125;);
+
+module.exports = &#123;
+  devtool:&#39;cheap-module-eval-source-map&#39;,
+  entry :entry,
+  output:&#123;
+    path:path.join(__dirname,&#39;dist&#39;),
+    filename:&#39;[name].js&#39;,
+    publicPath:&#39;/static/&#39;
+  &#125;,
+  plugins:[
+    new ExtractTextPlugin(&quot;[name]/index.css&quot;),
+    new webpack.optimize.OccurenceOrderPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoErrorsPlugin()
+  ],
+  module:&#123;
+    loaders:[&#123;
+      test:/\.js$/,
+      loader:&#39;babel-loader&#39;,
+      exclude:/node_modules/,
+      include:__dirname,
+      query:&#123;
+        presets: [&#39;es2015&#39;,&#39;react&#39;]
+      &#125;
+    &#125;,&#123;
+      test: /\.less$/,
+      loader: ExtractTextPlugin.extract(&#39;style-loader&#39;,&#39;css-loader!less-loader&#39;),
+      exclude: /node_modules/
+    &#125;]
+  &#125;
+&#125;
+</code></pre>
+<p>注意Babel 6的配置和上一个版本有很大的不同；详见：<a target="_blank" rel="noopener" href="http://babeljs.io/blog/2015/10/31/setting-up-babel-6/">Setting up Babel 6</a></p>
+<p>这是webpack配置项，接下来专门起一个nodejs程序提供webpack服务：</p>
+<p><code>server.js</code>：</p>
+<pre><code class="js">var webpack = require(&#39;webpack&#39;);
+var WebpackDevServer = require(&#39;webpack-dev-server&#39;);
+var config = require(&#39;./webpack.config&#39;);
+
+new WebpackDevServer(webpack(config), &#123;
+  publicPath: config.output.publicPath,
+  hot: true,
+  stats: &#123; colors: true &#125;,
+  historyApiFallback: true
+&#125;).listen(3009, &#39;localhost&#39;, function (err, result) &#123;
+  if (err) &#123;
+    console.log(err);
+  &#125;
+
+  console.log(&#39;Listening at localhost:3009&#39;);
+&#125;);
+</code></pre>
+<p>此webpack服务专门用于整合前端资源，顺带使用babel转换ES6的JS代码；这里的含义就不多说了，可以参考以前的文章 <a target="_blank" rel="noopener" href="http://www.atatech.org/articles/37601">Webpack</a>；</p>
+<p>使用koa作为web服务器，因为测试所以比较简单，用了最基本的代码快速搭建：</p>
+<pre><code class="js">var koa = require(&#39;koa&#39;);
+var router = require(&#39;koa-router&#39;)();
+var handlebars = require(&quot;koa-handlebars&quot;);
+var app = koa();
+var port = 3000;
+
+// 使用handlerbars作为模板文件
+app.use(handlebars(&#123;
+  defaultLayout: &quot;index&quot;
+&#125;));
+
+// 定义路由
+router.get(&quot;/&quot;, function *(next) &#123;
+  yield this.render(&#39;index&#39;,&#123;
+    title:&#39;Redux示例-交通灯&#39;,
+    name:&#39;交通灯示例&#39;
+  &#125;);
+&#125;);
+
+// 定义应用路由
+router.get(&#39;app&#39;,&#39;/app/:name&#39;,function*(next)&#123;
+  this.appName = this.params.name || &#39;index&#39;; // 应用名字
+
+  yield this.render(&#39;app/&#39;+this.appName,&#123;
+    title:&#39;应用&#39;,
+    filename:this.appName
+  &#125;);
+
+&#125;)
+
+// 定义demo路由
+router.get(&#39;demo&#39;,&#39;/:name/:type&#39;, function *(next) &#123;
+  this.demoName = this.params.name || &#39;demo&#39;; // 获取demo名称
+  this.demoType = this.params.type; // 获取文件类型，&#39;demo&#39; 或者 &#39;redux&#39;
+  yield this.render(this.demoName + &#39;/index&#39;,&#123;
+    title:&#39;示例&#39;,
+    filename:this.demoType
+  &#125;);
+&#125;);
+
+// 启用路由
+app
+  .use(router.routes())
+  .use(router.allowedMethods());
+
+// 监听端口
+app.listen(port, function(error) &#123;
+  if (error) &#123;
+    console.error(error)
+  &#125; else &#123;
+    console.info(&quot;==&gt;   监听端口 %s. 请在浏览器里打开 http://localhost:%s/.&quot;, port, port)
+  &#125;
+&#125;)
+</code></pre>
+<p>好了，在命令行里开启这两个服务吧：</p>
+<pre><code class="js">nodemon server.js &amp; nodemon --harmony index.js
+</code></pre>
+<p>在package.json中的<code>scripts</code>增加一条配置：<code>&quot;start&quot;: &quot;nodemon server.js &amp; nodemon --harmony index.js&quot;</code>，以后就可以使用 <code>npm start</code> 命令同时启动两个服务了；</p>
+<p>这里使用了<code>nodemon</code>应用程序，方便修改后快速启动，该程序可通过<code>npm install -g nodemon</code>安装</p>
+<h2 id="3、开始Redux吧"><a href="#3、开始Redux吧" class="headerlink" title="3、开始Redux吧"></a>3、开始Redux吧</h2><p>环境搭建好了，我们就依据最开始的设定用redux搭建红绿灯示例。</p>
+<p>先创建所需要的文件：</p>
+<pre><code class="js">mkdir actions/light reducers/light stores/light components/light
+
+touch constants/TrafficLight.js actions/light/index.js reducers/light/index.js stores/light/index.js components/light/redux.js
+</code></pre>
+<h3 id="3-1、Actions"><a href="#3-1、Actions" class="headerlink" title="3.1、Actions"></a>3.1、Actions</h3><p>Action 本质是 <em>JavaScript 普通对象</em> action 内必须使用一个 <em>字符串类型</em> 的 <code>type</code> 字段来表示将要执行的动作。多数情况下，type 会被定义成字符串常量。当应用规模越来越大时，建议使用单独的模块或文件来存放 action。</p>
+<p>在 <code>constants/TrafficLight.js</code>中定义actions的名称，使用 <code>const</code> 修饰防止被修改：</p>
+<pre><code class="js">export const CHANGE_GREEN = &#39;CHANGE_GREEN&#39;
+export const CHANGE_YELLOW = &#39;CHANGE_YELLOW&#39;
+export const CHANGE_RED = &#39;CHANGE_RED&#39;
+</code></pre>
+<p>然后在 <code>actions/light/index.js</code> 文件，定义 <em>Actions</em> 对象：</p>
+<pre><code class="js">import * as lights from &#39;../../constants/TrafficLight&#39;
+
+export function changeGreen()&#123;
+ return &#123;type:lights.CHANGE_GREEN&#125;
+&#125;
+
+export function changeYellow()&#123;
+ return &#123;type:lights.CHANGE_YELLOW&#125;
+&#125;
+
+export function changeRed()&#123;
+ return &#123;type:lights.CHANGE_RED&#125;
+&#125;
+</code></pre>
+<p>这里的 <em>{type:lights.CHANGE_GREEN}</em> 等就是Redux的 <em>action对象</em>（就是这么简单….）， 而对应的 <code>changeGreen</code>方法则称为 <em>action创建函数</em> ；</p>
+<p>详细的概念及作用请参考Redux的中文文档 <a target="_blank" rel="noopener" href="http://camsong.github.io/redux-in-chinese/docs/basics/Actions.html">Actions</a></p>
+<h3 id="3-2、Reducer"><a href="#3-2、Reducer" class="headerlink" title="3.2、Reducer"></a>3.2、Reducer</h3><p>正所谓“不以规矩，不能方圆”，万物的运作都要符合规律，Reducer 就是描述各状态之间流转的 <em>规律</em>：</p>
+<ul>
+<li>  当红灯时，过n1秒会触发 <code>CHANGE_GREEN</code> 事件，灯编程绿色的</li>
+<li>  当绿灯时，过n2秒会触发 <code>CHANGE_YELLOW</code> 事件，灯编程黄色的</li>
+<li>  当黄灯时，过n3秒会触发 <code>CHANGE_RED</code> 事件，灯编程红色的</li>
+<li>  …周而复始…</li>
+</ul>
+<p>继续在 <code>reducers/light/index.js</code>文件，描述不同等之间的转移：</p>
+<pre><code class="js">import &#123;CHANGE_GREEN, CHANGE_YELLOW, CHANGE_RED&#125; from &#39;../../constants/TrafficLight&#39;
+
+// 定义初始化状态，初始化状态是常量
+// 初始状态是红灯
+const initState = &#123;
+ color:&#39;red&#39;,
+ time:&#39;7&#39; // 持续时间20ms
+&#125;
+
+// 定义灯转换的reducer函数
+export default function light(state=initState,action)&#123;
+ switch(action.type)&#123;
+   case CHANGE_GREEN:
+     return &#123;
+       color:&#39;green&#39;,
+       time:&#39;5&#39;
+     &#125;
+
+   case CHANGE_YELLOW:
+     return &#123;
+       color:&#39;yellow&#39;,
+       time:&#39;3&#39;
+     &#125;
+
+   case CHANGE_RED:
+     return Object.assign(&#123;&#125;,initState);
+
+   default:
+     return state
+ &#125;
+&#125;
+</code></pre>
+<p>这里的<code>switch</code>语句就是典型的用于表述 <em>状态转移</em> 逻辑的代码结构，自己尝试写状态机的同学应该深有体会；</p>
+<h3 id="3-3、Store"><a href="#3-3、Store" class="headerlink" title="3.3、Store"></a>3.3、Store</h3><p>有了交规还不行，得有付诸具体行动的载体 —— 交通信号灯 才行，在 <code>stores/light/index.js</code> ：</p>
+<pre><code class="js">import &#123;createStore&#125; from &#39;redux&#39;
+import lightReducer from &#39;../../reducers/light/&#39;
+
+export default function lightStore(initState)&#123;
+ return createStore(lightReducer,initState); // 初始化创建
+&#125;
+</code></pre>
+<p>关键就那句<code>createStore</code>函数，接受 <code>reducer</code>（交通规则）和 <code>initState</code> （初始状态，灯的初始状态是红灯）作为参数；</p>
+<p>这里的 “交通信号灯” 也是一种类别，并不是具体指 “灯” —— 额，希望你能理解我想表述的…</p>
+<p>自此，恭喜你你已经成功实施了 Redux 的必要规范了，接下来我们检验一下是否正如你所愿；</p>
+<p>此节中我们先简单的实施一下，后续文章再补充细节</p>
+<h2 id="4、检查能否运行"><a href="#4、检查能否运行" class="headerlink" title="4、检查能否运行"></a>4、检查能否运行</h2><p>按照上面创建的一系列JS文件，你已经基于 <code>Redux</code> 完成了红绿灯的规则效果，那怎么检验呢？</p>
+<p>来，拿一个红绿灯过来！</p>
+<p>接通电源，给这个灯 <em>发送</em> 事件（类似于dom中的“触发事件”），假设事件的 <code>type</code> 依次是 <strong>CHANGE_GREEN</strong> 、<strong>CHANGE_GREEN</strong>，看看事件结束之后的状态是否符合期望。</p>
+<h3 id="4-1、编写demo文件"><a href="#4-1、编写demo文件" class="headerlink" title="4.1、编写demo文件"></a>4.1、编写demo文件</h3><p>编写 <code>components/light/demo.js</code>：</p>
+<pre><code class="js">import lightStore from &#39;../../stores/light&#39;
+import &#123;changeGreen, changeYellow, changeRed&#125; from &#39;../../actions/light&#39;
+
+let store = lightStore();
+
+let unsubscribe = store.subscribe(() =
+  console.log(store.getState())
+);
+
+store.dispatch(changeGreen());
+store.dispatch(changeYellow());
+store.dispatch(changeRed());
+</code></pre>
+<h3 id="4-2、编写view模板"><a href="#4-2、编写view模板" class="headerlink" title="4.2、编写view模板"></a>4.2、编写view模板</h3><p>上面的都是 <code>redux</code> 的功能代码，现在为了方便在浏览器查看，使用 <code>koa</code> 搭建一个简单的服务器；使用<code>handlerbars</code> 作为模板引擎，使用下列方式创建模板和视图</p>
+<p>在 <code>layouts/index.hbs</code> 中编写母模板，其中的 <code>&#123;@body&#125;</code> 是留给子模板填充的</p>
+<pre><code class="js">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&#123;&#123;title&#125;&#125;&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &#123;@body&#125;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>在<code>views/light/index.hbs</code>中编写子模板内容，程序会自动将里面的内容自动替换上述模板中的 <code>&#123;@body&#125;</code> 占位符：</p>
+<pre><code class="js">&lt;link rel=&quot;stylesheet&quot; href=&quot;http://localhost:3009/static/components/light/index.css&quot;&gt;
+
+&lt;h1交通灯示例&lt;/h1&gt;
+&lt;div id=&quot;demo&quot;&lt;/div&gt;
+
+&lt;script src=&quot;http://localhost:3009/static/components/light/&#123;&#123;filename&#125;&#125;.js&quot;&lt;/script&gt;
+</code></pre>
+<h3 id="4-3、查看结果"><a href="#4-3、查看结果" class="headerlink" title="4.3、查看结果"></a>4.3、查看结果</h3><p>使用<code>npm start</code>开启两个服务，在浏览器URL里输入 <code>http://localhost:3000/light/demo</code> ，打开<code>console</code>，你将看到以下字符串：</p>
+<pre><code class="js">Object &#123;color: &quot;green&quot;, time: &quot;5&quot;&#125;
+Object &#123;color: &quot;yellow&quot;, time: &quot;3&quot;&#125;
+Object &#123;color: &quot;red&quot;, time: &quot;7&quot;&#125;
+</code></pre>
+<p>你get到了什么？全程你都没有涉及到红绿灯的UI，但仿佛却有红绿灯的即视感，状态完全可控可预见！redux 其实就是帮你实现了一套状态机，且逻辑清晰。由于不涉及UI，所以非常也很利于单元测试。</p>
+<p>如果启动的时候 webpack 报错：<strong>You may need an appropriate loader to handle this file type</strong> ，请见<a target="_blank" rel="noopener" href="http://stackoverflow.com/questions/33469929/you-may-need-an-appropriate-loader-to-handle-this-file-type-with-webpack-and-b">use Webpack with Babel to compile ES6 assets,</a> 这里的解决方案，因为Babel 6是相比以前是一个重大升级，配置按模块方式加载了；</p>
+<h2 id="5、总结"><a href="#5、总结" class="headerlink" title="5、总结"></a>5、总结</h2><p> 在继续后面的章节之前，稍微整理一下上面的逻辑，使用图表描述会更加清晰些：</p>
+<p> <a target="_blank" rel="noopener" href="https://gw.alicdn.com/tps/TB1HK1IKVXXXXbRXpXXXXXXXXXX-1043-623.jpg"><img data-src="https://gw.alicdn.com/tps/TB1HK1IKVXXXXbRXpXXXXXXXXXX-1043-623.jpg" alt="light" title="light"></a></p>
+<p> 这简单的图里面还涉及到 <code>倒计时的状态</code>，此篇文章为减少复杂度，方便读者快速理解Redux的基本概念，并不牵涉倒计时的状态，后续文章示例自然会将车的状态考虑进去；</p>
+<p> 将图中的<code>Action</code> <code>Reducer</code>以及 <code>Store</code> 和上述代码对照，一切都是那么合乎逻辑，自然而然；</p>
+<p> 本文更多的是讲解如何快速上手Redux，并没有对其中的语法和概念进行过多的解释</p>
+<ul>
+<li>  一方面是语法的解释，中文文档里面的解释很全面，我没有自信能够超越它；</li>
+<li>  另一方面让新手对这些简单的代码中的陌生概念(诸如<code>combineReducers</code> <code>dispatch</code>等）产生疑惑，带着问题来探索答案，加深印象</li>
+</ul>
+<p> 这里将上述操作流程大致绘制一下：</p>
+<p> <a target="_blank" rel="noopener" href="https://gw.alicdn.com/tps/TB1PEqxKVXXXXXuXVXXXXXXXXXX-1556-817.jpg"><img data-src="https://gw.alicdn.com/tps/TB1PEqxKVXXXXXuXVXXXXXXXXXX-1556-817.jpg" alt="workflow" title="workflow"></a></p>
+<p> 顺带提及一下Redux的三大原则，看一眼就好，后续用多了自然会记住：</p>
+<p> <a target="_blank" rel="noopener" href="https://gw.alicdn.com/tps/TB1n_uzKVXXXXXBXVXXXXXXXXXX-912-388.jpg"><img data-src="https://gw.alicdn.com/tps/TB1n_uzKVXXXXXBXVXXXXXXXXXX-912-388.jpg" alt="three princel" title="three princel"></a></p>
+<p> 最后，非常推荐<code>redux</code>库，里面有很多示例可以参考，比如经典的 <code>todos</code> 例子：</p>
+<pre><code class="js">git clone https://github.com/rackt/redux.git
+
+cd redux/examples/todomvc
+npm install
+npm start
+
+open http://localhost:3000/
+</code></pre>
+<p>  该示例包含：</p>
+<ul>
+<li>  Redux 中使用两个 reducer 的方法</li>
+<li>  嵌套数据更新</li>
+<li>  测试代码</li>
+</ul>
+<p>  更多参考：<a target="_blank" rel="noopener" href="http://camsong.github.io/redux-in-chinese/docs/introduction/Examples.html">Redux示例</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/React/" rel="tag"># React</a>
+              <a href="/tags/Redux/" rel="tag"># Redux</a>
+              <a href="/tags/Web/" rel="tag"># Web</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2016/11/linux-mint-use/" rel="prev" title="Ubuntu日常问题搜集和解决办法">
+                  <i class="fa fa-chevron-left"></i> Ubuntu日常问题搜集和解决办法
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2016/11/redux-learn-02/" rel="next" title="Redux教程2：链接React">
+                  Redux教程2：链接React <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">依山慕雪</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.5.0/pjax.min.js" integrity="sha256-3NkoLDrmHLTYj7csHIZSr0MHAFTXth7Ua/DDt4MRUAg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js" integrity="sha256-EdPgYcPk/IIrw7FYeuJQexva49pVRZNmt3LculEr7zM=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lozad@1.16.0/dist/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+  
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/quicklink@2.2.0/dist/quicklink.umd.js" integrity="sha256-4kQf9z5ntdQrzsBC3YSHnEz02Z9C1UeW/E9OgnvlzSY=" crossorigin="anonymous"></script>
+  <script class="next-config" data-name="quicklink" type="application/json">{"enable":true,"home":true,"archive":true,"delay":true,"timeout":3000,"priority":true,"url":"https://laysan.site/2016/11/redux-learn-01/"}</script>
+  <script src="/js/third-party/quicklink.js"></script>
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"lslvxy","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

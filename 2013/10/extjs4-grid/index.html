@@ -1,0 +1,1240 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://gitee.com/lslvxy/pics/raw/master/blog/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://gitee.com/lslvxy/pics/raw/master/blog/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://gitee.com/lslvxy/pics/raw/master/blog/favicon.ico">
+  <link rel="mask-icon" href="https://gitee.com/lslvxy/pics/raw/master/blog/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"laysan.site","root":"/","images":"/images","scheme":"Gemini","version":"8.7.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="grid表格是extjs的核心组件之一，它提供了展示大量数据的最佳途径。Grid组件的重要特性包括：智能渲染、标准布局、数据视图、特性支持、虚拟滚动和编辑改进，这些特性共同缔造了功能强大的4.0grid组件。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ExtJs4之Grid组件">
+<meta property="og:url" content="https://laysan.site/2013/10/extjs4-grid/index.html">
+<meta property="og:site_name" content="新生代农民工">
+<meta property="og:description" content="grid表格是extjs的核心组件之一，它提供了展示大量数据的最佳途径。Grid组件的重要特性包括：智能渲染、标准布局、数据视图、特性支持、虚拟滚动和编辑改进，这些特性共同缔造了功能强大的4.0grid组件。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2013-10-17T04:30:00.000Z">
+<meta property="article:modified_time" content="2021-04-21T08:06:03.000Z">
+<meta property="article:author" content="依山慕雪">
+<meta property="article:tag" content="extjs">
+<meta property="article:tag" content="grid">
+<meta property="article:tag" content="表格">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://laysan.site/2013/10/extjs4-grid/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://laysan.site/2013/10/extjs4-grid/","path":"2013/10/extjs4-grid/","title":"ExtJs4之Grid组件"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>ExtJs4之Grid组件 | 新生代农民工</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-87346390-1"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-87346390-1","only_pageview":false}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="新生代农民工" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">新生代农民工</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">依山慕雪的个人博客</p>
+      <img class="custom-logo-image" src="https://gitee.com/lslvxy/pics/raw/master/blog/logo.png" alt="新生代农民工">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E8%A1%A8%E6%A0%BC%E9%9D%A2%E6%9D%BFgrid"><span class="nav-number">1.</span> <span class="nav-text">1、表格面板grid</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81%E8%A1%A8%E6%A0%BC%E5%88%97Column"><span class="nav-number">2.</span> <span class="nav-text">2、表格列Column</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E5%B8%83%E5%B0%94%E5%88%97Ext-grid-column-Boolean"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 布尔列Ext.grid.column.Boolean</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E6%95%B0%E5%AD%97%E5%88%97Ext-grid-column-Number"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 数字列Ext.grid.column.Number</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E6%97%A5%E6%9C%9F%E5%88%97Ext-grid-column-Date"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 日期列Ext.grid.column.Date</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-%E5%8A%A8%E4%BD%9C%E5%88%97-Ext-grid-column-Action"><span class="nav-number">2.4.</span> <span class="nav-text">2.4 动作列 Ext.grid.column.Action</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-%E6%A8%A1%E6%9D%BF%E5%88%97-Ext-grid-column-Template"><span class="nav-number">2.5.</span> <span class="nav-text">2.5 模板列 Ext.grid.column.Template</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-6-%E8%A1%8C%E5%8F%B7%E5%88%97-Ext-grid-RowNumber"><span class="nav-number">2.6.</span> <span class="nav-text">2.6 行号列 Ext.grid.RowNumber</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-7-%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B8%B2%E6%9F%93%E5%87%BD%E6%95%B0"><span class="nav-number">2.7.</span> <span class="nav-text">2.7 自定义渲染函数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3%E3%80%81%E9%80%89%E6%8B%A9%E6%A8%A1%E5%BC%8FSelection"><span class="nav-number">3.</span> <span class="nav-text">3、选择模式Selection</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E9%80%89%E6%8B%A9%E6%A8%A1%E5%BC%8FExt-selection-Model"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 选择模式Ext.selection.Model</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E5%8D%95%E5%85%83%E6%A0%BC%E9%80%89%E6%8B%A9%E6%A8%A1%E5%BC%8F-Ext-selection-CellModel"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 单元格选择模式 Ext.selection.CellModel</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-%E8%A1%8C%E9%80%89%E6%8B%A9%E6%A8%A1%E5%BC%8F-Ext-selection-RowModel"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 行选择模式 Ext.selection.RowModel</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-%E5%A4%8D%E9%80%89%E6%A1%86%E9%80%89%E6%8B%A9%E6%A8%A1%E5%BC%8F-Ext-selection-CheckboxModel"><span class="nav-number">3.4.</span> <span class="nav-text">3.4 复选框选择模式 Ext.selection.CheckboxModel</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4%E3%80%81%E8%A1%A8%E6%A0%BC%E7%89%B9%E6%80%A7-Feature"><span class="nav-number">4.</span> <span class="nav-text">4、表格特性 Feature</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-%E8%A1%A8%E6%A0%BC%E8%A1%8C%E4%BD%93-Ext-grid-feature-RowBody"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 表格行体 Ext.grid.feature.RowBody</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-%E8%A1%A8%E6%A0%BC%E6%B1%87%E6%80%BB-Ext-grid-feature-Summary"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 表格汇总 Ext.grid.feature.Summary</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-%E8%A1%A8%E6%A0%BC%E5%88%86%E7%BB%84-Ext-grid-feature-Grouping"><span class="nav-number">4.3.</span> <span class="nav-text">4.3 表格分组 Ext.grid.feature.Grouping</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-%E5%88%86%E7%BB%84%E6%B1%87%E6%80%BB-Ext-grid-feature-GroupingSummary"><span class="nav-number">4.4.</span> <span class="nav-text">4.4 分组汇总 Ext.grid.feature.GroupingSummary</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5%E3%80%81%E8%A1%A8%E6%A0%BC%E6%8F%92%E4%BB%B6plugin"><span class="nav-number">5.</span> <span class="nav-text">5、表格插件plugin</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-%E5%8D%95%E5%85%83%E6%A0%BC%E7%BC%96%E8%BE%91%E6%8F%92%E4%BB%B6-Ext-grid-plugin-CellEditing"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 单元格编辑插件 Ext.grid.plugin.CellEditing</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-%E8%A1%8C%E7%BC%96%E8%BE%91%E6%8F%92%E4%BB%B6%EF%BC%9AExt-grid-plugin-RowEditing"><span class="nav-number">5.2.</span> <span class="nav-text">5.2 行编辑插件：Ext.grid.plugin.RowEditing</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-%E6%8B%96%E6%8B%BD%E6%8F%92%E4%BB%B6%EF%BC%9A-Ext-grid-plugin-DragDrop"><span class="nav-number">5.3.</span> <span class="nav-text">5.3 拖拽插件： Ext.grid.plugin.DragDrop</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6%E3%80%81%E8%A1%A8%E6%A0%BC%E5%88%86%E9%A1%B5"><span class="nav-number">6.</span> <span class="nav-text">6、表格分页</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-overview">
+            <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="依山慕雪"
+      src="https://gitee.com/lslvxy/pics/raw/master/blog/avatar.v1.png">
+  <p class="site-author-name" itemprop="name">依山慕雪</p>
+  <div class="site-description" itemprop="description">诗意的橙子,内涵的柚子.</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">93</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/lslvxy" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;lslvxy" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a target="_blank" rel="noopener" href="//chenguoji.com" title="&#x2F;&#x2F;chenguoji.com">陈国际</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a target="_blank" rel="noopener" href="//ystyle.top" title="&#x2F;&#x2F;ystyle.top">东方星痕</a>
+        </li>
+    </ul>
+  </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://laysan.site/2013/10/extjs4-grid/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://gitee.com/lslvxy/pics/raw/master/blog/avatar.v1.png">
+      <meta itemprop="name" content="依山慕雪">
+      <meta itemprop="description" content="诗意的橙子,内涵的柚子.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新生代农民工">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          ExtJs4之Grid组件
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2013-10-17 12:30:00" itemprop="dateCreated datePublished" datetime="2013-10-17T12:30:00+08:00">2013-10-17</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-04-21 16:06:03" itemprop="dateModified" datetime="2021-04-21T16:06:03+08:00">2021-04-21</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/ExtJs/" itemprop="url" rel="index"><span itemprop="name">ExtJs</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2013/10/extjs4-grid/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2013/10/extjs4-grid/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>grid表格是extjs的核心组件之一，它提供了展示大量数据的最佳途径。Grid组件的重要特性包括：智能渲染、标准布局、数据视图、特性支持、虚拟滚动和编辑改进，这些特性共同缔造了功能强大的4.0grid组件。</p>
+<span id="more"></span>
+
+<p><strong>智能渲染</strong>：在extjs4.0之前的版本中采用了”最小公分母”的策略来支持各种丰富的特性，这种方式会对每一个表格产生大量的标签，而这些标签对于简单表格来说是不必要的，而在4.0中默认的表格只会产生很少的标签，对于复杂的功能采用附加特性的方式实现，这对于提高数据的展示速度和表格的性能起到了巨大的作用。</p>
+<p><strong>标准布局</strong>：在ExtJs4.0中改变了原来直接处理内部标签和样式的布局方式，而是将表格划分为不同的组成部分，并使他们有机结合起来，这样就统一了表格和框架的渲染流程。</p>
+<p><strong>数据视图</strong>：在ExtJs4.0中新的gridView扩展自标准的DataView数据视图，这不但减少了代码冗余并且可以更简单的进行自定义。</p>
+<p><strong>特性支持</strong>：在ExtJs4.0之前的版本可以通过插件或者继承的方式对表格组件的功能进行扩展，但是这种扩展方式很难实现功能的灵活组合。4.0中使用了性的Grid基类Ext.grid.Feature，它提供了灵活定义表格特性的基础，任何Feature类都可以修改表格模版，来装饰或改变grid视图生成的标签。在新的grid类中RowWrap、RowBody和Grouping都是通过Feature方式实现的。</p>
+<p><strong>虚拟滚动</strong>：在ExtJs4.0中原生支持了渲染时数据的缓存，提供了一个虚拟的按需加载的数据视图，grid现在可以非常容易地支持几百条甚至几千条数据展示而不需要分页，这大大改进了grid的数据处理能力。</p>
+<p><strong>编辑改进</strong>：在ExtJs4.0之前的版本中开发者不得不使用editGrid类来支持表格的编辑功能，这很大程度上限制了程序的灵活性，在ExtJs4.0中提供了全新的编辑插件，它可以应用于任何grid实例。</p>
+<h2 id="1、表格面板grid"><a href="#1、表格面板grid" class="headerlink" title="1、表格面板grid"></a>1、表格面板grid</h2><p>grid表格组件实在客户端展示大量数据的优秀途径，可以看作一个增强版的table，它使得获取、排序、过滤、分组、数据变得异常简单。</p>
+<p>grid中主要集成了两大部分，分别是用于处理数据的Store和用于渲染的Columns。</p>
+<p>下面一个简单的示例最简单的表格配置</p>
+<pre><code class="js">Ext.onReady(function()&#123;
+        //创建表格数据
+        var datas = [
+            [100,&#39;张三&#39;,24],
+            [200,&#39;李四&#39;,30],
+            [300,&#39;王五&#39;,29]
+        ];
+        //创建Grid表格组件
+        Ext.create(&#39;Ext.grid.Panel&#39;,&#123;
+            title : &#39;简单Grid表格示例&#39;,
+            renderTo: Ext.getBody(),
+            width:200,
+            height:130,
+            frame:true,
+            viewConfig: &#123;
+                forceFit : true,
+                stripeRows: true//在表格中显示斑马线
+            &#125;,
+            store: &#123;//配置数据源
+                fields: [&#39;id&#39;,&#39;name&#39;,&#39;age&#39;],//定义字段
+                proxy: &#123;
+                    type: &#39;memory&#39;,//Ext.data.proxy.Memory内存代理
+                    data : datas,//读取内嵌数据
+                    reader : &#39;array&#39;//Ext.data.reader.Array解析器
+                &#125;,
+                autoLoad: true//自动加载
+            &#125;,
+            columns: [//配置表格列
+                &#123;header: &quot;id&quot;, width: 30, dataIndex: &#39;id&#39;, sortable: true&#125;,
+                &#123;header: &quot;姓名&quot;, width: 80, dataIndex: &#39;name&#39;, sortable: true&#125;,
+                &#123;header: &quot;年龄&quot;, width: 80, dataIndex: &#39;age&#39;, sortable: true&#125;
+            ]
+        &#125;);
+    &#125;);
+</code></pre>
+<p>表格组件的主要配置项和方法如下表所示</p>
+<p>表1-1 Ext.grid.Panel主要配置项</p>
+<table>
+<thead>
+<tr>
+<th align="left">配置项</th>
+<th>参数类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">columns</td>
+<td>Array</td>
+<td>一个表格列配置对象的数组，每一个列配置对象都包括了header（列头）和数据来源的定义</td>
+</tr>
+<tr>
+<td align="left">columnLines</td>
+<td>Boolean</td>
+<td>设置为true则显示纵向表格线，默认为false</td>
+</tr>
+<tr>
+<td align="left">forceFit</td>
+<td>Boolean</td>
+<td>设置为true则强制列填充满可以利用的空间</td>
+</tr>
+<tr>
+<td align="left">hideHeaders</td>
+<td>Boolean</td>
+<td>设置为true则隐藏列标题</td>
+</tr>
+<tr>
+<td align="left">scroll</td>
+<td>String/Boolean</td>
+<td>设置表格滚动条，有效值包括both(垂直和水平滚动),horizontal(水平滚动)和vertical(垂直滚动).true等效于both,false等效none,默认值为true.</td>
+</tr>
+<tr>
+<td align="left">scrollDelta</td>
+<td>Number</td>
+<td>设置鼠标滚轮滚动事的像素量，默认为40像素</td>
+</tr>
+<tr>
+<td align="left">sorttableColumns</td>
+<td>Boolean</td>
+<td>设置为false则禁止通过表格中标题中的菜单项排序</td>
+</tr>
+</tbody></table>
+<p>表1-1 Ext.grid.Panel主要方法</p>
+<table>
+<thead>
+<tr>
+<th align="left">方法名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">getSelectionModel:Ext.selection.Model</td>
+<td>获取选择模式</td>
+</tr>
+<tr>
+<td align="left">getStore:Ext.data.Store</td>
+<td>获取表格的数据集</td>
+</tr>
+<tr>
+<td align="left">getView:Ext.view.Table</td>
+<td>获取表格的视图对象</td>
+</tr>
+<tr>
+<td align="left">hideHorzontalScroller:void</td>
+<td>隐藏水平滚动条</td>
+</tr>
+<tr>
+<td align="left">hideVerticalScroller:void</td>
+<td>隐藏垂直滚动条</td>
+</tr>
+<tr>
+<td align="left">scrollByDeltaX(Number deltaX):void</td>
+<td>水平滚动表格,正数向右滚动,负数向左滚动,deltaX为滚动像素</td>
+</tr>
+<tr>
+<td align="left">scrollByDeltaY(Number deltaY):void</td>
+<td>垂直向下滚动,deltaY为滚动像素</td>
+</tr>
+<tr>
+<td align="left">setScrollTop(Number deltaY):void</td>
+<td>垂直向上滚动,deltaY为滚动像素</td>
+</tr>
+<tr>
+<td align="left">showHorzontalScroller:void</td>
+<td>显示水平滚动条</td>
+</tr>
+<tr>
+<td align="left">showVerticalScroller:void</td>
+<td>显示垂直滚动条</td>
+</tr>
+</tbody></table>
+<h2 id="2、表格列Column"><a href="#2、表格列Column" class="headerlink" title="2、表格列Column"></a>2、表格列Column</h2><p>Ext.grid.column.Column类定义了表格内部与列相关的配置，其中包括列标题和数据展示的相关内容，下表中列出了该类的主要配置项</p>
+<p>表2-1Ext.grid.column.Column主要配置项</p>
+<table>
+<thead>
+<tr>
+<th align="left">配置项</th>
+<th>参数类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">align</td>
+<td>String</td>
+<td>设置列标题和数据的对齐方式，默认为left</td>
+</tr>
+<tr>
+<td align="left">columns</td>
+<td>Array</td>
+<td>设置组列，数组中的列将作为一组处理，组列不能排序但是可以隐藏和移动，组内的列可以移出组外，当所有的子列都被移出后组列将被自动销毁</td>
+</tr>
+<tr>
+<td align="left">dataIndex</td>
+<td>String</td>
+<td>设置列与数据集中的数据对应关系，值为数据模型中的字段名称</td>
+</tr>
+<tr>
+<td align="left">draggable</td>
+<td>Boolean</td>
+<td>设置列头是否可以移动，默认为true</td>
+</tr>
+<tr>
+<td align="left">flex</td>
+<td>Number</td>
+<td>设置列宽占所有flex和的比例</td>
+</tr>
+<tr>
+<td align="left">groupable</td>
+<td>Boolean</td>
+<td>设置在使用Ext.grid.feature.Grouping分组特性的情况下是否禁用该列在标题菜单中的分组功能</td>
+</tr>
+<tr>
+<td align="left">header</td>
+<td>String</td>
+<td>设置列标题</td>
+</tr>
+<tr>
+<td align="left">hideable</td>
+<td>Boolean</td>
+<td>设置为false则阻止用户隐藏该列，默认为true</td>
+</tr>
+<tr>
+<td align="left">menuDisabled</td>
+<td>Boolean</td>
+<td>设置为true则禁用标题菜单，默认为fakse</td>
+</tr>
+<tr>
+<td align="left">renderer</td>
+<td>Function</td>
+<td>设置列的自定义渲染函数</td>
+</tr>
+<tr>
+<td align="left">sortable</td>
+<td>Boolean</td>
+<td>设置是否允许进行排序，默认为true，它将根据Ext.data.Store.remoteSort判断进行本地排序还是远程排序</td>
+</tr>
+<tr>
+<td align="left">text</td>
+<td>String</td>
+<td>设置列标题，header配置优先</td>
+</tr>
+<tr>
+<td align="left">width</td>
+<td>Number</td>
+<td>设置列宽</td>
+</tr>
+</tbody></table>
+<p>Column类有7个便利子类，为常用的数据类型提供了便利的展示方式，他们分别是：</p>
+<p>Ext.grid.column.Boolean 布尔列</p>
+<p>Ext.grid.column.Number 数字列</p>
+<p>Ext.grid.column.Action 动作列</p>
+<p>Ext.grid.column.Template 模版列</p>
+<p>Ext.grid.RowNumber 行号列</p>
+<p>Ext.tree.Column 树结构列（后面介绍）</p>
+<h3 id="2-1-布尔列Ext-grid-column-Boolean"><a href="#2-1-布尔列Ext-grid-column-Boolean" class="headerlink" title="2.1 布尔列Ext.grid.column.Boolean"></a>2.1 布尔列Ext.grid.column.Boolean</h3><p>Ext.grid.column.Boolean 定义了在表格列中显示布尔值的方式</p>
+<p>表2-2 Ext.grid.column.Boolean只要配置项</p>
+<table>
+<thead>
+<tr>
+<th align="left">配置项</th>
+<th>参数类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">falseText</td>
+<td>String</td>
+<td>设置渲染false值对应的文本，默认为false</td>
+</tr>
+<tr>
+<td align="left">trueText</td>
+<td>String</td>
+<td>设置渲染true值对应的文本，默认为true</td>
+</tr>
+<tr>
+<td align="left">undefinedText</td>
+<td>String</td>
+<td>设置渲染undefined值对应的文本，默认为空字符串</td>
+</tr>
+</tbody></table>
+<h3 id="2-2-数字列Ext-grid-column-Number"><a href="#2-2-数字列Ext-grid-column-Number" class="headerlink" title="2.2 数字列Ext.grid.column.Number"></a>2.2 数字列Ext.grid.column.Number</h3><p>Ext.grid.column.Number 定义了在表格中展示数字值的方式。</p>
+<p>配置项format，参数类型String，设置Ext.util.Format.number函数格式化字符串，默认为0，000.00</p>
+<h3 id="2-3-日期列Ext-grid-column-Date"><a href="#2-3-日期列Ext-grid-column-Date" class="headerlink" title="2.3 日期列Ext.grid.column.Date"></a>2.3 日期列Ext.grid.column.Date</h3><p>format String 设置Date.format函数的格式化字符串，默认为Ext.data.defaultFormat</p>
+<p>示例代码：</p>
+<pre><code class="js">   Ext.onReady(function()&#123;
+    //创建表格数据
+    var datas = [
+        [&#39;张三&#39;,true,new Date(1979,09,13),2500],
+        [&#39;李四&#39;,false,new Date(1978,10,01),1500],
+        [&#39;王五&#39;,false,new Date(1981,01,01),1000]
+    ];
+    //创建Grid表格组件
+    Ext.create(&#39;Ext.grid.Panel&#39;,&#123;
+        title : &#39;Ext.grid.column.Column示例&#39;,
+        renderTo: Ext.getBody(),
+        width:300,
+        height:150,
+        frame:true,
+        store: &#123;
+            fields: [&#39;name&#39;,&#39;leader&#39;,&#39;birthday&#39;,&#39;salary&#39;],
+            proxy: &#123;
+                type: &#39;memory&#39;,
+                data : datas,
+                reader : &#39;array&#39;//Ext.data.reader.Array解析器
+            &#125;,
+            autoLoad: true
+        &#125;,
+        columns: [//配置表格列
+            &#123;header: &quot;姓名&quot;, width: 50, dataIndex: &#39;name&#39;&#125;,
+            &#123;header: &quot;组长&quot;, width: 50, dataIndex: &#39;leader&#39;,
+                xtype: &#39;booleancolumn&#39;,//Ext.grid.column.Boolean布尔列
+                trueText: &#39;是&#39;,
+                falseText: &#39;否&#39;
+            &#125;,
+            &#123;header: &quot;生日&quot;, width: 100, dataIndex: &#39;birthday&#39;,
+                xtype : &#39;datecolumn&#39;,//Ext.grid.column.Date日期列
+                format : &#39;Y年m月d日&#39;//日期格式化字符串
+            &#125;,
+            &#123;header: &quot;薪资&quot;, width: 50, dataIndex: &#39;salary&#39;,
+                xtype: &#39;numbercolumn&#39;,//Ext.grid.column.Number数字列
+                format:&#39;0,000&#39;//数字格式化字符串
+            &#125;
+        ]
+    &#125;);
+&#125;);
+</code></pre>
+<h3 id="2-4-动作列-Ext-grid-column-Action"><a href="#2-4-动作列-Ext-grid-column-Action" class="headerlink" title="2.4 动作列 Ext.grid.column.Action"></a>2.4 动作列 Ext.grid.column.Action</h3><p>Ext.grid.column.Action 将渲染一个图标或一系列图标到表格的单元格中，并为每一个图标创建响应函数。</p>
+<table>
+<thead>
+<tr>
+<th align="left">配置项</th>
+<th>参数类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">altText</td>
+<td>String</td>
+<td>设置应用于image元素上的alt属性，默认为空字符串</td>
+</tr>
+<tr>
+<td align="left">getClass</td>
+<td>Function</td>
+<td>设置返回图标样式的函数</td>
+</tr>
+<tr>
+<td align="left">handler</td>
+<td>Function</td>
+<td>设置图标点击事件的响应函数，该函数将被传入以下参数：view：TableView 表格视图 ,rowIndex：Number 行索引 ,colIndex:Number 列索引 ,item：Object 条目 ,e：Event点击事件对象</td>
+</tr>
+<tr>
+<td align="left">icon</td>
+<td>String</td>
+<td>获取图标资源的url地址，默认为Ext.BLANK_IMAGE_URL</td>
+</tr>
+<tr>
+<td align="left">iconCls</td>
+<td>String</td>
+<td>设置应用于图标的样式</td>
+</tr>
+<tr>
+<td align="left">items</td>
+<td>Array</td>
+<td>包含多个图标定义的数组</td>
+</tr>
+<tr>
+<td align="left">scope</td>
+<td>Object</td>
+<td>设置handler和getClass函数的作用域，默认为Column</td>
+</tr>
+<tr>
+<td align="left">stopSelection</td>
+<td>Boolean</td>
+<td>默认为true阻止当动作发生时，当前行被选中</td>
+</tr>
+<tr>
+<td align="left">tooltip</td>
+<td>String</td>
+<td>设置工具提示信息，需要初始化Ext.tip.QuickTipManager</td>
+</tr>
+</tbody></table>
+<p>示例代码</p>
+<pre><code class="js">    &#123;header: &quot;操作&quot;, width: 70,
+    xtype: &#39;actioncolumn&#39;,//Ext.grid.column.Action动作列
+    items: [&#123;
+        icon: &#39;images/edit.gif&#39;,//指定编辑图标资源的URL
+        handler: function(grid, rowIndex, colIndex) &#123;
+            //获取被操作的数据记录
+            var rec = grid.getStore().getAt(rowIndex);
+            alert(&quot;编辑 &quot; + rec.get(&#39;name&#39;));
+        &#125;
+    &#125;,&#123;
+        icon: &#39;images/del.gif&#39;,//指定编辑图标资源的URL
+        handler: function(grid, rowIndex, colIndex) &#123;
+            var rec = grid.getStore().getAt(rowIndex);
+            alert(&quot;删除 &quot; + rec.get(&#39;name&#39;));
+        &#125;                
+    &#125;,&#123;
+        icon: &#39;images/save.gif&#39;,//指定编辑图标资源的URL
+        handler: function(grid, rowIndex, colIndex) &#123;
+            var rec = grid.getStore().getAt(rowIndex);
+            alert(&quot;保存 &quot; + rec.get(&#39;name&#39;));
+        &#125;                
+    &#125;]
+
+&#125;
+</code></pre>
+<h3 id="2-5-模板列-Ext-grid-column-Template"><a href="#2-5-模板列-Ext-grid-column-Template" class="headerlink" title="2.5 模板列 Ext.grid.column.Template"></a>2.5 模板列 Ext.grid.column.Template</h3><p>Ext.grid.column.Template提供了通过模版渲染单元格内容的方式</p>
+<p>tpl String/XTemplate 设置一个XTemplate模版对象或模版定义，模版数据将被传入其中</p>
+<pre><code class="js">&#123;
+    header: &quot;描述&quot;, width: 100,
+    xtype: &#39;templatecolumn&#39;,//Ext.grid.column.Template数字列
+    tpl : &#39;&#123;name&#125;&lt;tpl if=&quot;leader == false&quot;&gt;不&lt;/tpl&gt;是组长&#39;
+&#125;
+</code></pre>
+<h3 id="2-6-行号列-Ext-grid-RowNumber"><a href="#2-6-行号列-Ext-grid-RowNumber" class="headerlink" title="2.6 行号列 Ext.grid.RowNumber"></a>2.6 行号列 Ext.grid.RowNumber</h3><p>text String 设置显示在标题中的文本或html代码段，默认值为&amp;#160</p>
+<p>width Number 设置行号列的宽度，默认为23像素</p>
+<h3 id="2-7-自定义渲染函数"><a href="#2-7-自定义渲染函数" class="headerlink" title="2.7 自定义渲染函数"></a>2.7 自定义渲染函数</h3><p>单元格渲染函数renderer是表格列的一项重要内容，可用来处理表格中的原始值，并将格式化后的结果返回，返回值决定了数据在单元格中的表现形式。灵活使用该函数可以实现个性化的数据展示效果。传入自定义渲染函数的参数有：</p>
+<p>value：Mixed 当前单元格的值</p>
+<p>metadata：Object 包含当前单元格信息的数据对象，由于设置单元格的样式和属性，该对象包含的属性有：</p>
+<blockquote>
+<p>tdCls：String 应用到单元格TD元素上的样式名称</p>
+<p>tdAttr： String 一个html属性定义字符串</p>
+<p>style：String 应用到单元格TD元素上的样式字符串</p>
+</blockquote>
+<p>record：Ext.data.Model 当前数据记录对象，其中包含了与该单元格处于同一行的其他列的数据。</p>
+<p>rowIndex： Number 当前单元格的行索引</p>
+<p>colInde： Number 列索引</p>
+<p>store ：Ext.data.Store 包含表格所有数据的数据集对象</p>
+<p>view：Ext.view.View 当前的表格视图。</p>
+<h2 id="3、选择模式Selection"><a href="#3、选择模式Selection" class="headerlink" title="3、选择模式Selection"></a>3、选择模式Selection</h2><p>选择模式用来处理数据视图中记录的选择状态，Ext.selection.Model是选择模式的基类，它的子类包括Ext.selection.CellModel（单元格选择模式），Ext.selection.CheckboxModel（复选框选择模式）和Ext.selection.RowModel（行选择模式）。</p>
+<h3 id="3-1-选择模式Ext-selection-Model"><a href="#3-1-选择模式Ext-selection-Model" class="headerlink" title="3.1 选择模式Ext.selection.Model"></a>3.1 选择模式Ext.selection.Model</h3><p>Ext.selection.Model是选择模式的基类，它定义了子类需要实现的接口，这个类不能直接被创建。</p>
+<p>表3-1 Ext.selection.Model主要配置项</p>
+<table>
+<thead>
+<tr>
+<th align="left">配置项</th>
+<th>参数类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">allowDeselect</td>
+<td>Boolean</td>
+<td>设置是否允许用户在数据视图中执行撤选操作，该配置只在single单选模式下生效，默认为false</td>
+</tr>
+<tr>
+<td align="left">mode</td>
+<td>String</td>
+<td>设置选择模式，有效值包括 SINGLE 单选，SIMPLE简单选择和MULTI多选，默认为SINGLE单选</td>
+</tr>
+</tbody></table>
+<p>表3-2 Ext.selection.Model 主要方法</p>
+<table>
+<thead>
+<tr>
+<th align="left">方法名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">delslect(Ext.data.Model/Index records,Boolean supressEvent):void</td>
+<td>执行撤选操作，records 数据记录或索引的数组，suppressEvent 是否抑制select事件</td>
+</tr>
+<tr>
+<td align="left">getLastSelected : Object</td>
+<td>获取最近选择的记录数组</td>
+</tr>
+<tr>
+<td align="left">getSelection: Array</td>
+<td>获取当前选中的记录数组</td>
+</tr>
+<tr>
+<td align="left">getSleectionMode: String</td>
+<td>获取当前的选择模式</td>
+</tr>
+<tr>
+<td align="left">hasSelect: Boolean</td>
+<td>获取是否有记录在被选择的状态</td>
+</tr>
+<tr>
+<td align="left">isFocused(Object rec):void</td>
+<td>检查指定记录是否为最近选中的记录</td>
+</tr>
+<tr>
+<td align="left">isLocked(): Boolean</td>
+<td>取得当前选择区域是否被锁定</td>
+</tr>
+<tr>
+<td align="left">isSelected(Record/Number record): Boolean</td>
+<td>检查指定记录是否被选中</td>
+</tr>
+<tr>
+<td align="left">select(Model/Index records ,Boolean keepExiting ,Boolean suppressEvent) : void</td>
+<td>选中记录 records 数据记录或索引的数组，keepExisting 保持，suppressEvent 是否抑制select事件</td>
+</tr>
+<tr>
+<td align="left">selectRange(Model/Number startRow,Model/Number endRow , [Boolean keepExisting],Object dir): void</td>
+<td>选择范围内的所有行，startRow 开始索引，endRow 结束索引，keepExisting： true表示保持已有的选择，false则取消已有的选择</td>
+</tr>
+<tr>
+<td align="left">setLocked(Boolean locaked) : void</td>
+<td>设置是否锁定当前的选择状态，locked：true表示锁定，false解锁</td>
+</tr>
+</tbody></table>
+<h3 id="3-2-单元格选择模式-Ext-selection-CellModel"><a href="#3-2-单元格选择模式-Ext-selection-CellModel" class="headerlink" title="3.2 单元格选择模式 Ext.selection.CellModel"></a>3.2 单元格选择模式 Ext.selection.CellModel</h3><p>Ext.selection.CellModel是一个简单的选择模式，用于选择表格中的单一单元格。</p>
+<p>getCurrentPosition(): Object 得到当前选择的单元格，如果没有选择单元格则返回null</p>
+<p>selectByPosition(pos) :void 选中指定位置的单元格，pos为位置信息，格式为{row:2,column:2}</p>
+<h3 id="3-3-行选择模式-Ext-selection-RowModel"><a href="#3-3-行选择模式-Ext-selection-RowModel" class="headerlink" title="3.3 行选择模式 Ext.selection.RowModel"></a>3.3 行选择模式 Ext.selection.RowModel</h3><p>表3-3 Ext.selection.RowModel主要配置项</p>
+<table>
+<thead>
+<tr>
+<th align="left">配置项</th>
+<th>参数类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">enableKeyNav</td>
+<td>Boolean</td>
+<td>设置是否启用键盘导航，默认为true</td>
+</tr>
+<tr>
+<td align="left">simpleSelect</td>
+<td>Boolean</td>
+<td>设置在行选择模式下是否启用简单选择模式，如果启用则不需要按下crtl键只需通过鼠标点击就可以实现多选</td>
+</tr>
+<tr>
+<td align="left">multiSelect</td>
+<td>Boolean</td>
+<td>设置在行选择模式下是否支持多选</td>
+</tr>
+</tbody></table>
+<p>示例代码：</p>
+<pre><code class="js">simpleSelect : true,//启用简单选择功能
+multiSelect : true,//支持多选
+selType: &#39;rowmodel&#39;,//设置为单元格选择模式Ext.selection.RowModel
+tbar : [&#123;
+    text : &#39;取得所选行&#39;,
+    handler : function()&#123;
+        var msg = &#39;&#39;;
+        var rows = grid.getSelectionModel().getSelection();
+        for(var i = 0; i &lt; rows.length; i++)&#123;
+            msg = msg + rows[i].get(&#39;name&#39;) + &#39;\n&#39;;
+        &#125;
+        alert(msg);
+    &#125;
+&#125;]
+</code></pre>
+<h3 id="3-4-复选框选择模式-Ext-selection-CheckboxModel"><a href="#3-4-复选框选择模式-Ext-selection-CheckboxModel" class="headerlink" title="3.4 复选框选择模式 Ext.selection.CheckboxModel"></a>3.4 复选框选择模式 Ext.selection.CheckboxModel</h3><p>Ext.selection.CheckboxModel扩展自Ext.selection.RowModel 其配置项如下;</p>
+<p>checkOnly Boolean 设置为true则只能通过点击checkbox列进行选择，默认为false</p>
+<p>injectCheckbox Mixed 设置注入复选框的位置，有效值可以是一个数字，false，会字符串first，last，默认为0</p>
+<p>需要注意的是，Ext.selection.CheckboxModel没有注册selection命名空间下的别名，导致不能直接使用，因此需要编写别名注册代码，示例如下：</p>
+<pre><code class="js">//注册复选框选择模式别名为selection.checkboxmodel
+Ext.ClassManager.setAlias(&#39;Ext.selection.CheckboxModel&#39;,&#39;selection.checkboxmodel&#39;);
+multiSelect : true,//支持多选
+selModel: &#123;
+    elType : &#39;checkboxmodel&#39;//复选框选择模式Ext.selection.CheckboxModel
+&#125;
+</code></pre>
+<h2 id="4、表格特性-Feature"><a href="#4、表格特性-Feature" class="headerlink" title="4、表格特性 Feature"></a>4、表格特性 Feature</h2><p>Ext.grid.feature.Feature是一类针对Ext.grid.Panel的特殊插件，它提供了一些扩展点。其子类包括：</p>
+<p>Ext.grid.feature.RowBody 表格行体</p>
+<p>Ext.grid.feature.Summary 表格汇总</p>
+<p>Ext.grid.feature.Grouping 表格分组</p>
+<p>Ext.grid.feature.GroupingSummary 分组汇总</p>
+<h3 id="4-1-表格行体-Ext-grid-feature-RowBody"><a href="#4-1-表格行体-Ext-grid-feature-RowBody" class="headerlink" title="4.1 表格行体 Ext.grid.feature.RowBody"></a>4.1 表格行体 Ext.grid.feature.RowBody</h3><p>行体特性为表格追加了tr标签，它跨越了原始表格的所有列。该特性在表格中展示一些描述性的特殊信息时非常有用，行体在默认状态下是隐藏的，如果需要展示行体必须覆盖geyAdditionalData方法。</p>
+<p>使用行体会自动在表格视图中暴露已rowbody为前缀的事件，示例如下：</p>
+<pre><code class="js">features: [Ext.create(&#39;Ext.grid.feature.RowBody&#39;,&#123;
+    getAdditionalData: function(data, idx, record, orig) &#123;
+        var headerCt = this.view.headerCt,
+            colspan  = headerCt.getColumnCount();//获取表格的列数
+
+        return &#123;
+            rowBody: record.get(&#39;introduce&#39;),//指定行体内容
+            rowBodyCls: &#39;rowbodyColor&#39;,//指定行体样式
+            rowBodyColspan: colspan//指定行体跨列的列数
+        &#125;;
+    &#125;
+&#125;)]
+</code></pre>
+<h3 id="4-2-表格汇总-Ext-grid-feature-Summary"><a href="#4-2-表格汇总-Ext-grid-feature-Summary" class="headerlink" title="4.2 表格汇总 Ext.grid.feature.Summary"></a>4.2 表格汇总 Ext.grid.feature.Summary</h3><p>表格汇总特性将在表格的底部显示一个汇总行，关于汇总行有2点需要注意：</p>
+<p>1、汇总值的计算，汇总值需要根据表格的每一列进行计算，计算方式通过column中的summaryType配置项进行指定，内置的汇总计算类型包括：count 计数；sum 求和；min 最小值；max 最大值；average 平均值。</p>
+<p>2、汇总值的渲染，与column的渲染方式相同，汇总值的渲染支持summaryRenderer函数，该函数是可选的，传入函数的参数有：</p>
+<p>value{Object}:合计值</p>
+<p>data{Objject}:包含所有合计值的行数据</p>
+<p>field{String}:进行求和计算的字段名</p>
+<p>示例代码：</p>
+<pre><code class="js">Ext.onReady(function()&#123;
+        //创建表格数据
+        var datas = [
+            [&#39;张三&#39;,2500],
+            [&#39;李四&#39;,1500]
+        ];
+        //创建Grid表格组件
+        Ext.create(&#39;Ext.grid.Panel&#39;,&#123;
+            title : &#39;Ext.grid.feature.Summary示例&#39;,
+            renderTo: Ext.getBody(),
+            width:300,
+            height:150,
+            frame:true,
+            store: &#123;
+                fields: [&#39;name&#39;,&#39;salary&#39;,&#39;introduce&#39;],
+                proxy: &#123;
+                    type: &#39;memory&#39;,
+                    data : datas,
+                    reader : &#39;array&#39;//Ext.data.reader.Array解析器
+                &#125;,
+                autoLoad: true
+            &#125;,
+            features: [&#123;
+                ftype: &#39;summary&#39;//Ext.grid.feature.Summary表格汇总特性
+            &#125;],
+            columns: [//配置表格列
+                &#123;header: &quot;姓名&quot;, flex: 1, dataIndex: &#39;name&#39;,
+                    summaryType: &#39;count&#39;,//求数量
+                    summaryRenderer: function(value)&#123;
+                        return &#39;员工总数：&#39;+value
+                    &#125;
+                &#125;,
+                &#123;header: &quot;薪资&quot;, flex: 1, dataIndex: &#39;salary&#39;,
+                    summaryType: &#39;average&#39;,//求平均值
+                    summaryRenderer: function(value)&#123;
+                        return &#39;平均薪资：&#39;+value
+                    &#125;
+                &#125;
+            ]
+        &#125;);
+    &#125;);
+</code></pre>
+<h3 id="4-3-表格分组-Ext-grid-feature-Grouping"><a href="#4-3-表格分组-Ext-grid-feature-Grouping" class="headerlink" title="4.3 表格分组 Ext.grid.feature.Grouping"></a>4.3 表格分组 Ext.grid.feature.Grouping</h3><p>表格分组特性将表格按照分组的方式进行聚合展示，在每一个分组标题之下展示与之匹配的数据记录，分组之后的数据可以展开或收缩，该特性有以下3点需要注意的地方：</p>
+<p><strong>新增事件</strong>：包括 groupclick、groupdblclick、groupcontextmenu、groupexpand、groupcollapse。</p>
+<p><strong>标题栏扩展</strong>：标题菜单中会增加分组相关功能，通过enableGroupingMenu配置项来控制该功能是否启用。</p>
+<p><strong>定义分组标题</strong>：功过groupHeaderTpl可以定义分组标题显示模版。</p>
+<p>表4-1Ext.grid.feature.Grouping 主要配置项</p>
+<table>
+<thead>
+<tr>
+<th align="left">配置项</th>
+<th align="left">参数类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">depthToIndent</td>
+<td align="left">Number</td>
+<td>设置分组数据的缩进，默认为17像素</td>
+</tr>
+<tr>
+<td align="left">enableGroupingMenu</td>
+<td align="left">Boolean</td>
+<td>设置是否启用标题菜单中的分组功能，默认为true</td>
+</tr>
+<tr>
+<td align="left">enableNoGroups</td>
+<td align="left">Boolean</td>
+<td>设置是否允许用户关闭分组，默认为true</td>
+</tr>
+<tr>
+<td align="left">groupByText</td>
+<td align="left">String</td>
+<td>设置显示在分组菜单中的分组功能名称，默认为group By This Field</td>
+</tr>
+<tr>
+<td align="left">groupHeaderTpl</td>
+<td align="left">String</td>
+<td>设置分组标题模板，默认为Group:{name}</td>
+</tr>
+<tr>
+<td align="left">hideGroupedHeader</td>
+<td align="left">Boolean</td>
+<td>设置是否隐藏分组标题，默认为false</td>
+</tr>
+<tr>
+<td align="left">showGroupsText</td>
+<td align="left">String</td>
+<td>设置标题菜单中是否分组显示文字说明，默认为 show in groups</td>
+</tr>
+<tr>
+<td align="left">startCollapsed</td>
+<td align="left">Boolean</td>
+<td>设置分组是否默认收缩，默认为false</td>
+</tr>
+</tbody></table>
+<p>示例代码：</p>
+<pre><code class="js">Ext.onReady(function()&#123;
+        //创建表格数据
+        var datas = [
+            [&#39;张三&#39;,&#39;男&#39;,29],[&#39;李四&#39;,&#39;女&#39;,30],
+            [&#39;王五&#39;,&#39;男&#39;,27],[&#39;赵六&#39;,&#39;女&#39;,31]
+        ];
+        //创建Grid表格组件
+        Ext.create(&#39;Ext.grid.Panel&#39;,&#123;
+            title : &#39;Ext.grid.feature.Grouping示例&#39;,
+            renderTo: Ext.getBody(),
+            width:300,
+            height:150,
+            frame:true,
+            store: &#123;
+                fields: [&#39;name&#39;,&#39;sex&#39;,&#39;age&#39;],
+                groupField: &#39;sex&#39;,//设置分组字段
+                proxy: &#123;
+                    type: &#39;memory&#39;,
+                    data : datas,
+                    reader : &#39;array&#39;//Ext.data.reader.Array解析器
+                &#125;,
+                autoLoad: true
+            &#125;,
+            features: [Ext.create(&#39;Ext.grid.feature.Grouping&#39;, &#123;
+                groupByText : &#39;用本字段分组&#39;,
+                showGroupsText : &#39;显示分组&#39;,
+                groupHeaderTpl: &#39;性别: &#123;name&#125; (&#123;rows.length&#125;)&#39;, //分组标题模版
+                startCollapsed: true //设置初始分组是否收起
+            &#125;)],
+            columns: [//配置表格列
+                &#123;header: &quot;姓名&quot;, flex: 1, dataIndex: &#39;name&#39;&#125;,
+                &#123;header: &quot;性别&quot;, flex: 1, dataIndex: &#39;sex&#39;&#125;,
+                &#123;header: &quot;年龄&quot;, flex: 1, dataIndex: &#39;age&#39;&#125;
+            ]
+        &#125;);
+    &#125;);
+</code></pre>
+<h3 id="4-4-分组汇总-Ext-grid-feature-GroupingSummary"><a href="#4-4-分组汇总-Ext-grid-feature-GroupingSummary" class="headerlink" title="4.4 分组汇总 Ext.grid.feature.GroupingSummary"></a>4.4 分组汇总 Ext.grid.feature.GroupingSummary</h3><p>分组汇总特性结合了Grouping分组和summary汇总两个特性的特点，它在每一个分组下增加一行显示汇总数据，其相关配置可以参考Grouping和summary的配置项。</p>
+<h2 id="5、表格插件plugin"><a href="#5、表格插件plugin" class="headerlink" title="5、表格插件plugin"></a>5、表格插件plugin</h2><p>为了扩展表格组件已有功能，除了前面介绍的特性之外，extjs还提供了表格的扩展插件，通过插件实现表格的编辑，拖拽等功能。</p>
+<p>单元格编辑插件：Ext.grid.plugin.CellEditing</p>
+<p>行编辑插件：Ext.grid.plugin.RowEditing</p>
+<p>拖拽插件： Ext.grid.plugin.DragDrop</p>
+<h3 id="5-1-单元格编辑插件-Ext-grid-plugin-CellEditing"><a href="#5-1-单元格编辑插件-Ext-grid-plugin-CellEditing" class="headerlink" title="5.1 单元格编辑插件 Ext.grid.plugin.CellEditing"></a>5.1 单元格编辑插件 Ext.grid.plugin.CellEditing</h3><p>Ext.grid.plugin.CellEditing插件为grid组件注入了单元格级别的编辑功能，同一时间只能有一个单元格处于编辑状态，表单字段作为编辑器，如果表格中的某列没有指定编辑器则该列不能被编辑。其主要配置项如下：</p>
+<p>clicksToEdit Number 设置点击单元格进入编辑模式的点击次数，默认为2</p>
+<p>示例代码如下：</p>
+<pre><code class="js">Ext.onReady(function()&#123;
+        //初始化提示信息
+        Ext.QuickTips.init();
+        //创建表格数据
+        var datas = [
+            [&#39;张三&#39;,new Date(1979,09,13),2500],
+            [&#39;李四&#39;,new Date(1978,10,01),1500],
+            [&#39;王五&#39;,new Date(1981,01,01),1000]
+        ];
+        //创建Grid表格组件
+        Ext.create(&#39;Ext.grid.Panel&#39;,&#123;
+            title : &#39;Ext.grid.plugin.CellEditing示例&#39;,
+            renderTo: Ext.getBody(),
+            width:300,
+            height:150,
+            frame:true,
+            store: &#123;
+                fields: [&#39;name&#39;,&#39;birthday&#39;,&#39;salary&#39;],
+                proxy: &#123;
+                    type: &#39;memory&#39;,
+                    data : datas,
+                    reader : &#39;array&#39;//Ext.data.reader.Array解析器
+                &#125;,
+                autoLoad: true
+            &#125;,
+            plugins: [
+                Ext.create(&#39;Ext.grid.plugin.CellEditing&#39;, &#123;
+                    clicksToEdit: 1//设置鼠标单击1次进入编辑状态
+                &#125;)
+            ],
+            selType: &#39;cellmodel&#39;,//设置为单元格选择模式
+            columns: [//配置表格列
+              Ext.create(&#39;Ext.grid.RowNumberer&#39;,&#123;text : &#39;行号&#39;, width : 35&#125;),
+              &#123;header: &quot;姓名&quot;, width: 50, dataIndex: &#39;name&#39;,
+                    editor: &#123;//文本字段
+                        xtype:&#39;textfield&#39;,
+                        allowBlank:false
+                    &#125;
+                &#125;,
+                &#123;header: &quot;生日&quot;, width: 100, dataIndex: &#39;birthday&#39;,
+                    xtype : &#39;datecolumn&#39;,//Ext.grid.column.Date日期列
+                    format : &#39;Y年m月d日&#39;,//日期格式化字符串
+                    editor: &#123;//日期字段
+                        xtype:&#39;datefield&#39;,
+                        allowBlank:false
+                    &#125;
+                &#125;,
+                &#123;header: &quot;薪资&quot;, width: 50, dataIndex: &#39;salary&#39;,
+                    xtype: &#39;numbercolumn&#39;,//Ext.grid.column.Number数字列
+                    format:&#39;0,000&#39;,//数字格式化字符串
+                    editor: &#123;//数字字段
+                        xtype:&#39;numberfield&#39;,
+                        allowBlank:false
+                    &#125;
+                &#125;
+            ]
+        &#125;);
+    &#125;);
+</code></pre>
+<p>保存编辑后的数据有2中基本方式</p>
+<p>1.监听表格的edit事件，在每一次编辑后该事件都会触发，在事件处理函数中奖修改后的数据保存到服务器中，例如：</p>
+<pre><code class="js">grid.on(&#39;edit&#39;,onEdit,this);
+function onEdit(e)&#123;
+    //执行ajax请求将数据提交至服务器
+    e.record.commit();
+&#125;;
+</code></pre>
+<p>2、建立单独的数据保存处理函数，该函数有用户决定何时触发，在函数中获取所有修改过的表格数据，一次性将多条修改后的数据同步到服务器。</p>
+<h3 id="5-2-行编辑插件：Ext-grid-plugin-RowEditing"><a href="#5-2-行编辑插件：Ext-grid-plugin-RowEditing" class="headerlink" title="5.2 行编辑插件：Ext.grid.plugin.RowEditing"></a>5.2 行编辑插件：Ext.grid.plugin.RowEditing</h3><p>Ext.grid.plugin.RowEditing为grid组件注入了行级别的编辑功能，编辑开始时会显示一个小的浮动面板，每一个配置了编辑器的表格列都将以字段的形式显示在面板上，没有配置编辑器的列将以文本的形式显示在面板中。其配置项有</p>
+<p>autoCancel Boolean 设置在切换所编辑的行时是否自动取消任何未确定的数据修改，默认为true。</p>
+<p>clicksToMoveEditor Number 设置编辑器移动到新行鼠标需要点击的次数，默认同clicksToEdit的值一致</p>
+<p>errorSummary Boolean 设置是否显示一个展开所有字段验证信息的工具提示，默认为true</p>
+<p>修改上节的代码，将编辑器模式切换为行编辑模式。</p>
+<pre><code class="js">plugins: [
+//行编辑模式
+Ext.create(&#39;Ext.grid.plugin.RowEditing&#39;, &#123;
+clicksToEdit: 1
+&#125;)
+]
+</code></pre>
+<h3 id="5-3-拖拽插件：-Ext-grid-plugin-DragDrop"><a href="#5-3-拖拽插件：-Ext-grid-plugin-DragDrop" class="headerlink" title="5.3 拖拽插件： Ext.grid.plugin.DragDrop"></a>5.3 拖拽插件： Ext.grid.plugin.DragDrop</h3><p>Ext.grid.plugin.DragDrop 插件为表格视图提供了拖放功能，它自动创建了特殊的DragZone和Ext.dd.DropZone实例来协作完成拖放功能。</p>
+<p>ddGroup String 设置拖放组名称，拖放操作只能在相同的组内进行，默认为TreeDD</p>
+<p>dragGroop String 设置拖拽组名称</p>
+<p>dropGroup String 设置释放组名称</p>
+<p>enableDrag Boolean 设置是否启用拖动功能，默认为true</p>
+<p>enableDrop Boolean 设置是否启用释放功能，默认为true</p>
+<p>示例代码：</p>
+<p>grid1：</p>
+<pre><code class="js">viewConfig: &#123;
+plugins: [
+    //行编辑模式
+    Ext.create(&#39;Ext.grid.plugin.DragDrop&#39;,&#123;
+        dragGroup: &#39;grid1&#39;,//拖拽组名称
+        dropGroup: &#39;grid2&#39;//拖放组名称
+    &#125;)
+]
+&#125;
+</code></pre>
+<p>grid2：</p>
+<pre><code class="js">viewConfig: &#123;
+plugins: [
+    //行编辑模式
+    Ext.create(&#39;Ext.grid.plugin.DragDrop&#39;,&#123;
+        dragGroup: &#39;grid2&#39;,//拖拽组名称
+        dropGroup: &#39;grid1&#39;//拖放组名称
+    &#125;)
+]
+&#125;
+</code></pre>
+<h2 id="6、表格分页"><a href="#6、表格分页" class="headerlink" title="6、表格分页"></a>6、表格分页</h2><p>当表格数据量比较大时，对数据进行分页显示是常见的处理方法，在extjs中分页只需要引入分业工具栏Ext.toolbar.Paging就可以实现基本的分页功能。示例如下：</p>
+<pre><code class="js">Ext.onReady(function()&#123;
+        var itemsPerPage = 2;//指定分页大小
+
+        var store = Ext.create(&#39;Ext.data.Store&#39;, &#123;
+            autoLoad: &#123;start: 0, limit: itemsPerPage&#125;,
+            fields:[&#39;id&#39;, &#39;name&#39;, &#39;age&#39;],
+            pageSize: itemsPerPage, //设置分页大小
+            proxy: &#123;
+                type: &#39;ajax&#39;,
+                url: &#39;jsonServer.jsp&#39;,  //请求的服务器地址
+                reader: &#123;
+                    type: &#39;json&#39;,
+                    root: &#39;rows&#39;,
+                    totalProperty: &#39;results&#39;
+                &#125;
+            &#125;
+        &#125;);
+        //创建Grid表格组件
+        Ext.create(&#39;Ext.grid.Panel&#39;,&#123;
+            title : &#39;Ext.toolbar.Paging示例&#39;,
+            renderTo: Ext.getBody(),
+            width:400,
+            height:150,
+            frame:true,
+            store: store,
+            columns: [//配置表格列
+                &#123;header: &quot;id&quot;, width: 30, dataIndex: &#39;id&#39;, sortable: true&#125;,
+                &#123;header: &quot;姓名&quot;, width: 80, dataIndex: &#39;name&#39;, sortable: true&#125;,
+                &#123;header: &quot;年龄&quot;, width: 80, dataIndex: &#39;age&#39;, sortable: true&#125;
+            ],
+            bbar: [&#123;
+                xtype: &#39;pagingtoolbar&#39;,
+                store: store,   //这里需要指定与表格相同的store
+                displayInfo: true，
+                displayMsg: &#39;显示第 &#123;0&#125; 条到 &#123;1&#125; 条记录，一共 &#123;2&#125; 条&#39;,
+         emptyMsg: &quot;当前查询条件无数据,请重新查询&quot;
+
+            &#125;]
+        &#125;);
+    &#125;);
+</code></pre>
+<p>服务器端返回的数据格式为:</p>
+<p><code>&#123;results:6,rows:[&#123;id:0,name:&#39;tom&#39;,age:24&#125;,&#123;id:1,name:&#39;jack&#39;,age:18&#125;]&#125;</code></p>
+<p>最后附上本篇的源代码：[点击这里下载](/attach/Extjs-grid.zip)</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/extjs/" rel="tag"># extjs</a>
+              <a href="/tags/grid/" rel="tag"># grid</a>
+              <a href="/tags/%E8%A1%A8%E6%A0%BC/" rel="tag"># 表格</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+            </div>
+            <div class="post-nav-item">
+                <a href="/2013/10/extjs4-mvc/" rel="next" title="ExtJs4 中的 MVC 应用架构">
+                  ExtJs4 中的 MVC 应用架构 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">依山慕雪</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.5.0/pjax.min.js" integrity="sha256-3NkoLDrmHLTYj7csHIZSr0MHAFTXth7Ua/DDt4MRUAg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js" integrity="sha256-EdPgYcPk/IIrw7FYeuJQexva49pVRZNmt3LculEr7zM=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lozad@1.16.0/dist/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+  
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/quicklink@2.2.0/dist/quicklink.umd.js" integrity="sha256-4kQf9z5ntdQrzsBC3YSHnEz02Z9C1UeW/E9OgnvlzSY=" crossorigin="anonymous"></script>
+  <script class="next-config" data-name="quicklink" type="application/json">{"enable":true,"home":true,"archive":true,"delay":true,"timeout":3000,"priority":true,"url":"https://laysan.site/2013/10/extjs4-grid/"}</script>
+  <script src="/js/third-party/quicklink.js"></script>
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"lslvxy","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

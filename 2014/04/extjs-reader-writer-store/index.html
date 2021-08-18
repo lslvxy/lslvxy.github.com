@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://gitee.com/lslvxy/pics/raw/master/blog/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://gitee.com/lslvxy/pics/raw/master/blog/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://gitee.com/lslvxy/pics/raw/master/blog/favicon.ico">
+  <link rel="mask-icon" href="https://gitee.com/lslvxy/pics/raw/master/blog/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"laysan.site","root":"/","images":"/images","scheme":"Gemini","version":"8.7.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="ExtJs4中的Store是最常用的组件了，本文对store以及reader和writer做了详细的说明。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ExtJs4之Store、Reader和Writer">
+<meta property="og:url" content="https://laysan.site/2014/04/extjs-reader-writer-store/index.html">
+<meta property="og:site_name" content="新生代农民工">
+<meta property="og:description" content="ExtJs4中的Store是最常用的组件了，本文对store以及reader和writer做了详细的说明。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2014-04-04T04:00:00.000Z">
+<meta property="article:modified_time" content="2021-04-21T08:06:03.000Z">
+<meta property="article:author" content="依山慕雪">
+<meta property="article:tag" content="extjs">
+<meta property="article:tag" content="store">
+<meta property="article:tag" content="reader">
+<meta property="article:tag" content="writer">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://laysan.site/2014/04/extjs-reader-writer-store/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://laysan.site/2014/04/extjs-reader-writer-store/","path":"2014/04/extjs-reader-writer-store/","title":"ExtJs4之Store、Reader和Writer"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>ExtJs4之Store、Reader和Writer | 新生代农民工</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-87346390-1"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-87346390-1","only_pageview":false}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="新生代农民工" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">新生代农民工</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">依山慕雪的个人博客</p>
+      <img class="custom-logo-image" src="https://gitee.com/lslvxy/pics/raw/master/blog/logo.png" alt="新生代农民工">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Reader%E6%95%B0%E6%8D%AE%E8%AF%BB%E5%8F%96%E5%99%A8"><span class="nav-number">1.</span> <span class="nav-text">1.Reader数据读取器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-Ext-data-reader-Reader"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 Ext.data.reader.Reader</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-Ext-data-reader-Json"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 Ext.data.reader.Json</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-Ext-data-reader-Xml"><span class="nav-number">1.3.</span> <span class="nav-text">1.3 Ext.data.reader.Xml</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-Ext-data-reader-Array"><span class="nav-number">1.4.</span> <span class="nav-text">1.4 Ext.data.reader.Array</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Writer%E6%95%B0%E6%8D%AE%E5%86%99%E5%85%A5%E5%99%A8"><span class="nav-number">2.</span> <span class="nav-text">2.Writer数据写入器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-Ext-data-writer-Writer"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 Ext.data.writer.Writer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-Ext-data-writer-Json"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 Ext.data.writer.Json</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3Ext-data-writer-Xml"><span class="nav-number">2.3.</span> <span class="nav-text">2.3Ext.data.writer.Xml</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Store%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="nav-number">3.</span> <span class="nav-text">3. Store数据集</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-Ext-data-AbstractStore"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 Ext.data.AbstractStore</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-Ext-data-Store"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 Ext.data.Store</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-Ext-data-ArrayStore%E3%80%81Ext-data-JsonStore%E5%92%8CExt-data-XmlStore"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 Ext.data.ArrayStore、Ext.data.JsonStore和Ext.data.XmlStore</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-Ext-data-DirectStore%E5%92%8CExt-data-JsonPStore"><span class="nav-number">3.4.</span> <span class="nav-text">3.4 Ext.data.DirectStore和Ext.data.JsonPStore</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-overview">
+            <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="依山慕雪"
+      src="https://gitee.com/lslvxy/pics/raw/master/blog/avatar.v1.png">
+  <p class="site-author-name" itemprop="name">依山慕雪</p>
+  <div class="site-description" itemprop="description">诗意的橙子,内涵的柚子.</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">93</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/lslvxy" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;lslvxy" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a target="_blank" rel="noopener" href="//chenguoji.com" title="&#x2F;&#x2F;chenguoji.com">陈国际</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a target="_blank" rel="noopener" href="//ystyle.top" title="&#x2F;&#x2F;ystyle.top">东方星痕</a>
+        </li>
+    </ul>
+  </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://laysan.site/2014/04/extjs-reader-writer-store/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://gitee.com/lslvxy/pics/raw/master/blog/avatar.v1.png">
+      <meta itemprop="name" content="依山慕雪">
+      <meta itemprop="description" content="诗意的橙子,内涵的柚子.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新生代农民工">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          ExtJs4之Store、Reader和Writer
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2014-04-04 12:00:00" itemprop="dateCreated datePublished" datetime="2014-04-04T12:00:00+08:00">2014-04-04</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-04-21 16:06:03" itemprop="dateModified" datetime="2021-04-21T16:06:03+08:00">2021-04-21</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/ExtJs/" itemprop="url" rel="index"><span itemprop="name">ExtJs</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2014/04/extjs-reader-writer-store/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2014/04/extjs-reader-writer-store/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>ExtJs4中的Store是最常用的组件了，本文对store以及reader和writer做了详细的说明。</p>
+<span id="more"></span>
+<h2 id="1-Reader数据读取器"><a href="#1-Reader数据读取器" class="headerlink" title="1.Reader数据读取器"></a>1.Reader数据读取器</h2><p>数据读取器主要用于将数据代理读取到的原始数据按照不同的规则进行解析，将解析后的数据保存在Model模型对象中。数据读取器相当于原始数据格式与Extjs标准数据格式之间的桥梁，它屏蔽了原始数据格式不同对程序开发造成的影响。在Extjs中提供的数据解析器主要有如下3种：</p>
+<p>Ext.data.reader.Json  JSON数据读取器</p>
+<p>Ext.data.reader.Xml  XML数据读取器</p>
+<p>Ext.data.reader.Array&nbsp; 数组数据读取器</p>
+<h3 id="1-1-Ext-data-reader-Reader"><a href="#1-1-Ext-data-reader-Reader" class="headerlink" title="1.1 Ext.data.reader.Reader"></a>1.1 Ext.data.reader.Reader</h3><p>Ext.data.reader.Reader是读取器的父类，主要用于从数据源读取结构化数据，它有两个子类分别是JsonReader和XmlReader。下表列出了它的主要配置项和方法。</p>
+<p>表1-1 Ext.data.reader.Reader主要配置项</p>
+<p>|配置项|参数类型|说明|<br>|:—|—|<br>|idProperty|String|设置作为数据唯一表示的字段名，默认为Model模型的id字段|<br>|implicitIncludes|Boolean|设置是否级联读取数据，默认为true|<br>|messageProperty|String|设置获取响应信息的属性名|<br>|root|String|设置返回信息的根名称，为必选项|<br>|successProperty|String|设置获取成功状态的属性名，默认为success|<br>|totalProperty|String|设置获取记录总数的属性名，默认为total|</p>
+<p>表1-2 Ext.data.reader.Reader主要方法</p>
+<table>
+<thead>
+<tr>
+<th align="left">方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">read(Object response):Ext.data.ResultSet</td>
+<td>读取响应对象，返回结果集response：可以是一个XMLHttpRequest对象，可以是一个普通的Json对象</td>
+</tr>
+</tbody></table>
+<p>Ext.data.reader.Reader支持嵌套数据的读取，它会根据实体模型Model中关系API简历关联关系遍历响应数据。</p>
+<h3 id="1-2-Ext-data-reader-Json"><a href="#1-2-Ext-data-reader-Json" class="headerlink" title="1.2 Ext.data.reader.Json"></a>1.2 Ext.data.reader.Json</h3><p>Ext.data.reader.Json 是读取Json数据的数据读取器，它根据实体模型Model中字段定义的映射关系解析原始数据，形成记录集。</p>
+<p>表 1-3 Ext.data.reader.Json 主要配置项</p>
+<table>
+<thead>
+<tr>
+<th align="left">配置项</th>
+<th>参数类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">record</td>
+<td>String</td>
+<td>定位在Json响应信息中发现记录数据的位置，一般情况下不需要该配置项</td>
+</tr>
+<tr>
+<td align="left">useSimpleAccessors</td>
+<td>Boolean</td>
+<td>设置是否使用简单是陪方式，默认为false.如属性foo.bar.baz在默认情况下会从root中找foo属性,然后在foo中找bar属性,在bar中找baz属性.在简单模式下会最为一个整体处理,不会拆分.</td>
+</tr>
+</tbody></table>
+<p>表1-4 Ext.data.reader.Json 主要方法</p>
+<table>
+<thead>
+<tr>
+<th align="left">方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">readRecords(Object data):Ext.data.ResultSet</td>
+<td>从json对象中读取信息,返回结果集data:数据对象,在该对象中包含与配置项root和titalProperty对应的属性,分别表示包含记录信息的数组和总记录数</td>
+</tr>
+</tbody></table>
+<h3 id="1-3-Ext-data-reader-Xml"><a href="#1-3-Ext-data-reader-Xml" class="headerlink" title="1.3 Ext.data.reader.Xml"></a>1.3 Ext.data.reader.Xml</h3><p>Ext.data.reader.Xml 是读取xml文档格式信息的数据读取器，它根据实体模型Model中字段定义的映射关系解析原始信息，形成记录集。</p>
+<p>注意：为了使浏览器可以正确的解析xml文档，必须设置相应的content-type类型为<code>text/xml</code></p>
+<p>表1-5 Ext.data.reader.Xml 主要配置项</p>
+<table>
+<thead>
+<tr>
+<th align="left">配置项</th>
+<th>参数类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">record</td>
+<td>String</td>
+<td>包含记录信息元素的DomQuery路径</td>
+</tr>
+</tbody></table>
+<p>表 1-6 Ext.data.reader.Xml 主要方法</p>
+<table>
+<thead>
+<tr>
+<th align="left">方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">getData(Object date):Object readRecords(Object doc): Ext.data.ResultSet</td>
+<td>获取标准化的数据对象</td>
+</tr>
+<tr>
+<td align="left">从xml数据文档中读取信息，形成记录集doc：xml数据文档对象</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="1-4-Ext-data-reader-Array"><a href="#1-4-Ext-data-reader-Array" class="headerlink" title="1.4 Ext.data.reader.Array"></a>1.4 Ext.data.reader.Array</h3><p>Ext.data.reader.Array继承自Ext.data.reader.Json，是读取二维数据信息的读取器，内层数组是一个包含字段数据的数据行，如果字段映射存在字段将根据它的下标取值到model中，如果字段映射不存在则字段按字段的原始位置进行取值。Ext.data.reader.Array的主要配置项和方法请参考Ext.data.reader.Json相关说明。</p>
+<h2 id="2-Writer数据写入器"><a href="#2-Writer数据写入器" class="headerlink" title="2.Writer数据写入器"></a>2.Writer数据写入器</h2><p>数据写入器主要用于将数据代理提交到服务器的数据进行编码，相当于Extjs标准数据格式与服务器数据格式之间的桥梁，他屏蔽了服务器端数据格式不同对程序开发造成的影响。在Extjs中提供的数据写入器有：</p>
+<p>Ext.data.writer.Json =&gt; Json写入器</p>
+<p>Ext.data.writer.Xml =&gt; xml写入器</p>
+<h3 id="2-1-Ext-data-writer-Writer"><a href="#2-1-Ext-data-writer-Writer" class="headerlink" title="2.1 Ext.data.writer.Writer"></a>2.1 Ext.data.writer.Writer</h3><p>Ext.data.writer.Writer 是数据写入器的父类，它负责处理请求对象，将数据转换为指定格式，对于客户端代理是不需要指定Writer 写入器的。</p>
+<p>表2-1 Ext.data.writer.Writer 主要配置项</p>
+<table>
+<thead>
+<tr>
+<th align="left">配置项</th>
+<th>参数类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">nameProperty</td>
+<td>String</td>
+<td>设置发送到服务器数据的键值属性名</td>
+</tr>
+<tr>
+<td align="left">writerAllFields</td>
+<td>Boolean</td>
+<td>设置是否向服务器写入所有字段，false则指包含被修改的字段，默认为true</td>
+</tr>
+</tbody></table>
+<p>表2-2 Ext.data.writer.Writer&nbsp; 主要方法</p>
+<table>
+<thead>
+<tr>
+<th align="left">方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">getRecordData(Object record)：Object</td>
+<td>获取格式化之后的数据;record；需要发送的服务器记录对象</td>
+</tr>
+</tbody></table>
+<h3 id="2-2-Ext-data-writer-Json"><a href="#2-2-Ext-data-writer-Json" class="headerlink" title="2.2 Ext.data.writer.Json"></a>2.2 Ext.data.writer.Json</h3><p>JSON格式的数据写入器，它会将实体模型model中的数据转化为json格式发送到服务器。</p>
+<pre><code class="js">wirter：&#123;
+    type:&#39;json&#39;
+&#125;
+</code></pre>
+<p>发往服务器的数据为：<code>&#123;&quot;id&quot;:1,&quot;name&quot;:&quot;tom&quot;,&quot;age&quot;:24&#125;</code>.</p>
+<h3 id="2-3Ext-data-writer-Xml"><a href="#2-3Ext-data-writer-Xml" class="headerlink" title="2.3Ext.data.writer.Xml"></a>2.3Ext.data.writer.Xml</h3><p>XML格式的数据写入器，它会将Model中的数据转换为xml发送到服务器。</p>
+<p>表2-2 Ext.data.writer.Xml 主要配置项</p>
+<table>
+<thead>
+<tr>
+<th align="left">配置项</th>
+<th>参数类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">defaultDocumentRoot</td>
+<td>String</td>
+<td>设置当documentRoot为空时的默认根标签名称</td>
+</tr>
+<tr>
+<td align="left">documentRoot</td>
+<td>String</td>
+<td>设置xml文档的根标签名称，默认为xmlData</td>
+</tr>
+<tr>
+<td align="left">header</td>
+<td>String</td>
+<td>设置xml文档的头属性，如encoding编码或version版本，默认为””</td>
+</tr>
+<tr>
+<td align="left">record</td>
+<td>String</td>
+<td>设置记录节点的标签名称，默认为rocord</td>
+</tr>
+</tbody></table>
+<h2 id="3-Store数据集"><a href="#3-Store数据集" class="headerlink" title="3. Store数据集"></a>3. Store数据集</h2><p>Store数据集是一个客户端模型对象Model的缓存，它可以为Extjs组件提供数据输入，store通过数据代理夹在数据，也可以手工调用lodaData等方法加载数据，解析后的数据对象缓存在Store数据集中，并通过存取函数进行访问。</p>
+<p>在Extjs提供的数据集类主要包括：</p>
+<p><code>Ext.data.AbstractStore</code>、<code>Ext.data.Store</code>、<code>Ext.data.ArrayStore</code>、<code>Ext.data.DirectStore</code>、<code>Ext.data.JsonPStore</code>、<code>Ext.data.JsonStore</code>、<code>Ext.data.XmlStore</code>。</p>
+<h3 id="3-1-Ext-data-AbstractStore"><a href="#3-1-Ext-data-AbstractStore" class="headerlink" title="3.1 Ext.data.AbstractStore"></a>3.1 Ext.data.AbstractStore</h3><p>Ext.data.AbstractStore是Ext.data.Store 和Ext.data.TreeStore的父类，它不能被直接实例化，但提供了大量的方法供子类使用，除非需要创建新的Store类，否则在大多数情况下应该使用Ext.data.Store类。</p>
+<p>表3-1 Ext.data.AbstractStore 主要配置项</p>
+<table>
+<thead>
+<tr>
+<th align="left">配置项</th>
+<th>参数类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">autoLoad</td>
+<td>Boolean/Object</td>
+<td>设置数据集是否自动加载数据，如果设置为true或提供了加载的配置对象则数据集在创建后后自动调用load方法加载数据，默认为false。</td>
+</tr>
+<tr>
+<td align="left">autoSync</td>
+<td>Boolean</td>
+<td>设置是否在数据修改后自动通过数据代理进行同步</td>
+</tr>
+<tr>
+<td align="left">fields</td>
+<td>Array</td>
+<td>设置应用于模型的字段定义，store或自动根据fields定义创建模型类</td>
+</tr>
+<tr>
+<td align="left">proxy</td>
+<td>String/Ext.data.proxy.Proxy/Object</td>
+<td>设置代理，可以是字符串，配置对象或者代理实例</td>
+</tr>
+<tr>
+<td align="left">storeId</td>
+<td>String</td>
+<td>设置数据集id，这个id将被注册到Ext.data.StoreManager中</td>
+</tr>
+</tbody></table>
+<p>表3-2 Ext.data.AbstractStore 主要方法</p>
+<table>
+<thead>
+<tr>
+<th align="left">方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">getNewRecords：Array</td>
+<td>获取所有新增但未调用代理进行数据同步的记录数组</td>
+</tr>
+<tr>
+<td align="left">getProxy：Ext.data.proxy.Proxy</td>
+<td>获取数据代理</td>
+</tr>
+<tr>
+<td align="left">getUpdatedRecords：Array</td>
+<td>获取被修改但是未调用代理进行数据同步的记录数组</td>
+</tr>
+<tr>
+<td align="left">isLoading：Boolean</td>
+<td>获取当前store是否处于加载状态</td>
+</tr>
+<tr>
+<td align="left">load(Object options):void</td>
+<td>加载数据，options：传到代理中的Ext.data.Operation操作参数配置对象</td>
+</tr>
+<tr>
+<td align="left">sync：Void</td>
+<td>同步数据</td>
+</tr>
+</tbody></table>
+<h3 id="3-2-Ext-data-Store"><a href="#3-2-Ext-data-Store" class="headerlink" title="3.2 Ext.data.Store"></a>3.2 Ext.data.Store</h3><p>Ext.data.Store 是一个基本的数据集类，它通过数据代理读取数据，提供了排序、过滤、查找等基本功能。</p>
+<p>表3-3 Ext.data.Store主要配置项</p>
+<table>
+<thead>
+<tr>
+<th align="left">配置项</th>
+<th>参数类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">buffered</td>
+<td>Boolean</td>
+<td>设置是否允许Store缓存之前读取的数据</td>
+</tr>
+<tr>
+<td align="left">clearOnPageLoad</td>
+<td>Boolean</td>
+<td>设置在分页查询中是否请求当前页面数据，默认为true，设置为false则允许在一页中显示大量数据</td>
+</tr>
+<tr>
+<td align="left">data</td>
+<td>Array</td>
+<td>内置数据对象组成的数组，在数据集初始化之后该数组会读入数据集</td>
+</tr>
+<tr>
+<td align="left">model</td>
+<td>String</td>
+<td>设置store关联的Model模型</td>
+</tr>
+<tr>
+<td align="left">proxy</td>
+<td>String/Ext.data.proxy.Proxy/Object</td>
+<td>设置数据代理</td>
+</tr>
+<tr>
+<td align="left">purgePageCount</td>
+<td>Number</td>
+<td>设置在更新缓存数据之前,缓存数据的最大页数,设置为0则不更新缓存数据,该配置项只在buffered设置为true时生效</td>
+</tr>
+<tr>
+<td align="left">remotrFilter</td>
+<td>Boolean</td>
+<td>设置是否使用远程过滤,默认为fakse</td>
+</tr>
+<tr>
+<td align="left">remoteGroup</td>
+<td>Boolean</td>
+<td>设置是否使用远程分组,默认为fakse</td>
+</tr>
+<tr>
+<td align="left">remoteSort</td>
+<td>Boolean</td>
+<td>设置是否使用远程排序,默认为fakse</td>
+</tr>
+<tr>
+<td align="left">sortOnFilter</td>
+<td>Boolean</td>
+<td>设置在过滤数据时是否同时进行排序,默认为true,该配置项只在客户端过滤时生效</td>
+</tr>
+</tbody></table>
+<p>表3-4 Ext.data.Store主要方法</p>
+<table>
+<thead>
+<tr>
+<th align="left">方法名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Store(Object config)</td>
+<td>创建一个新的数据集对象,config:一个包含数据集必要信息的配置对象</td>
+</tr>
+<tr>
+<td align="left">add(Object data):Array</td>
+<td>增加数据记录到数据集中,data:一个数据对象的数组</td>
+</tr>
+<tr>
+<td align="left">aggregate(Function fn,[Object scope],Boolean grouped,[Array args]):void</td>
+<td>允许在数据集上聚合函数fn:聚合函数,分组后的记录数是唯一的参数;scope:聚合函数的执行范围;grouped:设置是否对Store中的每一组调用聚合函数,该参数只在具有一个分组字段groupFiled时生效;args:传递到聚合函数中的任何其他参数</td>
+</tr>
+<tr>
+<td align="left">average(String field,Boolean grouped):void</td>
+<td>获取指定字段的平均值,field:计算平均值的字段名;grouped:设置是否对Store中的每一组调用聚合函数,该参数只在具有一个分组字段groupFiled时生效</td>
+</tr>
+<tr>
+<td align="left">clearFilter(Boolean suppressEvent):void</td>
+<td>清除过滤器;suppressEvent：设置是否压制事件，如果为true则在清空过滤器时不会触发datachanged事件</td>
+</tr>
+<tr>
+<td align="left">clearGrouping：void</td>
+<td>清除分组</td>
+</tr>
+<tr>
+<td align="left">collect(String dataIndex，[Boolean allowNull],[Boolean bypassFilter]):void</td>
+<td>收集数据集中指定索引的唯一值集;dataindex:索引属性名;allownull:true则允许为空/undefined或者空字符串;bypassFIlter:true则收集所有记录,false则收集过滤后的数据</td>
+</tr>
+<tr>
+<td align="left">count(Boolean grouped) :void</td>
+<td>获取Store中的记录数;grouped:true则以分组的方式计算记录数,该参数只在具有一个分组字段groupFiled时生效</td>
+</tr>
+<tr>
+<td align="left">each(Function fn,[Object scope]):void</td>
+<td>遍历数据集中的记录对象,并将数据记录对象传入指定的函数中;fn:遍历数据集调用的函数,当前数据记录对象作为第一个参数传递到该函数中,返回false则终止循环;scope:函数作用域</td>
+</tr>
+<tr>
+<td align="left">filter(Mixed filters，String value)：void</td>
+<td>过滤数据集;filter：过滤器集合;value：过滤值，当第一个参数为字段名时生效</td>
+</tr>
+<tr>
+<td align="left">filterBy(Function fn,[Object scope]):void</td>
+<td>通过特殊函数过滤数据集.数据集中的每一个数据记录对象都会传入该函数,如果函数返回true则记录被保留,否则记录会被过滤掉;fn:过滤函数,一下2个参数将被传递到该函数中;Record:当前传入过滤函数的记录对象;id:数据记录的id;scope:过滤函数的作用域</td>
+</tr>
+<tr>
+<td align="left">find(String fieldName,String/RegExp value,[Number startIndex],[Boolean anyMatch],[Boolean caseSensitive],Boolean exactMatch):Number</td>
+<td>在数据集中查询匹配字段值的第一个记录,该记录的索引值将被返回(匹配失败返回-1);fieldName:要查找的字段名;value:任意一个匹配字段值的字符串或者正则表达式;startInde:开始查找的索引位置;anyMatch:true则匹配字段值的全部,否则从开头进行匹配;caseSensitive:true表示区分大小写;exactMatch:true表示执行精确匹配,默认为false</td>
+</tr>
+<tr>
+<td align="left">findBy(Function fn,[Object scope],[Number startIndex]):Number</td>
+<td>通过调用查询函数匹配数据集中第一个满足要求的记录,该记录的索引值将被返回,失败返回-1.fn:查询函数,一下2个参数将被传递到该函数中;Record:当前传入过滤函数的数据记录对象,可以通过调用Ext.data.Record.get方法获取字段值;id:数据记录id;scope:作用域;startIndex:开始查询的索引位置</td>
+</tr>
+<tr>
+<td align="left">fineExact(String fieldName,Mixed value,[Number startIndex]):Number</td>
+<td>通过指定字段名和匹配值查询数据集第一个满足要求的记录,该记录的索引值将被返回,失败返回-1.fieldName:字段名;value:匹配值;startIndex:开始查询的索引位置</td>
+</tr>
+<tr>
+<td align="left">findRecord()</td>
+<td>参考find方法,返回值为记录对象</td>
+</tr>
+<tr>
+<td align="left">first(Boolean grouped):Model/undefined</td>
+<td>便利函数,用于获取Store中的第一条记录;grouped:true则返回所有分组的第一条记录,该参数只在具有一个分组字段groupFiled时生效</td>
+</tr>
+<tr>
+<td align="left">getAt(Number index):Model</td>
+<td>取得指定索引位置的数据记录对象;index:数据记录对象在数据集中的索引位置</td>
+</tr>
+<tr>
+<td align="left">getById(String Id):Model</td>
+<td>取得指定id的数据记录对象</td>
+</tr>
+<tr>
+<td align="left">getCount():Number</td>
+<td>取得数据集中缓存的数据记录总数.如果使用了分页则该值可能不是数据的总数量,如果被解析的数据对象中包含了数据的总数量则可以通过getTotalCaout方法得到</td>
+</tr>
+<tr>
+<td align="left">getGroupString(Model instance):void</td>
+<td>取得指定模型实例的分组字符串</td>
+</tr>
+<tr>
+<td align="left">getGroups:Array</td>
+<td>取得分组的数据对象</td>
+</tr>
+<tr>
+<td align="left">getPageFromRecordIndex(Number index):Number</td>
+<td>获取指定索引记录所在的页号</td>
+</tr>
+<tr>
+<td align="left">getRange([Number startindex],[Number endIndex]):Model[]</td>
+<td>取得指定范围的数据记录数组,index默认为0到最后一个记录的索引</td>
+</tr>
+<tr>
+<td align="left">getTotalCount():Number</td>
+<td>取得从服务器返回的数据记录总数.如果使用分页则该值必须包含咋服务器返回的数据对象中,当客户端数据集内容发生变化时不会更新该值</td>
+</tr>
+<tr>
+<td align="left">group(String/Array groupers,String direction):void</td>
+<td>分组数据;groupers:一个字段名,或分组器配置对象组成的数组;direction:排序方式,默认为ASC</td>
+</tr>
+<tr>
+<td align="left">hasPendingRequests:number</td>
+<td>获取未完成的请求数量</td>
+</tr>
+<tr>
+<td align="left">indexOf(Model record):number</td>
+<td>取得数据记录对象在数据集缓存中的索引位置,如果数据记录对象不在缓存中则返回-1</td>
+</tr>
+<tr>
+<td align="left">indexOfId(String id):Number</td>
+<td>取得指定Id的数据记录对象在数据集缓存中的索引位置,如果数据记录对象不在缓存中则返回-1</td>
+</tr>
+<tr>
+<td align="left">ndexOfTatal(Model record):number</td>
+<td>取得数据记录在0到totalCount之间的索引位置</td>
+</tr>
+<tr>
+<td align="left">insert(number index, Model[] records):void</td>
+<td>插入数据记录到数据集中指定的索引位置,该操作会触发数据集的add事件</td>
+</tr>
+<tr>
+<td align="left">isFiltered():Boolean</td>
+<td>返回当期数据集中的数据是否经过过滤</td>
+</tr>
+<tr>
+<td align="left">isGrouped():Boolean</td>
+<td>返回当期数据集中的数据是否经过分组</td>
+</tr>
+<tr>
+<td align="left">last(Boolean grouped):Model/undefined</td>
+<td>获取Store中的最后一条记录</td>
+</tr>
+<tr>
+<td align="left">load(object/Function options):void</td>
+<td>使用数据代理加载数据</td>
+</tr>
+<tr>
+<td align="left">loadData(Array data,[Boolean append]):void</td>
+<td>直接加载数组数据到Store中,append:true表示将数据追加到缓存中,false表示用新数据替换旧数据</td>
+</tr>
+<tr>
+<td align="left">loadPage(Number page):void</td>
+<td>读取指定页码的数据,会根据page参数计算出start和limit参数进行传递</td>
+</tr>
+<tr>
+<td align="left">loadRecords( Array reocrds,object options):void</td>
+<td>加载数组数据到store中,会触发datachanged事件,该方法通常被数据代理内部使用</td>
+</tr>
+<tr>
+<td align="left">max(String field,Boolean grouped):Mixed/undefined</td>
+<td>取得指定字段的最大值</td>
+</tr>
+<tr>
+<td align="left">min(String field,Boolean grouped):Mixed/undefined</td>
+<td>获取指定字段的最小值</td>
+</tr>
+<tr>
+<td align="left">nextPage：void</td>
+<td>读取当前数据集的下一页数据</td>
+</tr>
+<tr>
+<td align="left">prefetch（Number page，Object options）:void</td>
+<td>预读指定页码的数据</td>
+</tr>
+<tr>
+<td align="left">previousPage：void</td>
+<td>读取当前数据集的上一页数据</td>
+</tr>
+<tr>
+<td align="left">queryBy（Function fn,[Object scope]）:MixedCollection</td>
+<td>通过调用过滤函数来查询满足要求的记录,如果过滤函数返回true则当前数据记录对象将包含在查询结果中</td>
+</tr>
+<tr>
+<td align="left">remove(Model/Array records)</td>
+<td>从数据集中删除数据记录对象,该操作会触发数据集的remove事件,在remove事件之后触发datachanged事件</td>
+</tr>
+<tr>
+<td align="left">removeAll（Boolean silent）：void</td>
+<td>从数据集中删除所有数据,silent为true则不触发事件</td>
+</tr>
+<tr>
+<td align="left">removeAt（Number index)：void</td>
+<td>从数据集中删除指定索引位置的数据</td>
+</tr>
+<tr>
+<td align="left">sum(String field,Boolean grouped):Number</td>
+<td>获取指定字段的和值</td>
+</tr>
+</tbody></table>
+<h3 id="3-3-Ext-data-ArrayStore、Ext-data-JsonStore和Ext-data-XmlStore"><a href="#3-3-Ext-data-ArrayStore、Ext-data-JsonStore和Ext-data-XmlStore" class="headerlink" title="3.3 Ext.data.ArrayStore、Ext.data.JsonStore和Ext.data.XmlStore"></a>3.3 Ext.data.ArrayStore、Ext.data.JsonStore和Ext.data.XmlStore</h3><p>为了方便使用Store读取各类数据,Extjs提供了内置数据读取器的辅助Store类来加速程序的开发过程,</p>
+<p>Ext.data.JsonStore:内置了Ext.data.reader.Json</p>
+<p>Ext.data.XmlStore:内置了Ext.data.reader.Xml</p>
+<p>Ext.data.ArrayStore:内置了Ext.data.reader.Array</p>
+<p>详细使用同Store类似,就不再详细说明</p>
+<h3 id="3-4-Ext-data-DirectStore和Ext-data-JsonPStore"><a href="#3-4-Ext-data-DirectStore和Ext-data-JsonPStore" class="headerlink" title="3.4 Ext.data.DirectStore和Ext.data.JsonPStore"></a>3.4 Ext.data.DirectStore和Ext.data.JsonPStore</h3><p>extjs还提供了内置不同代理以及数据读取器的辅助类</p>
+<p>Ext.data.DirectStore:内置了Ext.data.proxy.Direct代理和Ext.data.reader.Json读取器</p>
+<p>Ext.data.JsonPStore:内置了Ext.data.proxy.JsonP代理和Ext.data.reader.Json读取器</p>
+<p>详细也不再详细说明.</p>
+<p>–本篇完–</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/extjs/" rel="tag"># extjs</a>
+              <a href="/tags/store/" rel="tag"># store</a>
+              <a href="/tags/reader/" rel="tag"># reader</a>
+              <a href="/tags/writer/" rel="tag"># writer</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2014/04/css-cut-image/" rel="prev" title="实现用CSS切割图片的方法">
+                  <i class="fa fa-chevron-left"></i> 实现用CSS切割图片的方法
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2014/04/extjs-tree/" rel="next" title="ExtJs4之树组件">
+                  ExtJs4之树组件 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">依山慕雪</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.5.0/pjax.min.js" integrity="sha256-3NkoLDrmHLTYj7csHIZSr0MHAFTXth7Ua/DDt4MRUAg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js" integrity="sha256-EdPgYcPk/IIrw7FYeuJQexva49pVRZNmt3LculEr7zM=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lozad@1.16.0/dist/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+  
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/quicklink@2.2.0/dist/quicklink.umd.js" integrity="sha256-4kQf9z5ntdQrzsBC3YSHnEz02Z9C1UeW/E9OgnvlzSY=" crossorigin="anonymous"></script>
+  <script class="next-config" data-name="quicklink" type="application/json">{"enable":true,"home":true,"archive":true,"delay":true,"timeout":3000,"priority":true,"url":"https://laysan.site/2014/04/extjs-reader-writer-store/"}</script>
+  <script src="/js/third-party/quicklink.js"></script>
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"lslvxy","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>
